@@ -412,6 +412,38 @@
         </tr>
         </tbody>
         </table>
+        <h3 id="description_stats_breakdown_params_date_intervals">Date intervals</h3>
+        <p>When <code>start_date</code> and <code>end_date</code> are both specified, a number of limitations are added depending 
+          on the granularity:</p>
+          <table>
+            <thead>
+            <tr>
+            <th>Granularity</th>
+            <th>Limits</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+            <td><code>day</code></td>
+            <td><code>end_date</code> cannot be set to more than 1 year from the <code>start_date</code></td>
+            </tr>
+            <tr>
+            <td><code>month</code></td>
+            <td><code>end_date</code> cannot be set to more than 2 years from the <code>start_date</code></td>
+            </tr>
+            <tr>
+            <td><code>year</code></td>
+            <td><code>end_date</code> cannot be set to more than 5 years from the <code>start_date</code></td>
+            </tr>
+            <tr>
+              <td><code>total</code></td>
+              <td><code>end_date</code> cannot be set to more than 1 year from the <code>start_date</code></td>
+              </tr>
+            </tbody>
+          </table>
+          <p>
+            In case the specified <code>end_date</code> exceeds the allowed interval, it will simply be ignored
+             and the maximum allowed date will be used instead.</p>
       </div>
       <div id="description_stats_breakdown_examples">
         <h2 id="examples">Examples</h2>
@@ -2440,13 +2472,12 @@ if __name__ == "__main__":
         but your harvesting software system should be able to use resumption tokens with
         no problem.</p>
         <p>One particularity on fig<strong>share</strong> OAI-PMH is the expiration datetime (UTC) for
-        resumption tokens. Thus, a token expires after 5 minutes.</p>
+        resumption tokens. Thus, a token expires after 60 minutes.</p>
     </div>
     <div id="description_oai_ratelimit">
         <h2 id="rate-limit">Rate limit</h2>
-        <p>Currently no rate limiting is implemented.
-        We recommend you to make no more than one request per second.</p>
-    </div>
+        <p>We do not have automatic rate limiting in place for API requests. However, we do carry out monitoring to detect and mitigate abuse and prevent the platform's resources from being overused. We recommend that clients use the API responsibly and do not make more than one request per second. We reserve the right to throttle or block requests if we detect abuse.</p>
+      </div>
     <div id="description_oai_futuredev">
         <h2 id="future-development">Future development</h2>
         <p>Please <a href="https://figshare.com/contact">let us know</a> that you are harvesting us.
@@ -3397,7 +3428,7 @@ namespace CSVUploaderExample
     </div>
     <div id="description_api_ratelimit">
       <h2 id="rate-limiting">Rate limiting</h2>
-      <p>Not implemented at this point.</p>
+      <p>We do not have automatic rate limiting in place for API requests. However, we do carry out monitoring to detect and mitigate abuse and prevent the platform's resources from being overused. We recommend that clients use the API responsibly and do not make more than one request per second. We reserve the right to throttle or block requests if we detect abuse.</p>
     </div>
     <div id="description_api_requests">
       <h2 id="conditional-requests">Conditional requests</h2>

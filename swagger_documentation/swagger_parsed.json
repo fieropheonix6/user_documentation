@@ -25,6 +25,14 @@
                 "security": [],
                 "parameters": [
                     {
+                        "name": "X-Cursor",
+                        "in": "header",
+                        "type": "string",
+                        "format": "uuid",
+                        "required": false,
+                        "description": "Unique hash used for bypassing the item retrieval limit of 9,000 entities. When using this parameter, please note that the offset parameter will not be available, but the limit parameter will still work as expected."
+                    },
+                    {
                         "name": "page",
                         "in": "query",
                         "description": "Page number. Used for pagination with page_size",
@@ -72,6 +80,7 @@
                         "type": "string",
                         "enum": [
                             "published_date",
+                            "created_date",
                             "modified_date",
                             "views",
                             "shares",
@@ -125,7 +134,7 @@
                     {
                         "name": "resource_doi",
                         "in": "query",
-                        "description": "only return articles with this resource_doi",
+                        "description": "Deprecated by related materials. Only return articles with this resource_doi",
                         "type": "string",
                         "required": false
                     },
@@ -155,6 +164,12 @@
                 "responses": {
                     "200": {
                         "description": "OK. An array of articles",
+                        "headers": {
+                            "X-Cursor": {
+                                "type": "string",
+                                "description": "Unique hash used for bypassing the item retrieval limit of 9,000 entities."
+                            }
+                        },
                         "schema": {
                             "type": "array",
                             "items": {
@@ -185,6 +200,14 @@
                 "security": [],
                 "parameters": [
                     {
+                        "name": "X-Cursor",
+                        "in": "header",
+                        "type": "string",
+                        "format": "uuid",
+                        "required": false,
+                        "description": "Unique hash used for bypassing the item retrieval limit of 9,000 entities. When using this parameter, please note that the offset parameter will not be available, but the limit parameter will still work as expected."
+                    },
+                    {
                         "in": "body",
                         "name": "search",
                         "description": "Search Parameters",
@@ -197,6 +220,12 @@
                 "responses": {
                     "200": {
                         "description": "OK. An array of articles",
+                        "headers": {
+                            "X-Cursor": {
+                                "type": "string",
+                                "description": "Unique hash used for bypassing the item retrieval limit of 9,000 entities."
+                            }
+                        },
                         "schema": {
                             "type": "array",
                             "items": {
@@ -463,6 +492,47 @@
                         "type": "integer",
                         "format": "int64",
                         "minimum": 1
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number. Used for pagination with page_size",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "maximum": 5000
+                    },
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "description": "The number of results included on a page. Used for pagination with page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "maximum": 1000,
+                        "default": 10
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of results included on a page. Used for pagination with query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "maximum": 1000
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 0,
+                        "maximum": 5000
                     }
                 ],
                 "responses": {
@@ -1129,7 +1199,7 @@
                 "tags": [
                     "articles"
                 ],
-                "operationId": "private_article_publish",
+                "operationId": "account_article_publish",
                 "summary": "Private Article Publish",
                 "description": "- If the whole article is under embargo, it will not be published immediately, but when the embargo expires or is lifted.\n- When an article is published, a new public version will be generated. Any further updates to the article will affect the private article data. In order to make these changes publicly visible, an explicit publish operation is needed.",
                 "security": [
@@ -1163,6 +1233,63 @@
                         "schema": {
                             "$ref": "#/definitions/Location"
                         }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/account/articles/{article_id}/unpublish": {
+            "post": {
+                "tags": [
+                    "articles"
+                ],
+                "operationId": "account_article_unpublish",
+                "summary": "Public Article Unpublish",
+                "description": "Allows authorized users to unpublish an article.",
+                "security": [
+                    {
+                        "OAuth2": [
+                            "all"
+                        ]
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "article_id",
+                        "in": "path",
+                        "description": "Article unique identifier",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    {
+                        "in": "body",
+                        "name": "reason",
+                        "description": "Article unpublish data",
+                        "schema": {
+                            "$ref": "#/definitions/ArticleUnpublishData"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
                     },
                     "400": {
                         "description": "Bad Request"
@@ -1324,7 +1451,7 @@
                         "name": "Article",
                         "description": "Article description",
                         "schema": {
-                            "$ref": "#/definitions/ArticleUpdate"
+                            "$ref": "#/definitions/ArticleVersionUpdate"
                         },
                         "required": true
                     }
@@ -2362,6 +2489,47 @@
                     "type": "integer",
                     "format": "int64",
                     "minimum": 1
+                },
+                {
+                    "name": "page",
+                    "in": "query",
+                    "description": "Page number. Used for pagination with page_size",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int64",
+                    "minimum": 1,
+                    "maximum": 5000
+                },
+                {
+                    "name": "page_size",
+                    "in": "query",
+                    "description": "The number of results included on a page. Used for pagination with page",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int64",
+                    "minimum": 1,
+                    "maximum": 1000,
+                    "default": 10
+                },
+                {
+                    "name": "limit",
+                    "in": "query",
+                    "description": "Number of results included on a page. Used for pagination with query",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int64",
+                    "minimum": 1,
+                    "maximum": 1000
+                },
+                {
+                    "name": "offset",
+                    "in": "query",
+                    "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                    "required": false,
+                    "type": "integer",
+                    "format": "int64",
+                    "minimum": 0,
+                    "maximum": 5000
                 }
             ],
             "get": {
@@ -2414,6 +2582,47 @@
                         "type": "integer",
                         "format": "int64",
                         "minimum": 1
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number. Used for pagination with page_size",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "maximum": 5000
+                    },
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "description": "The number of results included on a page. Used for pagination with page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "maximum": 1000,
+                        "default": 10
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of results included on a page. Used for pagination with query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "maximum": 1000
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 0,
+                        "maximum": 5000
                     }
                 ]
             },
@@ -2449,6 +2658,47 @@
                         "type": "integer",
                         "format": "int64",
                         "minimum": 1
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number. Used for pagination with page_size",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "maximum": 5000
+                    },
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "description": "The number of results included on a page. Used for pagination with page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "maximum": 1000,
+                        "default": 10
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of results included on a page. Used for pagination with query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "maximum": 1000
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 0,
+                        "maximum": 5000
                     }
                 ],
                 "responses": {
@@ -2728,7 +2978,7 @@
                 ],
                 "operationId": "account_article_report_generate",
                 "summary": "Initiate a new Report",
-                "description": "Initiate a new Article Report for this Account",
+                "description": "Initiate a new Article Report for this Account. There is a limit of 1 report per day.",
                 "security": [
                     {
                         "OAuth2": [
@@ -2742,6 +2992,9 @@
                         "schema": {
                             "$ref": "#/definitions/AccountReport"
                         }
+                    },
+                    "429": {
+                        "description": "Too Many Requests"
                     },
                     "500": {
                         "description": "Internal Server Error"
@@ -2759,6 +3012,14 @@
                 "description": "Returns a list of public collections",
                 "security": [],
                 "parameters": [
+                    {
+                        "name": "X-Cursor",
+                        "in": "header",
+                        "type": "string",
+                        "format": "uuid",
+                        "required": false,
+                        "description": "Unique hash used for bypassing the item retrieval limit of 9,000 entities. When using this parameter, please note that the offset parameter will not be available, but the limit parameter will still work as expected."
+                    },
                     {
                         "name": "page",
                         "in": "query",
@@ -2807,6 +3068,7 @@
                         "type": "string",
                         "enum": [
                             "published_date",
+                            "created_date",
                             "modified_date",
                             "views",
                             "shares",
@@ -2881,6 +3143,12 @@
                 "responses": {
                     "200": {
                         "description": "OK. An array of collections",
+                        "headers": {
+                            "X-Cursor": {
+                                "type": "string",
+                                "description": "Unique hash used for bypassing the item retrieval limit of 9,000 entities."
+                            }
+                        },
                         "schema": {
                             "type": "array",
                             "items": {
@@ -2911,6 +3179,14 @@
                 "security": [],
                 "parameters": [
                     {
+                        "name": "X-Cursor",
+                        "in": "header",
+                        "type": "string",
+                        "format": "uuid",
+                        "required": false,
+                        "description": "Unique hash used for bypassing the item retrieval limit of 9,000 entities. When using this parameter, please note that the offset parameter will not be available, but the limit parameter will still work as expected."
+                    },
+                    {
                         "in": "body",
                         "name": "search",
                         "description": "Search Parameters",
@@ -2923,6 +3199,12 @@
                 "responses": {
                     "200": {
                         "description": "OK. An array of collections",
+                        "headers": {
+                            "X-Cursor": {
+                                "type": "string",
+                                "description": "Unique hash used for bypassing the item retrieval limit of 9,000 entities."
+                            }
+                        },
                         "schema": {
                             "type": "array",
                             "items": {
@@ -4279,6 +4561,58 @@
                         ]
                     }
                 ],
+                "parameters": [
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number. Used for pagination with page_size",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "maximum": 5000
+                    },
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "description": "The number of results included on a page. Used for pagination with page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "maximum": 1000,
+                        "default": 10
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of results included on a page. Used for pagination with query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "maximum": 1000
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 0,
+                        "maximum": 5000
+                    },
+                    {
+                        "name": "collection_id",
+                        "in": "path",
+                        "description": "Collection unique identifier",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK. Articles List",
@@ -4304,18 +4638,7 @@
                     "500": {
                         "description": "Internal Server Error"
                     }
-                },
-                "parameters": [
-                    {
-                        "name": "collection_id",
-                        "in": "path",
-                        "description": "Collection unique identifier",
-                        "required": true,
-                        "type": "integer",
-                        "format": "int64",
-                        "minimum": 1
-                    }
-                ]
+                }
             },
             "post": {
                 "tags": [
@@ -4845,6 +5168,14 @@
                 "security": [],
                 "parameters": [
                     {
+                        "name": "X-Cursor",
+                        "in": "header",
+                        "type": "string",
+                        "format": "uuid",
+                        "required": false,
+                        "description": "Unique hash used for bypassing the item retrieval limit of 9,000 entities. When using this parameter, please note that the offset parameter will not be available, but the limit parameter will still work as expected."
+                    },
+                    {
                         "name": "page",
                         "in": "query",
                         "description": "Page number. Used for pagination with page_size",
@@ -4936,6 +5267,12 @@
                 "responses": {
                     "200": {
                         "description": "OK. An array of projects",
+                        "headers": {
+                            "X-Cursor": {
+                                "type": "string",
+                                "description": "Unique hash used for bypassing the item retrieval limit of 9,000 entities."
+                            }
+                        },
                         "schema": {
                             "type": "array",
                             "items": {
@@ -4966,6 +5303,14 @@
                 "security": [],
                 "parameters": [
                     {
+                        "name": "X-Cursor",
+                        "in": "header",
+                        "type": "string",
+                        "format": "uuid",
+                        "required": false,
+                        "description": "Unique hash used for bypassing the item retrieval limit of 9,000 entities. When using this parameter, please note that the offset parameter will not be available, but the limit parameter will still work as expected."
+                    },
+                    {
                         "in": "body",
                         "name": "search",
                         "description": "Search Parameters",
@@ -4978,6 +5323,12 @@
                 "responses": {
                     "200": {
                         "description": "OK. An array of projects",
+                        "headers": {
+                            "X-Cursor": {
+                                "type": "string",
+                                "description": "Unique hash used for bypassing the item retrieval limit of 9,000 entities."
+                            }
+                        },
                         "schema": {
                             "type": "array",
                             "items": {
@@ -6345,7 +6696,7 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/LocationWarnings"
+                            "$ref": "#/definitions/Location"
                         },
                         "headers": {
                             "Location": {
@@ -6650,7 +7001,7 @@
                     "institutions"
                 ],
                 "operationId": "institution_articles",
-                "summary": "Public Licenses",
+                "summary": "Public Institution Articles",
                 "description": "Returns a list of articles belonging to the institution",
                 "parameters": [
                     {
@@ -7613,7 +7964,7 @@
                 ],
                 "operationId": "private_institution_accounts_create",
                 "summary": "Create new Institution Account",
-                "description": "Create a new Account by sending account information",
+                "description": "Create a new Account by sending account information. When the institution_user_id is provided, no verification email will be sent. The email_verified flag will automatically be set to true. If the institution_user_id is not provided, a verification email will be sent. The email_verified flag will be set to true once the account is created.",
                 "security": [
                     {
                         "OAuth2": [
@@ -8169,7 +8520,7 @@
                 "tags": [
                     "institutions"
                 ],
-                "operationId": "account_institution_curation_comments",
+                "operationId": "get_account_institution_curation_comments",
                 "summary": "Institution Curation Review Comments",
                 "description": "Retrieve a certain curation review's comments.",
                 "security": [
@@ -8239,7 +8590,7 @@
                 "tags": [
                     "institutions"
                 ],
-                "operationId": "account_institution_curation_comments",
+                "operationId": "post_account_institution_curation_comments",
                 "summary": "POST Institution Curation Review Comment",
                 "description": "Add a new comment to the review.",
                 "security": [
@@ -8370,6 +8721,141 @@
                     }
                 }
             }
+        },
+        "/account/profile": {
+            "put": {
+                "tags": [
+                    "profiles"
+                ],
+                "operationId": "update_user_profile",
+                "summary": "Update public profile",
+                "description": "Updates the fields of the user's public profile.",
+                "security": [
+                    {
+                        "OAuth2": [
+                            "all"
+                        ]
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "query",
+                        "description": "User ID",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    {
+                        "name": "institution_user_id",
+                        "in": "query",
+                        "description": "Institutional user ID",
+                        "required": false,
+                        "type": "string"
+                    },
+                    {
+                        "in": "body",
+                        "name": "User profile data",
+                        "schema": {
+                            "$ref": "#/definitions/ProfileUpdateData"
+                        },
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "example": {
+                                "code": 200,
+                                "message": "OK"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
+        "/account/profile/{user_id}/picture": {
+            "post": {
+                "tags": [
+                    "profiles"
+                ],
+                "operationId": "update_user_profile_picture",
+                "summary": "Update public profile picture",
+                "description": "Updates the profile picture of the user's public profile.",
+                "security": [
+                    {
+                        "OAuth2": [
+                            "all"
+                        ]
+                    }
+                ],
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "parameters": [
+                    {
+                        "name": "user_id",
+                        "in": "path",
+                        "description": "User ID",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    {
+                        "in": "formData",
+                        "name": "profile_picture",
+                        "type": "file",
+                        "description": "User profile picture",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "type": "object",
+                            "example": {
+                                "code": 200,
+                                "message": "OK"
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -8405,6 +8891,13 @@
         "Group": {
             "x-tag": "institutions",
             "type": "object",
+            "required": [
+                "id",
+                "name",
+                "resource_id",
+                "parent_id",
+                "association_criteria"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -8438,6 +8931,12 @@
         "Role": {
             "x-tag": "institutions",
             "type": "object",
+            "required": [
+                "id",
+                "name",
+                "category",
+                "description"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -8464,6 +8963,11 @@
         "GroupEmbargoOptions": {
             "x-tag": "institutions",
             "type": "object",
+            "required": [
+                "id",
+                "type",
+                "ip_name"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -8491,6 +8995,11 @@
         "Institution": {
             "x-tag": "institutions",
             "type": "object",
+            "required": [
+                "id",
+                "name",
+                "domain"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -8516,6 +9025,11 @@
         "ShortCustomField": {
             "x-tag": "institutions",
             "type": "object",
+            "required": [
+                "id",
+                "name",
+                "field_type"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -8541,6 +9055,25 @@
                         "date",
                         "dropdown_large_list"
                     ]
+                },
+                "is_mandatory": {
+                    "description": "True if field completion is mandatory",
+                    "type": [
+                        "boolean",
+                        "null"
+                    ],
+                    "example": false
+                },
+                "settings": {
+                    "description": "Settings for the custom field",
+                    "type": "object",
+                    "example": {
+                        "validations": {
+                            "min_length": 1,
+                            "max_length": 1000
+                        },
+                        "placeholder": "Enter your custom field here"
+                    }
                 }
             }
         },
@@ -8596,6 +9129,14 @@
         "ProjectNote": {
             "x-tag": "projects",
             "type": "object",
+            "required": [
+                "id",
+                "user_id",
+                "abstract",
+                "user_name",
+                "created_date",
+                "modified_date"
+            ],
             "properties": {
                 "id": {
                     "description": "Project note id",
@@ -8638,6 +9179,15 @@
                 {
                     "$ref": "#/definitions/ProjectNote"
                 }
+            ],
+            "required": [
+                "text",
+                "id",
+                "user_id",
+                "abstract",
+                "user_name",
+                "created_date",
+                "modified_date"
             ],
             "properties": {
                 "text": {
@@ -8682,6 +9232,9 @@
         "ResponseMessage": {
             "x-tag": "common",
             "type": "object",
+            "required": [
+                "message"
+            ],
             "properties": {
                 "message": {
                     "description": "Response message text",
@@ -8723,7 +9276,7 @@
                     "type": "string",
                     "description": "Project description",
                     "example": "project description",
-                    "maxLength": 10000
+                    "maxLength": 20000
                 },
                 "funding": {
                     "type": "string",
@@ -8774,7 +9327,7 @@
                     "type": "string",
                     "description": "Project description",
                     "example": "project description",
-                    "maxLength": 10000
+                    "maxLength": 20000
                 },
                 "funding": {
                     "type": "string",
@@ -8807,6 +9360,12 @@
         "Project": {
             "x-tag": "projects",
             "type": "object",
+            "required": [
+                "url",
+                "published_date",
+                "id",
+                "title"
+            ],
             "properties": {
                 "url": {
                     "description": "Api endpoint",
@@ -8841,6 +9400,14 @@
                 {
                     "$ref": "#/definitions/Project"
                 }
+            ],
+            "required": [
+                "role",
+                "storage",
+                "url",
+                "published_date",
+                "id",
+                "title"
             ],
             "properties": {
                 "role": {
@@ -8895,6 +9462,17 @@
                 {
                     "$ref": "#/definitions/Project"
                 }
+            ],
+            "required": [
+                "funding",
+                "funding_list",
+                "description",
+                "figshare_url",
+                "collaborators",
+                "url",
+                "published_date",
+                "id",
+                "title"
             ],
             "properties": {
                 "funding": {
@@ -8963,6 +9541,28 @@
                 {
                     "$ref": "#/definitions/ProjectPrivate"
                 }
+            ],
+            "required": [
+                "funding",
+                "funding_list",
+                "description",
+                "figshare_url",
+                "collaborators",
+                "quota",
+                "used_quota",
+                "created_date",
+                "modified_date",
+                "used_quota_private",
+                "used_quota_public",
+                "group_id",
+                "account_id",
+                "custom_fields",
+                "role",
+                "storage",
+                "url",
+                "published_date",
+                "id",
+                "title"
             ],
             "properties": {
                 "funding": {
@@ -9099,6 +9699,12 @@
         "ProjectCollaborator": {
             "x-tag": "projects",
             "type": "object",
+            "required": [
+                "status",
+                "role_name",
+                "user_id",
+                "name"
+            ],
             "properties": {
                 "status": {
                     "description": "Status of collaborator invitation",
@@ -9125,6 +9731,11 @@
         "Collaborator": {
             "x-tag": "projects",
             "type": "object",
+            "required": [
+                "role_name",
+                "user_id",
+                "name"
+            ],
             "properties": {
                 "role_name": {
                     "description": "Collaborator role",
@@ -9412,6 +10023,7 @@
                     "description": "The field by which to order",
                     "type": "string",
                     "enum": [
+                        "created_date",
                         "published_date",
                         "modified_date",
                         "views",
@@ -9539,6 +10151,7 @@
                     "description": "The field by which to order",
                     "type": "string",
                     "enum": [
+                        "created_date",
                         "published_date",
                         "modified_date",
                         "views",
@@ -9649,6 +10262,7 @@
                     "description": "The field by which to order.",
                     "type": "string",
                     "enum": [
+                        "created_date",
                         "published_date",
                         "modified_date",
                         "views",
@@ -9854,6 +10468,7 @@
                     "description": "The field by which to order.",
                     "type": "string",
                     "enum": [
+                        "created_date",
                         "published_date",
                         "modified_date",
                         "views",
@@ -9937,6 +10552,9 @@
         },
         "AccountCreate": {
             "x-tag": "institutions",
+            "x-maxCombinedLength": {
+                "description": "The combined length of first_name and last_name must not exceed 255 characters."
+            },
             "type": "object",
             "required": [
                 "email",
@@ -9955,14 +10573,14 @@
                     "description": "First Name",
                     "default": "",
                     "example": "John",
-                    "maxLength": 30
+                    "maxLength": 255
                 },
                 "last_name": {
                     "type": "string",
                     "description": "Last Name",
                     "default": "",
                     "example": "Doe",
-                    "maxLength": 30
+                    "maxLength": 255
                 },
                 "group_id": {
                     "type": "integer",
@@ -9998,6 +10616,10 @@
         "AccountUpdate": {
             "x-tag": "institutions",
             "type": "object",
+            "required": [
+                "group_id",
+                "is_active"
+            ],
             "properties": {
                 "group_id": {
                     "type": "integer",
@@ -10013,6 +10635,19 @@
         "Curation": {
             "x-tag": "institutions",
             "type": "object",
+            "required": [
+                "id",
+                "group_id",
+                "account_id",
+                "assigned_to",
+                "article_id",
+                "version",
+                "comments_count",
+                "status",
+                "created_date",
+                "modified_date",
+                "review_date"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -10079,6 +10714,20 @@
         "CurationDetail": {
             "x-tag": "institutions",
             "type": "object",
+            "required": [
+                "item",
+                "id",
+                "group_id",
+                "account_id",
+                "assigned_to",
+                "article_id",
+                "version",
+                "comments_count",
+                "status",
+                "created_date",
+                "modified_date",
+                "review_date"
+            ],
             "allOf": [
                 {
                     "$ref": "#/definitions/Curation"
@@ -10155,6 +10804,12 @@
         "CurationComment": {
             "x-tag": "institutions",
             "type": "object",
+            "required": [
+                "id",
+                "account_id",
+                "type",
+                "text"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -10243,6 +10898,22 @@
                 }
             }
         },
+        "ArticleUnpublishData": {
+            "x-tag": "articles",
+            "type": "object",
+            "required": [
+                "reason"
+            ],
+            "properties": {
+                "reason": {
+                    "type": "string",
+                    "description": "Reason of article unpublishing",
+                    "maxLength": 500,
+                    "minLength": 5,
+                    "example": "Unpublish article reason"
+                }
+            }
+        },
         "ArticleUpdate": {
             "x-tag": "articles",
             "type": "object",
@@ -10259,7 +10930,7 @@
                     "description": "The article description. In a publisher case, usually this is the remote article description",
                     "default": "",
                     "example": "Test description of article",
-                    "maxLength": 10000
+                    "maxLength": 20000
                 },
                 "is_metadata_record": {
                     "description": "True if article has no files",
@@ -10308,6 +10979,24 @@
                         "http://api.figshare.com"
                     ]
                 },
+                "related_materials": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/RelatedMaterial"
+                    },
+                    "default": [],
+                    "description": "List of related materials; supersedes references and resource DOI/title.",
+                    "example": [
+                        {
+                            "id": 10432,
+                            "identifier": "10.6084/m9.figshare.1407024",
+                            "identifier_type": "DOI",
+                            "relation": "IsSupplementTo",
+                            "title": "Figshare for institutions brochure",
+                            "is_linkout": false
+                        }
+                    ]
+                },
                 "categories": {
                     "type": "array",
                     "items": {
@@ -10339,7 +11028,7 @@
                     "items": {
                         "type": "object"
                     },
-                    "description": "List of authors to be associated with the article. The list can contain the following fields: id, name, first_name, last_name, email, orcid_id. If an id is supplied, it will take priority and everything else will be ignored. No more than 10 authors. For adding more authors use the specific authors endpoint.",
+                    "description": "List of authors to be associated with the article. The list can contain the following fields: id, name, first_name, last_name, email, orcid_id. If an id is supplied, it will take priority and everything else will be ignored. For adding more authors use the specific authors endpoint.",
                     "default": [],
                     "example": [
                         {
@@ -10400,12 +11089,12 @@
                 },
                 "resource_doi": {
                     "type": "string",
-                    "description": "Not applicable to regular users. In a publisher case, this is the publisher article DOI.",
+                    "description": "Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article DOI.",
                     "default": ""
                 },
                 "resource_title": {
                     "type": "string",
-                    "description": "Not applicable to regular users. In a publisher case, this is the publisher article title.",
+                    "description": "Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article title.",
                     "default": ""
                 },
                 "timeline": {
@@ -10413,10 +11102,48 @@
                     "description": "Various timeline dates",
                     "$ref": "#/definitions/TimelineUpdate"
                 },
+                "download_disabled": {
+                    "type": "boolean",
+                    "description": "If true, downloading of files for this article is disabled",
+                    "example": false
+                },
                 "group_id": {
                     "type": "integer",
                     "format": "int64",
                     "description": "Not applicable to regular users. This field is reserved to institutions/publishers with access to assign to specific groups"
+                }
+            }
+        },
+        "ArticleVersionUpdate": {
+            "x-tag": "article_version",
+            "type": "object",
+            "properties": {
+                "supplementary_fields": {
+                    "type": "array",
+                    "description": "List of supplementary fields to be associated with the article version",
+                    "items": {
+                        "type": "object"
+                    },
+                    "default": [],
+                    "example": [
+                        {
+                            "name": "abc",
+                            "value": "def"
+                        },
+                        {
+                            "name": "fname",
+                            "value": "fvalue"
+                        }
+                    ]
+                },
+                "internal_metadata": {
+                    "type": "object",
+                    "description": "List of supplementary fields to be associated with the article version",
+                    "default": {},
+                    "example": {
+                        "curation_review_date": "2021-11-16T13:03:38",
+                        "export_pdf_download_url": null
+                    }
                 }
             }
         },
@@ -10439,7 +11166,7 @@
                     "description": "The article description. In a publisher case, usually this is the remote article description",
                     "default": "",
                     "example": "Test description of article",
-                    "maxLength": 10000
+                    "maxLength": 20000
                 },
                 "is_metadata_record": {
                     "description": "True if article has no files",
@@ -10488,6 +11215,24 @@
                         "http://api.figshare.com"
                     ]
                 },
+                "related_materials": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/RelatedMaterial"
+                    },
+                    "default": [],
+                    "description": "List of related materials; supersedes references and resource DOI/title.",
+                    "example": [
+                        {
+                            "id": 10432,
+                            "identifier": "10.6084/m9.figshare.1407024",
+                            "identifier_type": "DOI",
+                            "relation": "IsSupplementTo",
+                            "title": "Figshare for institutions brochure",
+                            "is_linkout": false
+                        }
+                    ]
+                },
                 "categories": {
                     "type": "array",
                     "items": {
@@ -10519,7 +11264,7 @@
                     "items": {
                         "type": "object"
                     },
-                    "description": "List of authors to be associated with the article. The list can contain the following fields: id, name, first_name, last_name, email, orcid_id. If an id is supplied, it will take priority and everything else will be ignored. No more than 10 authors. For adding more authors use the specific authors endpoint.",
+                    "description": "List of authors to be associated with the article. The list can contain the following fields: id, name, first_name, last_name, email, orcid_id. If an id is supplied, it will take priority and everything else will be ignored. For adding more authors use the specific authors endpoint.",
                     "default": [],
                     "example": [
                         {
@@ -10580,12 +11325,12 @@
                 },
                 "resource_doi": {
                     "type": "string",
-                    "description": "Not applicable to regular users. In a publisher case, this is the publisher article DOI.",
+                    "description": "Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article DOI.",
                     "default": ""
                 },
                 "resource_title": {
                     "type": "string",
-                    "description": "Not applicable to regular users. In a publisher case, this is the publisher article title.",
+                    "description": "Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article title.",
                     "default": ""
                 },
                 "timeline": {
@@ -10619,7 +11364,7 @@
                     "description": "The article description. In a publisher case, usually this is the remote article description",
                     "default": "",
                     "example": "Test description of article",
-                    "maxLength": 10000
+                    "maxLength": 20000
                 },
                 "tags": {
                     "type": "array",
@@ -10658,6 +11403,24 @@
                         "http://api.figshare.com"
                     ]
                 },
+                "related_materials": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/RelatedMaterial"
+                    },
+                    "default": [],
+                    "description": "List of related materials; supersedes references and resource DOI/title.",
+                    "example": [
+                        {
+                            "id": 10432,
+                            "identifier": "10.6084/m9.figshare.1407024",
+                            "identifier_type": "DOI",
+                            "relation": "IsSupplementTo",
+                            "title": "Figshare for institutions brochure",
+                            "is_linkout": false
+                        }
+                    ]
+                },
                 "categories": {
                     "type": "array",
                     "items": {
@@ -10689,7 +11452,7 @@
                     "items": {
                         "type": "object"
                     },
-                    "description": "List of authors to be associated with the article. The list can contain the following fields: id, name, first_name, last_name, email, orcid_id. If an id is supplied, it will take priority and everything else will be ignored. No more than 10 authors. For adding more authors use the specific authors endpoint.",
+                    "description": "List of authors to be associated with the article. The list can contain the following fields: id, name, first_name, last_name, email, orcid_id. If an id is supplied, it will take priority and everything else will be ignored. For adding more authors use the specific authors endpoint.",
                     "default": [],
                     "example": [
                         {
@@ -10750,12 +11513,12 @@
                 },
                 "resource_doi": {
                     "type": "string",
-                    "description": "Not applicable to regular users. In a publisher case, this is the publisher article DOI.",
+                    "description": "Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article DOI.",
                     "default": ""
                 },
                 "resource_title": {
                     "type": "string",
-                    "description": "Not applicable to regular users. In a publisher case, this is the publisher article title.",
+                    "description": "Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article title.",
                     "default": ""
                 },
                 "timeline": {
@@ -10768,6 +11531,25 @@
         "Article": {
             "x-tag": "articles",
             "type": "object",
+            "required": [
+                "id",
+                "title",
+                "resource_doi",
+                "resource_title",
+                "doi",
+                "handle",
+                "group_id",
+                "url",
+                "url_public_html",
+                "url_public_api",
+                "url_private_html",
+                "url_private_api",
+                "published_date",
+                "timeline",
+                "thumb",
+                "defined_type",
+                "defined_type_name"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -10857,6 +11639,16 @@
                     "type": "string",
                     "description": "Name of the article type identifier",
                     "example": "media"
+                },
+                "resource_doi": {
+                    "type": "string",
+                    "description": "Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article DOI.",
+                    "default": ""
+                },
+                "resource_title": {
+                    "type": "string",
+                    "description": "Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article title.",
+                    "default": ""
                 }
             }
         },
@@ -10867,6 +11659,24 @@
                 {
                     "$ref": "#/definitions/Article"
                 }
+            ],
+            "required": [
+                "project_id",
+                "id",
+                "title",
+                "doi",
+                "handle",
+                "group_id",
+                "url",
+                "url_public_html",
+                "url_public_api",
+                "url_private_html",
+                "url_private_api",
+                "published_date",
+                "timeline",
+                "thumb",
+                "defined_type",
+                "defined_type_name"
             ],
             "properties": {
                 "project_id": {
@@ -10964,6 +11774,16 @@
                     "type": "string",
                     "description": "Name of the article type identifier",
                     "example": "media"
+                },
+                "resource_doi": {
+                    "type": "string",
+                    "description": "Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article DOI.",
+                    "default": ""
+                },
+                "resource_title": {
+                    "type": "string",
+                    "description": "Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article title.",
+                    "default": ""
                 }
             }
         },
@@ -10995,6 +11815,14 @@
                 {
                     "$ref": "#/definitions/TimelineUpdate"
                 }
+            ],
+            "required": [
+                "posted",
+                "submission",
+                "revision",
+                "firstOnline",
+                "publisherPublication",
+                "publisherAcceptance"
             ],
             "properties": {
                 "posted": {
@@ -11046,6 +11874,48 @@
                     "$ref": "#/definitions/Article"
                 }
             ],
+            "required": [
+                "citation",
+                "confidential_reason",
+                "embargo_type",
+                "is_confidential",
+                "size",
+                "funding",
+                "funding_list",
+                "tags",
+                "version",
+                "is_active",
+                "is_metadata_record",
+                "metadata_reason",
+                "status",
+                "description",
+                "is_embargoed",
+                "embargo_date",
+                "is_public",
+                "modified_date",
+                "created_date",
+                "has_linked_file",
+                "categories",
+                "license",
+                "embargo_title",
+                "embargo_reason",
+                "references",
+                "id",
+                "title",
+                "doi",
+                "handle",
+                "group_id",
+                "url",
+                "url_public_html",
+                "url_public_api",
+                "url_private_html",
+                "url_private_api",
+                "published_date",
+                "timeline",
+                "thumb",
+                "defined_type",
+                "defined_type_name"
+            ],
             "properties": {
                 "citation": {
                     "type": "string",
@@ -11083,8 +11953,10 @@
                 },
                 "funding_list": {
                     "type": "array",
+                    "description": "Full Article funding information",
                     "items": {
-                        "type": "integer"
+                        "type": "object",
+                        "$ref": "#/definitions/FundingInformation"
                     }
                 },
                 "tags": {
@@ -11199,6 +12071,24 @@
                         "http://figshare.com/api"
                     ]
                 },
+                "related_materials": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/RelatedMaterial"
+                    },
+                    "default": [],
+                    "description": "List of related materials; supersedes references and resource DOI/title.",
+                    "example": [
+                        {
+                            "id": 10432,
+                            "identifier": "10.6084/m9.figshare.1407024",
+                            "identifier_type": "DOI",
+                            "relation": "IsSupplementTo",
+                            "title": "Figshare for institutions brochure",
+                            "is_linkout": false
+                        }
+                    ]
+                },
                 "id": {
                     "type": "integer",
                     "format": "int64",
@@ -11287,6 +12177,16 @@
                     "type": "string",
                     "description": "Name of the article type identifier",
                     "example": "media"
+                },
+                "resource_doi": {
+                    "type": "string",
+                    "description": "Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article DOI.",
+                    "default": ""
+                },
+                "resource_title": {
+                    "type": "string",
+                    "description": "Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article title.",
+                    "default": ""
                 }
             }
         },
@@ -11298,6 +12198,56 @@
                     "$ref": "#/definitions/ProjectArticle"
                 }
             ],
+            "required": [
+                "figshare_url",
+                "resource_title",
+                "resource_doi",
+                "files",
+                "authors",
+                "custom_fields",
+                "embargo_options",
+                "citation",
+                "confidential_reason",
+                "embargo_type",
+                "is_confidential",
+                "size",
+                "funding",
+                "funding_list",
+                "tags",
+                "version",
+                "is_active",
+                "is_metadata_record",
+                "metadata_reason",
+                "status",
+                "description",
+                "is_embargoed",
+                "embargo_date",
+                "is_public",
+                "modified_date",
+                "created_date",
+                "has_linked_file",
+                "categories",
+                "license",
+                "embargo_title",
+                "embargo_reason",
+                "references",
+                "id",
+                "title",
+                "doi",
+                "handle",
+                "group_id",
+                "url",
+                "url_public_html",
+                "url_public_api",
+                "url_private_html",
+                "url_private_api",
+                "published_date",
+                "timeline",
+                "thumb",
+                "defined_type",
+                "defined_type_name",
+                "download_disabled"
+            ],
             "properties": {
                 "figshare_url": {
                     "type": "string",
@@ -11305,21 +12255,10 @@
                     "description": "Article public url",
                     "example": "http://figshare.com/articles/media/article_name/2000005"
                 },
-                "resource_title": {
-                    "type": [
-                        "string",
-                        "null"
-                    ],
-                    "description": "Article resource title",
-                    "example": "first article"
-                },
-                "resource_doi": {
-                    "type": [
-                        "string",
-                        "null"
-                    ],
-                    "description": "Article DOI",
-                    "example": "10.5072/FK2.developmentfigshare.2000005"
+                "download_disabled": {
+                    "type": "boolean",
+                    "description": "If true, downloading of files for this article is disabled",
+                    "example": false
                 },
                 "files": {
                     "type": "array",
@@ -11385,8 +12324,10 @@
                 },
                 "funding_list": {
                     "type": "array",
+                    "description": "Full Article funding information",
                     "items": {
-                        "type": "integer"
+                        "type": "object",
+                        "$ref": "#/definitions/FundingInformation"
                     }
                 },
                 "tags": {
@@ -11501,6 +12442,24 @@
                         "http://figshare.com/api"
                     ]
                 },
+                "related_materials": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/RelatedMaterial"
+                    },
+                    "default": [],
+                    "description": "List of related materials; supersedes references and resource DOI/title.",
+                    "example": [
+                        {
+                            "id": 10432,
+                            "identifier": "10.6084/m9.figshare.1407024",
+                            "identifier_type": "DOI",
+                            "relation": "IsSupplementTo",
+                            "title": "Figshare for institutions brochure",
+                            "is_linkout": false
+                        }
+                    ]
+                },
                 "id": {
                     "type": "integer",
                     "format": "int64",
@@ -11589,6 +12548,16 @@
                     "type": "string",
                     "description": "Name of the article type identifier",
                     "example": "media"
+                },
+                "resource_doi": {
+                    "type": "string",
+                    "description": "Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article DOI.",
+                    "default": ""
+                },
+                "resource_title": {
+                    "type": "string",
+                    "description": "Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article title.",
+                    "default": ""
                 }
             }
         },
@@ -11599,6 +12568,59 @@
                 {
                     "$ref": "#/definitions/ArticleComplete"
                 }
+            ],
+            "required": [
+                "group_resource_id",
+                "account_id",
+                "figshare_url",
+                "resource_title",
+                "resource_doi",
+                "files",
+                "authors",
+                "custom_fields",
+                "embargo_options",
+                "citation",
+                "confidential_reason",
+                "embargo_type",
+                "is_confidential",
+                "size",
+                "funding",
+                "funding_list",
+                "array[integer](optional)",
+                "tags",
+                "version",
+                "is_active",
+                "is_metadata_record",
+                "metadata_reason",
+                "status",
+                "description",
+                "is_embargoed",
+                "embargo_date",
+                "is_public",
+                "modified_date",
+                "created_date",
+                "has_linked_file",
+                "categories",
+                "license",
+                "embargo_title",
+                "embargo_reason",
+                "references",
+                "id",
+                "title",
+                "doi",
+                "handle",
+                "group_id",
+                "url",
+                "url_public_html",
+                "url_public_api",
+                "url_private_html",
+                "url_private_api",
+                "published_date",
+                "timeline",
+                "thumb",
+                "defined_type",
+                "defined_type_name",
+                "download_disabled"
             ],
             "properties": {
                 "group_resource_id": {
@@ -11621,21 +12643,10 @@
                     "description": "Article public url",
                     "example": "http://figshare.com/articles/media/article_name/2000005"
                 },
-                "resource_title": {
-                    "type": [
-                        "string",
-                        "null"
-                    ],
-                    "description": "Article resource title",
-                    "example": "first article"
-                },
-                "resource_doi": {
-                    "type": [
-                        "string",
-                        "null"
-                    ],
-                    "description": "Article DOI",
-                    "example": "10.5072/FK2.developmentfigshare.2000005"
+                "download_disabled": {
+                    "type": "boolean",
+                    "description": "If true, downloading of files for this article is disabled",
+                    "example": false
                 },
                 "files": {
                     "type": "array",
@@ -11701,8 +12712,10 @@
                 },
                 "funding_list": {
                     "type": "array",
+                    "description": "Full Article funding information",
                     "items": {
-                        "type": "integer"
+                        "type": "object",
+                        "$ref": "#/definitions/FundingInformation"
                     }
                 },
                 "tags": {
@@ -11817,6 +12830,24 @@
                         "http://figshare.com/api"
                     ]
                 },
+                "related_materials": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/RelatedMaterial"
+                    },
+                    "default": [],
+                    "description": "List of related materials; supersedes references and resource DOI/title.",
+                    "example": [
+                        {
+                            "id": 10432,
+                            "identifier": "10.6084/m9.figshare.1407024",
+                            "identifier_type": "DOI",
+                            "relation": "IsSupplementTo",
+                            "title": "Figshare for institutions brochure",
+                            "is_linkout": false
+                        }
+                    ]
+                },
                 "id": {
                     "type": "integer",
                     "format": "int64",
@@ -11905,6 +12936,16 @@
                     "type": "string",
                     "description": "Name of the article type identifier",
                     "example": "media"
+                },
+                "resource_doi": {
+                    "type": "string",
+                    "description": "Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article DOI.",
+                    "default": ""
+                },
+                "resource_title": {
+                    "type": "string",
+                    "description": "Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article title.",
+                    "default": ""
                 }
             }
         },
@@ -11915,6 +12956,37 @@
                 {
                     "$ref": "#/definitions/Collection"
                 }
+            ],
+            "required": [
+                "account_id",
+                "funding",
+                "resource_id",
+                "resource_doi",
+                "resource_title",
+                "resource_link",
+                "resource_version",
+                "version",
+                "description",
+                "categories",
+                "references",
+                "tags",
+                "authors",
+                "institution_id",
+                "group_id",
+                "articles_count",
+                "public",
+                "citation",
+                "group_resource_id",
+                "custom_fields",
+                "modified_date",
+                "created_date",
+                "timeline",
+                "id",
+                "title",
+                "doi",
+                "handle",
+                "url",
+                "published_date"
             ],
             "properties": {
                 "account_id": {
@@ -12098,6 +13170,14 @@
         "Category": {
             "x-tag": "common",
             "type": "object",
+            "required": [
+                "parent_id",
+                "id",
+                "title",
+                "path",
+                "source_id",
+                "taxonomy_id"
+            ],
             "properties": {
                 "parent_id": {
                     "type": "integer",
@@ -12137,6 +13217,11 @@
         "License": {
             "x-tag": "institutions",
             "type": "object",
+            "required": [
+                "value",
+                "name",
+                "url"
+            ],
             "properties": {
                 "value": {
                     "type": "integer",
@@ -12160,6 +13245,10 @@
         "ArticleVersions": {
             "x-tag": "articles",
             "type": "object",
+            "required": [
+                "version",
+                "url"
+            ],
             "properties": {
                 "version": {
                     "type": "integer",
@@ -12178,6 +13267,10 @@
         "CollectionVersions": {
             "x-tag": "collections",
             "type": "object",
+            "required": [
+                "id",
+                "url"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -12196,6 +13289,14 @@
         "ArticleEmbargo": {
             "x-tag": "articles",
             "type": "object",
+            "required": [
+                "is_embargoed",
+                "embargo_date",
+                "embargo_type",
+                "embargo_title",
+                "embargo_reason",
+                "embargo_options"
+            ],
             "properties": {
                 "is_embargoed": {
                     "type": "boolean",
@@ -12320,6 +13421,10 @@
         "ArticleConfidentiality": {
             "x-tag": "articles",
             "type": "object",
+            "required": [
+                "is_confidential",
+                "reason"
+            ],
             "properties": {
                 "is_confidential": {
                     "type": "boolean",
@@ -12336,6 +13441,10 @@
         "CustomArticleFieldAdd": {
             "x-tag": "articles",
             "type": "object",
+            "required": [
+                "name",
+                "value"
+            ],
             "properties": {
                 "name": {
                     "description": "Custom  metadata name",
@@ -12343,7 +13452,7 @@
                     "example": "key"
                 },
                 "value": {
-                    "description": "Custom metadata value",
+                    "description": "Custom metadata value (can be either a string or an array of strings)",
                     "example": "value"
                 }
             }
@@ -12351,6 +13460,11 @@
         "CustomArticleField": {
             "x-tag": "articles",
             "type": "object",
+            "required": [
+                "name",
+                "value",
+                "is_mandatory"
+            ],
             "properties": {
                 "name": {
                     "description": "Custom  metadata name",
@@ -12358,8 +13472,7 @@
                     "example": "key"
                 },
                 "value": {
-                    "description": "Custom metadata value",
-                    "type": "string",
+                    "description": "Custom metadata value (can be either a string or an array of strings)",
                     "example": "value"
                 },
                 "is_mandatory": {
@@ -12375,6 +13488,15 @@
         "PublicFile": {
             "x-tag": "common",
             "type": "object",
+            "required": [
+                "id",
+                "name",
+                "size",
+                "is_link_only",
+                "download_url",
+                "supplied_md5",
+                "computed_md5"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -12413,6 +13535,11 @@
                     "type": "string",
                     "description": "File computed md5",
                     "example": "043a51806d646e88cafbf19e7b82846f"
+                },
+                "mimetype": {
+                    "type": "string",
+                    "description": "MIME Type of the file, it defaults to an empty string",
+                    "example": "application/pdf"
                 }
             }
         },
@@ -12423,6 +13550,21 @@
                 {
                     "$ref": "#/definitions/PublicFile"
                 }
+            ],
+            "required": [
+                "status",
+                "viewer_type",
+                "preview_state",
+                "upload_url",
+                "upload_token",
+                "is_attached_to_public_version",
+                "id",
+                "name",
+                "size",
+                "is_link_only",
+                "download_url",
+                "supplied_md5",
+                "computed_md5"
             ],
             "properties": {
                 "status": {
@@ -12495,12 +13637,26 @@
                     "type": "string",
                     "description": "File computed md5",
                     "example": "043a51806d646e88cafbf19e7b82846f"
+                },
+                "mimetype": {
+                    "type": "string",
+                    "description": "MIME Type of the file, it defaults to an empty string",
+                    "example": "application/pdf"
                 }
             }
         },
         "Author": {
             "x-tag": "authors",
             "type": "object",
+            "required": [
+                "id",
+                "full_name",
+                "first_name",
+                "last_name",
+                "is_active",
+                "url_name",
+                "orcid_id"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -12512,6 +13668,16 @@
                     "type": "string",
                     "description": "Author full name",
                     "example": "John Doe"
+                },
+                "first_name": {
+                    "type": "string",
+                    "description": "Author first name",
+                    "example": "John"
+                },
+                "last_name": {
+                    "type": "string",
+                    "description": "Author last name",
+                    "example": "Doe"
                 },
                 "is_active": {
                     "type": "boolean",
@@ -12538,6 +13704,19 @@
                     "$ref": "#/definitions/Author"
                 }
             ],
+            "required": [
+                "institution_id",
+                "group_id",
+                "first_name",
+                "last_name",
+                "is_public",
+                "job_title",
+                "id",
+                "full_name",
+                "url_name",
+                "orcid_id",
+                "is_active"
+            ],
             "properties": {
                 "institution_id": {
                     "type": "integer",
@@ -12551,11 +13730,13 @@
                 },
                 "first_name": {
                     "type": "string",
-                    "description": "First Name"
+                    "description": "Author first name",
+                    "example": "John"
                 },
                 "last_name": {
                     "type": "string",
-                    "description": "Last Name"
+                    "description": "Author last name",
+                    "example": "Doe"
                 },
                 "is_public": {
                     "type": "integer",
@@ -12597,6 +13778,24 @@
         "Account": {
             "x-tag": "other",
             "type": "object",
+            "required": [
+                "id",
+                "first_name",
+                "last_name",
+                "used_quota_private",
+                "modified_date",
+                "used_quota",
+                "created_date",
+                "quota",
+                "group_id",
+                "institution_user_id",
+                "institution_id",
+                "email",
+                "used_quota_public",
+                "pending_quota_request",
+                "active",
+                "maximum_file_size"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -12692,6 +13891,19 @@
         "ShortAccount": {
             "x-tag": "other",
             "type": "object",
+            "required": [
+                "id",
+                "first_name",
+                "last_name",
+                "institution_id",
+                "email",
+                "active",
+                "institution_user_id",
+                "quota",
+                "used_quota",
+                "user_id",
+                "orcid_id"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -12759,6 +13971,17 @@
         "User": {
             "x-tag": "other",
             "type": "object",
+            "required": [
+                "id",
+                "first_name",
+                "last_name",
+                "name",
+                "is_active",
+                "url_name",
+                "is_public",
+                "job_title",
+                "orcid_id"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -12811,6 +14034,9 @@
         "ArticleDOI": {
             "x-tag": "articles",
             "type": "object",
+            "required": [
+                "doi"
+            ],
             "properties": {
                 "doi": {
                     "type": "string",
@@ -12822,6 +14048,9 @@
         "ArticleHandle": {
             "x-tag": "articles",
             "type": "object",
+            "required": [
+                "handle"
+            ],
             "properties": {
                 "handle": {
                     "type": "string",
@@ -12833,6 +14062,9 @@
         "CollectionDOI": {
             "x-tag": "collections",
             "type": "object",
+            "required": [
+                "doi"
+            ],
             "properties": {
                 "doi": {
                     "type": "string",
@@ -12844,6 +14076,9 @@
         "CollectionHandle": {
             "x-tag": "collections",
             "type": "object",
+            "required": [
+                "handle"
+            ],
             "properties": {
                 "handle": {
                     "type": "string",
@@ -12864,7 +14099,7 @@
                     "items": {
                         "type": "object"
                     },
-                    "description": "List of authors to be associated with the article. The list can contain the following fields: id, name, first_name, last_name, email, orcid_id. If an id is supplied, it will take priority and everything else will be ignored. No more than 10 authors. For adding more authors use the specific authors endpoint.",
+                    "description": "List of authors to be associated with the article. The list can contain the following fields: id, name, first_name, last_name, email, orcid_id. If an id is supplied, it will take priority and everything else will be ignored. For adding more authors use the specific authors endpoint.",
                     "example": [
                         {
                             "id": 12121
@@ -12959,6 +14194,12 @@
         "PrivateLink": {
             "x-tag": "articles",
             "type": "object",
+            "required": [
+                "id",
+                "is_active",
+                "expires_date",
+                "html_location"
+            ],
             "properties": {
                 "id": {
                     "type": "string",
@@ -13007,6 +14248,11 @@
                     "format": "int64",
                     "description": "File size in bytes; can be omitted only for linked files.",
                     "example": 70
+                },
+                "folder_path": {
+                    "type": "string",
+                    "description": "Unix-style directory path of the file; only available if the file was uploaded within a folder structure",
+                    "example": "/level1/level2/level3"
                 }
             }
         },
@@ -13104,6 +14350,15 @@
         "Collection": {
             "x-tag": "collections",
             "type": "object",
+            "required": [
+                "id",
+                "title",
+                "doi",
+                "handle",
+                "url",
+                "timeline",
+                "published_date"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -13153,6 +14408,36 @@
                 {
                     "$ref": "#/definitions/Collection"
                 }
+            ],
+            "required": [
+                "funding",
+                "resource_id",
+                "resource_doi",
+                "resource_title",
+                "resource_link",
+                "resource_version",
+                "version",
+                "description",
+                "categories",
+                "references",
+                "tags",
+                "authors",
+                "institution_id",
+                "group_id",
+                "articles_count",
+                "public",
+                "citation",
+                "group_resource_id",
+                "custom_fields",
+                "modified_date",
+                "created_date",
+                "timeline",
+                "id",
+                "title",
+                "doi",
+                "handle",
+                "url",
+                "published_date"
             ],
             "properties": {
                 "funding": {
@@ -13358,7 +14643,7 @@
                     "description": "The collection description. In a publisher case, usually this is the remote collection description",
                     "default": "",
                     "example": "Test description of article",
-                    "maxLength": 10000
+                    "maxLength": 20000
                 },
                 "articles": {
                     "type": "array",
@@ -13376,7 +14661,7 @@
                     "items": {
                         "type": "object"
                     },
-                    "description": "List of authors to be associated with the collection. The list can contain the following fields: id, name, first_name, last_name, email, orcid_id. If an id is supplied, it will take priority and everything else will be ignored. No more than 10 authors. For adding more authors use the specific authors endpoint.",
+                    "description": "List of authors to be associated with the collection. The list can contain the following fields: id, name, first_name, last_name, email, orcid_id. If an id is supplied, it will take priority and everything else will be ignored. For adding more authors use the specific authors endpoint.",
                     "default": [],
                     "example": [
                         {
@@ -13536,7 +14821,7 @@
                     "description": "The collection description. In a publisher case, usually this is the remote collection description",
                     "default": "",
                     "example": "Test description of collection",
-                    "maxLength": 10000
+                    "maxLength": 20000
                 },
                 "articles": {
                     "type": "array",
@@ -13554,7 +14839,7 @@
                     "items": {
                         "type": "object"
                     },
-                    "description": "List of authors to be associated with the collection. The list can contain the following fields: id, name, first_name, last_name, email, orcid_id. If an id is supplied, it will take priority and everything else will be ignored. No more than 10 authors. For adding more authors use the specific authors endpoint.",
+                    "description": "List of authors to be associated with the collection. The list can contain the following fields: id, name, first_name, last_name, email, orcid_id. If an id is supplied, it will take priority and everything else will be ignored. For adding more authors use the specific authors endpoint.",
                     "default": [],
                     "example": [
                         {
@@ -13688,6 +14973,9 @@
         },
         "ConfidentialityCreator": {
             "type": "object",
+            "required": [
+                "reason"
+            ],
             "properties": {
                 "reason": {
                     "description": "Reason for confidentiality",
@@ -13698,6 +14986,9 @@
         "Location": {
             "x-tag": "common",
             "type": "object",
+            "required": [
+                "location"
+            ],
             "properties": {
                 "location": {
                     "description": "Url for item",
@@ -13709,6 +15000,11 @@
         "PrivateLinkResponse": {
             "x-tag": "common",
             "type": "object",
+            "required": [
+                "location",
+                "token",
+                "html_location"
+            ],
             "properties": {
                 "location": {
                     "description": "Url for private link",
@@ -13731,6 +15027,11 @@
         "LocationWarnings": {
             "x-tag": "common",
             "type": "object",
+            "required": [
+                "entity_id",
+                "location",
+                "warnings"
+            ],
             "properties": {
                 "entity_id": {
                     "description": "Figshare ID of the entity",
@@ -13755,6 +15056,10 @@
         "CreateProjectResponse": {
             "x-tag": "common",
             "type": "object",
+            "required": [
+                "entity_id",
+                "location"
+            ],
             "properties": {
                 "entity_id": {
                     "description": "Figshare ID of the entity",
@@ -13772,6 +15077,10 @@
         "LocationWarningsUpdate": {
             "x-tag": "common",
             "type": "object",
+            "required": [
+                "location",
+                "warnings"
+            ],
             "properties": {
                 "location": {
                     "description": "Url for entity",
@@ -13790,6 +15099,14 @@
         "FundingInformation": {
             "x-tag": "funding",
             "type": "object",
+            "required": [
+                "id",
+                "title",
+                "grant_code",
+                "funder_name",
+                "is_user_defined",
+                "url"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -13811,8 +15128,9 @@
                     "description": "Funder's name"
                 },
                 "is_user_defined": {
-                    "type": "boolean",
-                    "description": "Return whether the grant has been introduced manually"
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Return 1 whether the grant has been introduced manually, 0 otherwise"
                 },
                 "url": {
                     "type": "string",
@@ -13849,6 +15167,14 @@
         },
         "AccountReport": {
             "type": "object",
+            "required": [
+                "id",
+                "account_id",
+                "created_date",
+                "status",
+                "download_url",
+                "group_id"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -13889,6 +15215,15 @@
         },
         "ItemType": {
             "type": "object",
+            "required": [
+                "id",
+                "name",
+                "string_id",
+                "icon",
+                "public_description",
+                "is_selectable",
+                "url_name"
+            ],
             "properties": {
                 "id": {
                     "type": "integer",
@@ -13925,6 +15260,216 @@
                     "type": "string",
                     "example": "journal_contribution",
                     "description": "The URL name of the item type."
+                }
+            }
+        },
+        "RelatedMaterial": {
+            "type": "object",
+            "properties": {
+                "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "The ID of the related material; can be used to add existing materials of the same account to items.",
+                    "example": 10432
+                },
+                "identifier": {
+                    "type": "string",
+                    "description": "The related material identifier (e.g., DOI, Handle, ISBN). Mandatory if creating a new material.",
+                    "example": "10.6084/m9.figshare.1407024"
+                },
+                "title": {
+                    "type": "string",
+                    "description": "The related material title",
+                    "example": "Rooter: A Methodology for the Typical Unification of Access Points and Redundancy"
+                },
+                "relation": {
+                    "type": "string",
+                    "enum": [
+                        "IsCitedBy",
+                        "Cites",
+                        "IsSupplementTo",
+                        "IsSupplementedBy",
+                        "IsContinuedBy",
+                        "Continues",
+                        "Describes",
+                        "IsDescribedBy",
+                        "HasMetadata",
+                        "IsMetadataFor",
+                        "HasVersion",
+                        "IsVersionOf",
+                        "IsNewVersionOf",
+                        "IsPreviousVersionOf",
+                        "IsPartOf",
+                        "HasPart",
+                        "IsPublishedIn",
+                        "IsReferencedBy",
+                        "References",
+                        "IsDocumentedBy",
+                        "Documents",
+                        "IsCompiledBy",
+                        "Compiles",
+                        "IsVariantFormOf",
+                        "IsOriginalFormOf",
+                        "IsIdenticalTo",
+                        "IsReviewedBy",
+                        "Reviews",
+                        "IsDerivedFrom",
+                        "IsSourceOf",
+                        "IsRequiredBy",
+                        "Requires",
+                        "IsObsoletedBy",
+                        "Obsoletes"
+                    ],
+                    "description": "The relation between the item and the related material; defaults to 'References'. Mandatory if creating a new material.",
+                    "example": "IsSupplementTo",
+                    "default": "References"
+                },
+                "identifier_type": {
+                    "type": "string",
+                    "enum": [
+                        "ARK",
+                        "arXiv",
+                        "bibcode",
+                        "DOI",
+                        "EAN13",
+                        "EISSN",
+                        "Handle",
+                        "IGSN",
+                        "ISBN",
+                        "ISSN",
+                        "ISTC",
+                        "LISSN",
+                        "LSID",
+                        "PMID",
+                        "PURL",
+                        "UPC",
+                        "URL",
+                        "URN",
+                        "w3id"
+                    ],
+                    "description": "The type of the identifier of the related material; defaults to 'URL'. Mandatory if creating a new material.",
+                    "example": "DOI",
+                    "default": "URL"
+                },
+                "is_linkout": {
+                    "type": "boolean",
+                    "description": "Flag for highlighting this related material in the call-out box",
+                    "example": true
+                },
+                "link": {
+                    "type": "string",
+                    "description": "The full hyperlink for the identifier. Automatically generated by Figshare.",
+                    "example": "https://doi.org/10.6084/m9.figshare.1407024",
+                    "readOnly": true
+                }
+            }
+        },
+        "ProfileUpdateData": {
+            "x-tag": "profiles",
+            "type": "object",
+            "properties": {
+                "first_name": {
+                    "type": "string",
+                    "description": "First name",
+                    "example": "John"
+                },
+                "last_name": {
+                    "type": "string",
+                    "description": "Last Name",
+                    "example": "Doe"
+                },
+                "orcid": {
+                    "type": "string",
+                    "description": "User ORCID",
+                    "example": "0000-0001-YYYY-XXXX"
+                },
+                "job_title": {
+                    "type": "string",
+                    "description": "User job title",
+                    "example": "Researcher at institution X"
+                },
+                "fields_of_interest": {
+                    "type": "array",
+                    "description": "User fields of interest (category ids)",
+                    "example": [
+                        1,
+                        2
+                    ],
+                    "items": {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "Id of category"
+                    }
+                },
+                "fields_of_interest_by_source_id": {
+                    "type": "array",
+                    "description": "User fields of interest (category source IDs), supersedes the fields_of_interest property",
+                    "example": [
+                        "3204",
+                        "320401"
+                    ],
+                    "items": {
+                        "type": "string",
+                        "description": "Source ID of category"
+                    }
+                },
+                "location": {
+                    "type": "string",
+                    "description": "User location",
+                    "example": "London, UK"
+                },
+                "facebook": {
+                    "type": "string",
+                    "format": "url",
+                    "description": "User facebook URL",
+                    "example": "https://facebook.com/profile/1"
+                },
+                "x": {
+                    "type": "string",
+                    "format": "url",
+                    "description": "User X (twitter) URL",
+                    "example": "https://x.com/profile/1"
+                },
+                "linkedin": {
+                    "type": "string",
+                    "format": "url",
+                    "description": "User linkedin URL",
+                    "example": "https://linkedin.com/profile/2"
+                },
+                "bio": {
+                    "type": "string",
+                    "description": "User biographical information",
+                    "example": "Biographical information"
+                },
+                "personal_profiles": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "label": {
+                                "type": "string",
+                                "description": "Label for the personal profile link",
+                                "example": "ResearchGate"
+                            },
+                            "url": {
+                                "type": "string",
+                                "format": "url",
+                                "description": "URL for the personal profile link",
+                                "example": "https://researchgate.net/profile/1"
+                            }
+                        }
+                    },
+                    "description": "Add up to 10 additional personal profile links",
+                    "example": [
+                        {
+                            "label": "ResearchGate",
+                            "url": "https://researchgate.net/profile/1"
+                        },
+                        {
+                            "label": "",
+                            "url": "https://academia.edu/profile/1"
+                        }
+                    ]
                 }
             }
         }
