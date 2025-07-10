@@ -8208,6 +8208,12 @@
                         },
                         "placeholder": "Enter your custom field here"
                     }
+                },
+                "order": {
+                    "description": "Order of the field in the group",
+                    "type": "integer",
+                    "format": "int64",
+                    "example": 1
                 }
             }
         },
