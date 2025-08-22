@@ -7522,6 +7522,14 @@
                         "type": "integer",
                         "format": "int64",
                         "required": false
+                    },
+                    {
+                        "name": "group",
+                        "in": "query",
+                        "description": "only return articles from this group",
+                        "type": "integer",
+                        "format": "int64",
+                        "required": false
                     }
                 ],
                 "responses": {
@@ -12268,7 +12276,7 @@
                 },
                 "files": {
                     "type": "array",
-                    "description": "List of article files",
+                    "description": "List of up to 10 article files.",
                     "items": {
                         "$ref": "#/definitions/PublicFile"
                     }
@@ -12656,7 +12664,7 @@
                 },
                 "files": {
                     "type": "array",
-                    "description": "List of article files",
+                    "description": "List of up to 10 article files.",
                     "items": {
                         "$ref": "#/definitions/PublicFile"
                     }
