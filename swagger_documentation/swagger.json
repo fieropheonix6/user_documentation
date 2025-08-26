@@ -9117,7 +9117,8 @@
                     "type": "integer",
                     "description": "Return only authors associated to this institution",
                     "format": "int64",
-                    "example": 1
+                    "example": 1,
+                    "minimum": 0
                 },
                 "orcid": {
                     "type": "string",
@@ -9126,7 +9127,8 @@
                 "group_id": {
                     "type": "integer",
                     "format": "int64",
-                    "description": "Return only authors in this group or subgroups of the group"
+                    "description": "Return only authors in this group or subgroups of the group",
+                    "minimum": 0
                 },
                 "is_active": {
                     "type": "boolean",
