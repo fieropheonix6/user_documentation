@@ -921,6 +921,17 @@ Content-Type: application/json; charset=UTF-8
   &quot;message&quot;: &quot;Unauthorized request&quot;
 }
 </code></pre>
+          <h3 id="breakdown-response-limitations">Breakdown Response Limitations</h3>
+          <p>The breakdown responses have the following limitations:</p>
+          <ul>
+              <li><strong>Cities per country</strong>: A maximum of 10 cities and a total are included in the response
+                  for each country. The sum of events from individual cities may not equal the country total, as only
+                  the top 10 cities are displayed in the response.
+              </li>
+              <li><strong>Number of countries</strong>: Only the first 200 countries are displayed in the response. If
+                  there are more than 200 countries in the data, only the top 200 will be included.
+              </li>
+          </ul>
       </div>
       <div id="description_stats_timeline_endpoints">
         <h1 id="endpoints-for-retrieving-a-timeline">Endpoints for retrieving a <strong>timeline</strong></h1>
