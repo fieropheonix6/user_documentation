@@ -258,3 +258,11 @@ Content-Type: application/json; charset=UTF-8
   "message": "Unauthorized request"
 }
 ```
+
+## Response Limitations
+
+The breakdown responses have the following limitations:
+
+* **Cities per country**: A maximum of 10 cities and a total are included in the response for each country. The sum of events from individual cities may not equal the country total, as only the top 10 cities are displayed in the response.
+
+* **Number of countries**: Only the first 200 countries are displayed in the response. If there are more than 200 countries in the data, only the top 200 will be included.
