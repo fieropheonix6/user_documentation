@@ -112,14 +112,14 @@
                     {
                         "name": "published_since",
                         "in": "query",
-                        "description": "Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD",
+                        "description": "Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ",
                         "type": "string",
                         "required": false
                     },
                     {
                         "name": "modified_since",
                         "in": "query",
-                        "description": "Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD",
+                        "description": "Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ",
                         "type": "string",
                         "required": false
                     },
@@ -7384,11 +7384,7 @@
                         "type": "string",
                         "enum": [
                             "published_date",
-                            "modified_date",
-                            "views",
-                            "shares",
-                            "downloads",
-                            "cites"
+                            "modified_date"
                         ],
                         "default": "published_date",
                         "required": false
@@ -7407,14 +7403,14 @@
                     {
                         "name": "published_since",
                         "in": "query",
-                        "description": "Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD",
+                        "description": "Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ",
                         "type": "string",
                         "required": false
                     },
                     {
                         "name": "modified_since",
                         "in": "query",
-                        "description": "Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD",
+                        "description": "Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ",
                         "type": "string",
                         "required": false
                     },
@@ -9845,12 +9841,12 @@
                     "example": 2000013
                 },
                 "published_since": {
-                    "description": "Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD",
+                    "description": "Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ",
                     "type": "string",
                     "example": "2017-12-22"
                 },
                 "modified_since": {
-                    "description": "Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD",
+                    "description": "Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ",
                     "type": "string",
                     "example": "2017-12-22"
                 },
@@ -9937,12 +9933,12 @@
                     "example": 2000013
                 },
                 "published_since": {
-                    "description": "Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD",
+                    "description": "Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ",
                     "type": "string",
                     "example": "2017-12-22"
                 },
                 "modified_since": {
-                    "description": "Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD",
+                    "description": "Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ",
                     "type": "string",
                     "example": "2017-12-22"
                 },
@@ -10060,12 +10056,12 @@
                     "example": 2000013
                 },
                 "published_since": {
-                    "description": "Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD",
+                    "description": "Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ",
                     "type": "string",
                     "example": "2017-12-22"
                 },
                 "modified_since": {
-                    "description": "Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD",
+                    "description": "Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ",
                     "type": "string",
                     "example": "2017-12-22"
                 },
@@ -10188,12 +10184,12 @@
                     "example": 2000013
                 },
                 "published_since": {
-                    "description": "Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD",
+                    "description": "Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ",
                     "type": "string",
                     "example": "2017-12-22"
                 },
                 "modified_since": {
-                    "description": "Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD",
+                    "description": "Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ",
                     "type": "string",
                     "example": "2017-12-22"
                 },
@@ -10298,12 +10294,12 @@
                     "example": 2000013
                 },
                 "published_since": {
-                    "description": "Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD",
+                    "description": "Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ",
                     "type": "string",
                     "example": "2017-12-22"
                 },
                 "modified_since": {
-                    "description": "Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD",
+                    "description": "Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ",
                     "type": "string",
                     "example": "2017-12-22"
                 },
@@ -10356,30 +10352,6 @@
                     "minimum": 0,
                     "maximum": 5000,
                     "example": 0
-                },
-                "order": {
-                    "description": "The field by which to order. Default varies by endpoint/resource.",
-                    "type": "string",
-                    "enum": [
-                        "published_date",
-                        "modified_date",
-                        "views",
-                        "shares",
-                        "downloads",
-                        "cites"
-                    ],
-                    "default": "published_date",
-                    "example": "published_date"
-                },
-                "order_direction": {
-                    "type": "string",
-                    "description": "Direction of ordering",
-                    "enum": [
-                        "asc",
-                        "desc"
-                    ],
-                    "default": "desc",
-                    "example": "desc"
                 },
                 "institution_id": {
                     "type": "integer",
@@ -10506,12 +10478,12 @@
                     "example": 2000013
                 },
                 "published_since": {
-                    "description": "Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD",
+                    "description": "Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ",
                     "type": "string",
                     "example": "2017-12-22"
                 },
                 "modified_since": {
-                    "description": "Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD",
+                    "description": "Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ",
                     "type": "string",
                     "example": "2017-12-22"
                 },
