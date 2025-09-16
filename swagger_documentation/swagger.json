@@ -5879,7 +5879,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/PrivateProjectArticle"
+                                "$ref": "#/definitions/Article"
                             }
                         }
                     },
@@ -5998,7 +5998,7 @@
                     "200": {
                         "description": "OK. Article representation",
                         "schema": {
-                            "$ref": "#/definitions/ProjectArticle"
+                            "$ref": "#/definitions/PrivateProjectArticle"
                         }
                     },
                     "400": {
@@ -6264,7 +6264,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Author"
+                                "$ref": "#/definitions/AuthorComplete"
                             }
                         }
                     },
@@ -8213,6 +8213,11 @@
                     "type": "integer",
                     "format": "int64",
                     "example": 1
+                },
+                "is_mandatory": {
+                    "description": "Whether the field is mandatory or not",
+                    "type": "boolean",
+                    "example": false
                 }
             }
         },
@@ -8741,7 +8746,7 @@
                     "type": "array",
                     "description": "Collection custom fields",
                     "items": {
-                        "$ref": "#/definitions/CustomArticleField"
+                        "$ref": "#/definitions/ShortCustomField"
                     }
                 }
             }
@@ -9383,7 +9388,9 @@
                 "id",
                 "account_id",
                 "type",
-                "text"
+                "text",
+                "created_date",
+                "modified_date"
             ],
             "properties": {
                 "id": {
@@ -9409,6 +9416,14 @@
                 "text": {
                     "type": "string",
                     "description": "The value/content of the comment."
+                },
+                "created_date": {
+                    "type": "string",
+                    "description": "The creation date of the comment."
+                },
+                "modified_date": {
+                    "type": "string",
+                    "description": "The date the comment has been modified."
                 }
             }
         },
@@ -10440,6 +10455,7 @@
                 "size",
                 "funding",
                 "funding_list",
+                "tags",
                 "keywords",
                 "version",
                 "is_metadata_record",
@@ -10516,8 +10532,20 @@
                         "$ref": "#/definitions/FundingInformation"
                     }
                 },
+                "tags": {
+                    "description": "List of article tags. Keywords can be used instead",
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "t1",
+                        "t2",
+                        "t3"
+                    ]
+                },
                 "keywords": {
-                    "description": "List of article keywords",
+                    "description": "List of article keywords. Tags can be used instead",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -10666,6 +10694,7 @@
                 "size",
                 "funding",
                 "funding_list",
+                "tags",
                 "keywords",
                 "version",
                 "is_metadata_record",
@@ -10768,6 +10797,7 @@
                 "funding",
                 "funding_list",
                 "array[integer](optional)",
+                "tags",
                 "keywords",
                 "version",
                 "is_metadata_record",
@@ -10839,6 +10869,7 @@
                 "description",
                 "categories",
                 "references",
+                "tags",
                 "keywords",
                 "authors",
                 "institution_id",
@@ -10943,9 +10974,20 @@
                         }
                     ]
                 },
+                "tags": {
+                    "type": "array",
+                    "description": "List of collection tags. Keywords can be used instead",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "t1",
+                        "t2"
+                    ]
+                },
                 "keywords": {
                     "type": "array",
-                    "description": "List of collection keywords",
+                    "description": "List of collection keywords. Tags can be used instead",
                     "items": {
                         "type": "string"
                     },
@@ -11001,7 +11043,7 @@
                     "type": "array",
                     "description": "Collection custom fields",
                     "items": {
-                        "$ref": "#/definitions/CustomArticleField"
+                        "$ref": "#/definitions/ShortCustomField"
                     }
                 },
                 "modified_date": {
@@ -11030,9 +11072,7 @@
                 "title",
                 "path",
                 "source_id",
-                "taxonomy_id",
-                "has_children",
-                "is_selectable"
+                "taxonomy_id"
             ],
             "properties": {
                 "parent_id": {
@@ -11067,16 +11107,6 @@
                     "format": "int64",
                     "description": "Internal id of taxonomy the category is part of",
                     "example": 4
-                },
-                "has_children": {
-                    "type": "boolean",
-                    "example": false,
-                    "description": "True if category has children"
-                },
-                "is_selectable": {
-                    "type": "boolean",
-                    "example": true,
-                    "description": "The selectable status"
                 }
             }
         },
@@ -11512,11 +11542,7 @@
                 "last_name",
                 "is_active",
                 "url_name",
-                "orcid_id",
-                "group_id",
-                "is_public",
-                "institution_id",
-                "job_title"
+                "orcid_id"
             ],
             "properties": {
                 "id": {
@@ -11554,26 +11580,6 @@
                     "type": "string",
                     "description": "Author Orcid",
                     "example": "1234-5678-9123-1234"
-                },
-                "group_id": {
-                    "type": "integer",
-                    "description": "Author group id",
-                    "format": "int64",
-                    "example": 0
-                },
-                "is_public": {
-                    "type": "boolean",
-                    "description": "True if author is public",
-                    "example": true
-                },
-                "institution_id": {
-                    "type": "integer",
-                    "format": "int64",
-                    "description": "Institution id"
-                },
-                "job_title": {
-                    "type": "string",
-                    "description": "Job title"
                 }
             }
         },
@@ -12277,6 +12283,7 @@
                 "categories",
                 "references",
                 "related_materials",
+                "tags",
                 "keywords",
                 "authors",
                 "institution_id",
@@ -12375,9 +12382,20 @@
                         }
                     ]
                 },
+                "tags": {
+                    "type": "array",
+                    "description": "List of collection tags. Keywords can be used instead",
+                    "items": {
+                        "type": "string"
+                    },
+                    "example": [
+                        "t1",
+                        "t2"
+                    ]
+                },
                 "keywords": {
                     "type": "array",
-                    "description": "List of collection keywords",
+                    "description": "List of collection keywords. Tags can be used instead",
                     "items": {
                         "type": "string"
                     },
