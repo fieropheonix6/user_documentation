@@ -6682,7 +6682,7 @@
                     "200": {
                         "description": "OK. Article representation",
                         "schema": {
-                            "$ref": "#/definitions/PrivateProjectArticle"
+                            "$ref": "#/definitions/ArticleCompletePrivate"
                         }
                     },
                     "400": {
@@ -7168,7 +7168,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Category"
+                                "$ref": "#/definitions/CategoryList"
                             }
                         }
                     },
@@ -7606,7 +7606,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Category"
+                                "$ref": "#/definitions/CategoryList"
                             }
                         }
                     },
@@ -13516,6 +13516,70 @@
                 "taxonomy_id"
             ],
             "properties": {
+                "parent_id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Parent category",
+                    "example": 1
+                },
+                "id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Category id",
+                    "example": 11
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Category title",
+                    "example": "Anatomy"
+                },
+                "path": {
+                    "type": "string",
+                    "description": "Path to all ancestor ids",
+                    "example": "/450/1024/6532"
+                },
+                "source_id": {
+                    "type": "string",
+                    "description": "ID in original standard taxonomy",
+                    "example": "300204"
+                },
+                "taxonomy_id": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Internal id of taxonomy the category is part of",
+                    "example": 4
+                }
+            }
+        },
+        "CategoryList": {
+            "x-tag": "common",
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/Category"
+                }
+            ],
+            "required": [
+                "parent_id",
+                "id",
+                "title",
+                "path",
+                "source_id",
+                "taxonomy_id",
+                "is_selectable",
+                "has_children"
+            ],
+            "properties": {
+                "is_selectable": {
+                    "type": "boolean",
+                    "example": true,
+                    "description": "The selectable status"
+                },
+                "has_children": {
+                    "type": "boolean",
+                    "example": false,
+                    "description": "True if category has children"
+                },
                 "parent_id": {
                     "type": "integer",
                     "format": "int64",
