@@ -5998,7 +5998,7 @@
                     "200": {
                         "description": "OK. Article representation",
                         "schema": {
-                            "$ref": "#/definitions/PrivateProjectArticle"
+                            "$ref": "#/definitions/ArticleCompletePrivate"
                         }
                     },
                     "400": {
@@ -6433,7 +6433,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Category"
+                                "$ref": "#/definitions/CategoryList"
                             }
                         }
                     },
@@ -6871,7 +6871,7 @@
                         "schema": {
                             "type": "array",
                             "items": {
-                                "$ref": "#/definitions/Category"
+                                "$ref": "#/definitions/CategoryList"
                             }
                         }
                     },
@@ -11107,6 +11107,37 @@
                     "format": "int64",
                     "description": "Internal id of taxonomy the category is part of",
                     "example": 4
+                }
+            }
+        },
+        "CategoryList": {
+            "x-tag": "common",
+            "type": "object",
+            "allOf": [
+                {
+                    "$ref": "#/definitions/Category"
+                }
+            ],
+            "required": [
+                "parent_id",
+                "id",
+                "title",
+                "path",
+                "source_id",
+                "taxonomy_id",
+                "is_selectable",
+                "has_children"
+            ],
+            "properties": {
+                "is_selectable": {
+                    "type": "boolean",
+                    "example": true,
+                    "description": "The selectable status"
+                },
+                "has_children": {
+                    "type": "boolean",
+                    "example": false,
+                    "description": "True if category has children"
                 }
             }
         },
