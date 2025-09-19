@@ -9002,6 +9002,10 @@
                     "description": "Whether the field is mandatory or not",
                     "type": "boolean",
                     "example": false
+                },
+                "value": {
+                    "description": "Custom metadata value (can be either a string or an array of strings)",
+                    "example": "value"
                 }
             }
         },
@@ -12920,7 +12924,8 @@
                 "thumb",
                 "defined_type",
                 "defined_type_name",
-                "download_disabled"
+                "download_disabled",
+                "curation_status"
             ],
             "properties": {
                 "group_resource_id": {
@@ -12936,6 +12941,11 @@
                     "format": "int64",
                     "description": "ID of the account owning the article",
                     "example": 1000001
+                },
+                "curation_status": {
+                    "type": "string",
+                    "description": "Curation status of the article",
+                    "example": "approved"
                 },
                 "figshare_url": {
                     "type": "string",
