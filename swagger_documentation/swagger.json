@@ -8218,10 +8218,6 @@
                     "description": "Whether the field is mandatory or not",
                     "type": "boolean",
                     "example": false
-                },
-                "value": {
-                    "description": "Custom metadata value (can be either a string or an array of strings)",
-                    "example": "value"
                 }
             }
         },
