@@ -13460,7 +13460,7 @@
                     "type": "array",
                     "description": "Collection custom fields",
                     "items": {
-                        "$ref": "#/definitions/ShortCustomField"
+                        "$ref": "#/definitions/CustomArticleField"
                     }
                 },
                 "modified_date": {
@@ -13885,7 +13885,8 @@
                 "value",
                 "field_type",
                 "settings",
-                "order"
+                "order",
+                "is_mandatory"
             ],
             "properties": {
                 "name": {
@@ -13927,6 +13928,11 @@
                     "type": "integer",
                     "format": "int64",
                     "example": 1
+                },
+                "is_mandatory": {
+                    "description": "Whether the field is mandatory or not",
+                    "type": "boolean",
+                    "example": false
                 }
             }
         },
