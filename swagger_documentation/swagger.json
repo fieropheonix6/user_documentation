@@ -11872,7 +11872,8 @@
                 "quota",
                 "used_quota",
                 "user_id",
-                "orcid_id"
+                "orcid_id",
+                "symplectic_user_id"
             ],
             "properties": {
                 "id": {
@@ -11935,6 +11936,11 @@
                     "type": "string",
                     "description": "ORCID iD associated to account",
                     "example": "0000-0001-2345-6789"
+                },
+                "symplectic_user_id": {
+                    "type": "string",
+                    "description": "Symplectic ID associated to account",
+                    "example": "djohn42"
                 }
             }
         },
