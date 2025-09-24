@@ -7193,6 +7193,55 @@
             }
         },
         "/account/institution/accounts/{account_id}": {
+            "get": {
+                "tags": [
+                    "institutions"
+                ],
+                "operationId": "private_institution_account",
+                "summary": "Private Institution Account information",
+                "description": "Private Institution Account information",
+                "security": [
+                    {
+                        "OAuth2": [
+                            "all"
+                        ]
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "account_id",
+                        "in": "path",
+                        "description": "Account identifier the user is associated to",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK. Account",
+                        "schema": {
+                            "$ref": "#/definitions/Account"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            },
             "put": {
                 "tags": [
                     "institutions"
@@ -11698,7 +11747,8 @@
                 "active",
                 "maximum_file_size",
                 "user_id",
-                "orcid_id"
+                "orcid_id",
+                "symplectic_user_id"
             ],
             "properties": {
                 "id": {
@@ -11800,6 +11850,11 @@
                     "type": "string",
                     "description": "ORCID iD associated to account",
                     "example": "0000-0001-2345-6789"
+                },
+                "symplectic_user_id": {
+                    "type": "string",
+                    "description": "Symplectic ID associated to account",
+                    "example": "djohn42"
                 }
             }
         },
