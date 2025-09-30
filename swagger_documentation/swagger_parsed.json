@@ -5106,6 +5106,63 @@
                     "type": "string"
                 }
             ],
+            "get": {
+                "tags": [
+                    "collections"
+                ],
+                "x-subcategory": "Private Collection Private Links",
+                "operationId": "private_collection_private_link_details",
+                "summary": "View collection private link",
+                "description": "View existing private link for this collection",
+                "security": [
+                    {
+                        "OAuth2": [
+                            "all"
+                        ]
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK. Collection private link",
+                        "schema": {
+                            "$ref": "#/definitions/PrivateLink"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorMessage"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                },
+                "parameters": [
+                    {
+                        "name": "collection_id",
+                        "in": "path",
+                        "description": "Collection unique identifier",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    {
+                        "name": "link_id",
+                        "in": "path",
+                        "description": "Private link token",
+                        "required": true,
+                        "type": "string"
+                    }
+                ]
+            },
             "put": {
                 "tags": [
                     "collections"
