@@ -713,7 +713,7 @@ margin-bottom: 20px;
         defs["ArticleEmbargoUpdater"] = {"type":"object","required":["embargo_date","embargo_type","is_embargoed"],"properties":{"is_embargoed":{"type":"boolean","example":true,"description":"Embargo status"},"embargo_date":{"type":"string","example":"2018-05-22T04:04:04","description":"Date when the embargo expires and the article gets published, '0' value will set up permanent embargo"},"embargo_type":{"type":"string","example":"file","description":"Embargo can be enabled at the article or the file level. Possible values: article, file","enum":["article","file"]},"embargo_title":{"type":"string","example":"File(s) under embargo","description":"Title for embargo"},"embargo_reason":{"type":"string","example":"","description":"Reason for setting embargo"},"embargo_options":{"type":"array","example":[{"id":1321},{"id":3345},{"id":54621,"group_ids":[4332,5433,678]}],"description":"List of embargo permissions to be associated with the article. The list must contain `id` and can also contain `group_ids`(a field that only applies to 'logged_in' permissions). The new list replaces old options in the database, and an empty list removes all permissions for this article. Administration permission has to be set up alone but logged in and IP range permissions can be set up together.","items":{"type":"object","properties":{}}}},"x-tag":"articles"};
         defs["ArticleHandle"] = {"type":"object","required":["handle"],"properties":{"handle":{"type":"string","example":"11172/FK2.FIGSHARE.20345","description":"Reserved Handle"}},"x-tag":"articles"};
         defs["ArticleProjectCreate"] = {"type":"object","required":["title"],"properties":{"title":{"type":"string","example":"Test article title","description":"Title of article","minLength":3,"maxLength":1000},"description":{"type":"string","example":"Test description of article","description":"The article description. In a publisher case, usually this is the remote article description","maxLength":20000,"default":""},"tags":{"type":"array","example":["tag1","tag2"],"description":"List of tags to be associated with the article. Keywords can be used instead","items":{"type":"string"}},"keywords":{"type":"array","example":["tag1","tag2"],"description":"List of tags to be associated with the article. Tags can be used instead","items":{"type":"string"}},"references":{"type":"array","example":["http://figshare.com","http://api.figshare.com"],"description":"List of links to be associated with the article (e.g [\"http://link1\", \"http://link2\", \"http://link3\"])","items":{"type":"string","format":"link"}},"related_materials":{"type":"array","example":[{"id":10432,"identifier":"10.6084/m9.figshare.1407024","identifier_type":"DOI","relation":"IsSupplementTo","title":"Figshare for institutions brochure","is_linkout":false}],"description":"List of related materials; supersedes references and resource DOI/title.","items":{"$ref":"#/definitions/RelatedMaterial"}},"categories":{"type":"array","example":[1,10,11],"description":"List of category ids to be associated with the article(e.g [1, 23, 33, 66])","items":{"type":"integer","format":"int64"}},"categories_by_source_id":{"type":"array","example":["300204","400207"],"description":"List of category source ids to be associated with the article, supersedes the categories property","items":{"type":"string"}},"authors":{"type":"array","example":[{"name":"John Doe"},{"id":1000008}],"description":"List of authors to be associated with the article. The list can contain the following fields: id, name, first_name, last_name, email, orcid_id. If an id is supplied, it will take priority and everything else will be ignored. For adding more authors use the specific authors endpoint.","items":{"type":"object","properties":{}}},"custom_fields":{"type":"object","example":{"defined_key":"value for it"},"description":"List of key, values pairs to be associated with the article","properties":{}},"custom_fields_list":{"type":"array","description":"List of custom fields values, supersedes custom_fields parameter","items":{"$ref":"#/definitions/CustomArticleFieldAdd"}},"defined_type":{"type":"string","example":"media","description":"<b>One of:</b> <code>figure</code> <code>online resource</code> <code>preprint</code> <code>book</code> <code>conference contribution</code> <code>media</code> <code>dataset</code> <code>poster</code> <code>journal contribution</code> <code>presentation</code> <code>thesis</code> <code>software</code>"},"funding":{"type":"string","description":"Grant number or funding authority","default":""},"funding_list":{"type":"array","description":"Funding creation / update items","items":{"$ref":"#/definitions/FundingCreate"}},"license":{"type":"integer","format":"int64","example":1,"description":"License id for this article.","default":0},"doi":{"type":"string","description":"Not applicable for regular users. In an institutional case, make sure your group supports setting DOIs. This setting is applied by figshare via opening a ticket through our support/helpdesk system.","default":""},"handle":{"type":"string","description":"Not applicable for regular users. In an institutional case, make sure your group supports setting Handles. This setting is applied by figshare via opening a ticket through our support/helpdesk system.","default":""},"resource_doi":{"type":"string","description":"Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article DOI.","default":""},"resource_title":{"type":"string","description":"Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article title.","default":""},"timeline":{"description":"Various timeline dates","$ref":"#/definitions/TimelineUpdate"}},"x-tag":"articles"};
-        defs["ArticleSearch"] = {"properties":{"resource_doi":{"type":"string","example":"10.6084/m9.figshare.1407024","description":"Only return articles with this resource_doi"},"item_type":{"type":"integer","format":"int64","example":1,"description":"Only return articles with the respective type. Mapping for item_type is: 1 - Figure, 2 - Media, 3 - Dataset, 5 - Poster, 6 - Journal contribution, 7 - Presentation, 8 - Thesis, 9 - Software, 11 - Online resource, 12 - Preprint, 13 - Book, 14 - Conference contribution, 15 - Chapter, 16 - Peer review, 17 - Educational resource, 18 - Report, 19 - Standard, 20 - Composition, 21 - Funding, 22 - Physical object, 23 - Data management plan, 24 - Workflow, 25 - Monograph, 26 - Performance, 27 - Event, 28 - Service, 29 - Model"},"doi":{"type":"string","example":"10.6084/m9.figshare.1407024","description":"Only return articles with this doi"},"handle":{"type":"string","example":"111084/m9.figshare.14074","description":"Only return articles with this handle"},"project_id":{"type":"integer","format":"int64","example":1,"description":"Only return articles in this project"},"order":{"type":"string","example":"published_date","description":"The field by which to order","enum":["created_date","published_date","modified_date","views","shares","downloads","cites"],"default":"created_date"}},"allOf":[{"$ref":"#/definitions/CommonSearch"}],"x-tag":"articles"};
+        defs["ArticleSearch"] = {"properties":{"resource_doi":{"type":"string","example":"10.6084/m9.figshare.1407024","description":"Only return articles with this resource_doi"},"item_type":{"type":"integer","format":"int64","example":1,"description":"Only return articles with the respective type. Mapping for item_type is: 1 - Figure, 2 - Media, 3 - Dataset, 5 - Poster, 6 - Journal contribution, 7 - Presentation, 8 - Thesis, 9 - Software, 11 - Online resource, 12 - Preprint, 13 - Book, 14 - Conference contribution, 15 - Chapter, 16 - Peer review, 17 - Educational resource, 18 - Report, 19 - Standard, 20 - Composition, 21 - Funding, 22 - Physical object, 23 - Data management plan, 24 - Workflow, 25 - Monograph, 26 - Performance, 27 - Event, 28 - Service, 29 - Model"},"doi":{"type":"string","example":"10.6084/m9.figshare.1407024","description":"Only return articles with this doi"},"handle":{"type":"string","example":"111084/m9.figshare.14074","description":"Only return articles with this handle"},"project_id":{"type":"integer","format":"int64","example":1,"description":"Only return articles in this project"},"order":{"type":"string","example":"published_date","description":"The field by which to order","default":"created_date","enum":["created_date","published_date","modified_date","views","shares","downloads","cites"]}},"allOf":[{"$ref":"#/definitions/CommonSearch"}],"x-tag":"articles"};
         defs["ArticleUnpublishData"] = {"type":"object","required":["reason"],"properties":{"reason":{"type":"string","example":"Unpublish article reason","description":"Reason of article unpublishing","minLength":5,"maxLength":500}},"x-tag":"articles"};
         defs["ArticleUpdate"] = {"type":"object","properties":{"title":{"type":"string","example":"Test article title","description":"Title of article","minLength":3,"maxLength":1000},"description":{"type":"string","example":"Test description of article","description":"The article description. In a publisher case, usually this is the remote article description","maxLength":20000,"default":""},"is_metadata_record":{"type":"boolean","example":true,"description":"True if article has no files"},"metadata_reason":{"type":"string","example":"hosted somewhere else","description":"Article metadata reason"},"tags":{"type":"array","example":["tag1","tag2"],"description":"List of tags to be associated with the article. Keywords can be used instead","items":{"type":"string"}},"keywords":{"type":"array","example":["tag1","tag2"],"description":"List of tags to be associated with the article. Tags can be used instead","items":{"type":"string"}},"references":{"type":"array","example":["http://figshare.com","http://api.figshare.com"],"description":"List of links to be associated with the article (e.g [\"http://link1\", \"http://link2\", \"http://link3\"])","items":{"type":"string","format":"link"}},"related_materials":{"type":"array","example":[{"id":10432,"identifier":"10.6084/m9.figshare.1407024","identifier_type":"DOI","relation":"IsSupplementTo","title":"Figshare for institutions brochure","is_linkout":false}],"description":"List of related materials; supersedes references and resource DOI/title.","items":{"$ref":"#/definitions/RelatedMaterial"}},"categories":{"type":"array","example":[1,10,11],"description":"List of category ids to be associated with the article(e.g [1, 23, 33, 66])","items":{"type":"integer","format":"int64"}},"categories_by_source_id":{"type":"array","example":["300204","400207"],"description":"List of category source ids to be associated with the article, supersedes the categories property","items":{"type":"string"}},"authors":{"type":"array","example":[{"name":"John Doe"},{"id":1000008}],"description":"List of authors to be associated with the article. The list can contain the following fields: id, name, first_name, last_name, email, orcid_id. If an id is supplied, it will take priority and everything else will be ignored. For adding more authors use the specific authors endpoint.","items":{"type":"object","properties":{}}},"custom_fields":{"type":"object","example":{"defined_key":"value for it"},"description":"List of key, values pairs to be associated with the article","properties":{}},"custom_fields_list":{"type":"array","description":"List of custom fields values, supersedes custom_fields parameter","items":{"$ref":"#/definitions/CustomArticleFieldAdd"}},"defined_type":{"type":"string","example":"media","description":"<b>One of:</b> <code>figure</code> <code>online resource</code> <code>preprint</code> <code>book</code> <code>conference contribution</code> <code>media</code> <code>dataset</code> <code>poster</code> <code>journal contribution</code> <code>presentation</code> <code>thesis</code> <code>software</code>"},"funding":{"type":"string","description":"Grant number or funding authority","default":""},"funding_list":{"type":"array","description":"Funding creation / update items","items":{"$ref":"#/definitions/FundingCreate"}},"license":{"type":"integer","format":"int64","example":1,"description":"License id for this article.","default":0},"doi":{"type":"string","description":"Not applicable for regular users. In an institutional case, make sure your group supports setting DOIs. This setting is applied by figshare via opening a ticket through our support/helpdesk system.","default":""},"handle":{"type":"string","description":"Not applicable for regular users. In an institutional case, make sure your group supports setting Handles. This setting is applied by figshare via opening a ticket through our support/helpdesk system.","default":""},"resource_doi":{"type":"string","description":"Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article DOI.","default":""},"resource_title":{"type":"string","description":"Deprecated by related materials. Not applicable to regular users. In a publisher case, this is the publisher article title.","default":""},"timeline":{"description":"Various timeline dates","$ref":"#/definitions/TimelineUpdate"},"download_disabled":{"type":"boolean","example":false,"description":"If true, downloading of files for this article is disabled"},"group_id":{"type":"integer","format":"int64","description":"Not applicable to regular users. This field is reserved to institutions/publishers with access to assign to specific groups"}},"x-tag":"articles"};
         defs["ArticleVersionUpdate"] = {"type":"object","properties":{"supplementary_fields":{"type":"array","example":[{"name":"abc","value":"def"},{"name":"fname","value":"fvalue"}],"description":"List of supplementary fields to be associated with the article version","items":{"type":"object","properties":{}}},"internal_metadata":{"type":"object","example":{"curation_review_date":"2021-11-16T13:03:38","export_pdf_download_url":null},"description":"List of supplementary fields to be associated with the article version","properties":{}}},"x-tag":"article_version"};
@@ -734,10 +734,10 @@ margin-bottom: 20px;
         defs["CollectionDOI"] = {"type":"object","required":["doi"],"properties":{"doi":{"type":"string","example":"10.5072/FK2.FIGSHARE.20345","description":"Reserved DOI"}},"x-tag":"collections"};
         defs["CollectionHandle"] = {"type":"object","required":["handle"],"properties":{"handle":{"type":"string","example":"11172/FK2.FIGSHARE.20345","description":"Reserved Handle"}},"x-tag":"collections"};
         defs["CollectionPrivateLinkCreator"] = {"type":"object","properties":{"expires_date":{"type":"string","example":"2018-02-22 22:22:22","description":"Date when this private link should expire - optional. By default private links expire in 365 days."}},"x-tag":"collections"};
-        defs["CollectionSearch"] = {"properties":{"resource_doi":{"type":"string","example":"10.6084/m9.figshare.1407024","description":"Only return collections with this resource_doi"},"doi":{"type":"string","example":"10.6084/m9.figshare.1407024","description":"Only return collections with this doi"},"handle":{"type":"string","example":"10084/figshare.1407024","description":"Only return collections with this handle"},"order":{"type":"string","example":"published_date","description":"The field by which to order.","enum":["created_date","published_date","modified_date","views","shares","cites"],"default":"created_date"}},"allOf":[{"$ref":"#/definitions/CommonSearch"}],"x-tag":"collections"};
+        defs["CollectionSearch"] = {"properties":{"resource_doi":{"type":"string","example":"10.6084/m9.figshare.1407024","description":"Only return collections with this resource_doi"},"doi":{"type":"string","example":"10.6084/m9.figshare.1407024","description":"Only return collections with this doi"},"handle":{"type":"string","example":"10084/figshare.1407024","description":"Only return collections with this handle"},"order":{"type":"string","example":"published_date","description":"The field by which to order.","default":"created_date","enum":["created_date","published_date","modified_date","views","shares","cites"]}},"allOf":[{"$ref":"#/definitions/CommonSearch"}],"x-tag":"collections"};
         defs["CollectionUpdate"] = {"type":"object","properties":{"funding":{"type":"string","description":"Grant number or funding authority","default":""},"funding_list":{"type":"array","description":"Funding creation / update items","items":{"$ref":"#/definitions/FundingCreate"}},"title":{"type":"string","example":"Test collection title","description":"Title of collection","minLength":3,"maxLength":1000},"description":{"type":"string","example":"Test description of collection","description":"The collection description. In a publisher case, usually this is the remote collection description","maxLength":20000,"default":""},"articles":{"type":"array","example":[2000001,2000005],"description":"List of articles to be associated with the collection","items":{"type":"integer"}},"authors":{"type":"array","example":[{"name":"John Doe"},{"id":20005}],"description":"List of authors to be associated with the collection. The list can contain the following fields: id, name, first_name, last_name, email, orcid_id. If an id is supplied, it will take priority and everything else will be ignored. For adding more authors use the specific authors endpoint.","items":{"type":"object","properties":{}}},"categories":{"type":"array","example":[1,10,11],"description":"List of category ids to be associated with the collection (e.g [1, 23, 33, 66])","items":{"type":"integer","format":"int64"}},"categories_by_source_id":{"type":"array","example":["300204","400207"],"description":"List of category source ids to be associated with the article, supersedes the categories property","items":{"type":"string"}},"tags":{"type":"array","example":["tag1","tag2"],"description":"List of tags to be associated with the collection. Keywords can be used instead","items":{"type":"string"}},"keywords":{"type":"array","example":["tag1","tag2"],"description":"List of tags to be associated with the collection. Tags can be used instead","items":{"type":"string"}},"references":{"type":"array","example":["http://figshare.com","http://api.figshare.com"],"description":"List of links to be associated with the collection (e.g [\"http://link1\", \"http://link2\", \"http://link3\"])","items":{"type":"string","format":"link"}},"related_materials":{"type":"array","example":[{"id":10432,"identifier":"10.6084/m9.figshare.1407024","identifier_type":"DOI","relation":"IsSupplementTo","title":"Figshare for institutions brochure","is_linkout":false}],"description":"List of related materials; supersedes references and resource DOI/title.","items":{"$ref":"#/definitions/RelatedMaterial"}},"custom_fields":{"type":"object","example":{"defined_key":"value for it"},"description":"List of key, values pairs to be associated with the collection","properties":{}},"custom_fields_list":{"type":"array","description":"List of custom fields values, supersedes custom_fields parameter","items":{"$ref":"#/definitions/CustomArticleFieldAdd"}},"doi":{"type":"string","description":"Not applicable for regular users. In an institutional case, make sure your group supports setting DOIs. This setting is applied by figshare via opening a ticket through our support/helpdesk system.","default":""},"handle":{"type":"string","description":"Not applicable for regular users. In an institutional case, make sure your group supports setting Handles. This setting is applied by figshare via opening a ticket through our support/helpdesk system.","default":""},"resource_id":{"type":"string","description":"Not applicable to regular users. In a publisher case, this is the publisher article id"},"resource_doi":{"type":"string","description":"Not applicable to regular users. In a publisher case, this is the publisher article DOI.","default":""},"resource_link":{"type":"string","description":"Not applicable to regular users. In a publisher case, this is the publisher article link"},"resource_title":{"type":"string","description":"Not applicable to regular users. In a publisher case, this is the publisher article title.","default":""},"resource_version":{"type":"integer","description":"Not applicable to regular users. In a publisher case, this is the publisher article version"},"group_id":{"type":"integer","format":"int64","description":"Not applicable to regular users. This field is reserved to institutions/publishers with access to assign to specific groups"},"timeline":{"description":"Various timeline dates","$ref":"#/definitions/TimelineUpdate"}},"x-tag":"collections"};
         defs["CollectionVersions"] = {"type":"object","required":["funding","url","version"],"properties":{"version":{"type":"integer","format":"int64","example":1,"description":"Version number"},"url":{"type":"string","format":"url","example":"https://api.figshare.com/v2/collections/2000005/versions/1","description":"Api endpoint for the collection version"},"funding":{"type":"array","description":"Full Collection funding information","items":{"$ref":"#/definitions/FundingInformation"}}},"x-tag":"collections"};
-        defs["CommonSearch"] = {"type":"object","properties":{"search_for":{"type":"string","example":"figshare","description":"Search term"},"page":{"type":"integer","format":"int64","example":1,"description":"Page number. Used for pagination with page_size","minimum":1,"maximum":5000},"page_size":{"type":"integer","format":"int64","example":10,"description":"The number of results included on a page. Used for pagination with page","minimum":1,"maximum":1000,"default":10},"limit":{"type":"integer","format":"int64","example":10,"description":"Number of results included on a page. Used for pagination with query","minimum":1,"maximum":1000},"offset":{"type":"integer","format":"int64","example":0,"description":"Where to start the listing(the offset of the first result). Used for pagination with limit","minimum":0,"maximum":5000},"order_direction":{"type":"string","example":"desc","description":"Direction of ordering","enum":["asc","desc"],"default":"desc"},"institution":{"type":"integer","format":"int32","example":2000013,"description":"only return collections from this institution"},"published_since":{"type":"string","example":"2017-12-22","description":"Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ"},"modified_since":{"type":"string","example":"2017-12-22","description":"Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ"},"group":{"type":"integer","format":"int32","example":2000013,"description":"only return collections from this group"}},"x-tag":"common"};
+        defs["CommonSearch"] = {"type":"object","properties":{"search_for":{"type":"string","example":"figshare","description":"Search term"},"page":{"type":"integer","format":"int64","example":1,"description":"Page number. Used for pagination with page_size","minimum":1,"maximum":5000},"page_size":{"type":"integer","format":"int64","example":10,"description":"The number of results included on a page. Used for pagination with page","minimum":1,"maximum":1000,"default":10},"limit":{"type":"integer","format":"int64","example":10,"description":"Number of results included on a page. Used for pagination with query","minimum":1,"maximum":1000},"offset":{"type":"integer","format":"int64","example":0,"description":"Where to start the listing(the offset of the first result). Used for pagination with limit","minimum":0,"maximum":5000},"order_direction":{"type":"string","example":"desc","description":"Direction of ordering","default":"desc","enum":["asc","desc"]},"institution":{"type":"integer","format":"int32","example":2000013,"description":"only return collections from this institution"},"published_since":{"type":"string","example":"2017-12-22","description":"Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ"},"modified_since":{"type":"string","example":"2017-12-22","description":"Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ"},"group":{"type":"integer","format":"int32","example":2000013,"description":"only return collections from this group"}},"x-tag":"common"};
         defs["ConfidentialityCreator"] = {"type":"object","required":["reason"],"properties":{"reason":{"type":"string","description":"Reason for confidentiality"}}};
         defs["CreateProjectResponse"] = {"type":"object","required":["entity_id","location"],"properties":{"entity_id":{"type":"integer","format":"int64","example":33334444,"description":"Figshare ID of the entity"},"location":{"type":"string","format":"url","description":"Url for entity"}},"x-tag":"common"};
         defs["Curation"] = {"type":"object","required":["account_id","article_id","assigned_to","comments_count","created_date","group_id","id","modified_date","request_number","resolution_comment","status","version"],"properties":{"id":{"type":"integer","format":"int64","description":"The review id"},"group_id":{"type":"integer","format":"int64","description":"The group in which the article is present."},"account_id":{"type":"integer","format":"int64","description":"The ID of the account of the owner of the article of this review."},"assigned_to":{"type":"integer","format":"int64","description":"The ID of the account to which this review is assigned."},"article_id":{"type":"integer","format":"int64","description":"The ID of the article of this review."},"version":{"type":"integer","format":"int64","description":"The Version number of the article in review."},"comments_count":{"type":"integer","format":"int64","description":"The number of comments in the review."},"status":{"type":"string","description":"The status of the review.","enum":["pending","approved","rejected","closed"]},"created_date":{"type":"string","description":"The creation date of the review."},"modified_date":{"type":"string","description":"The date the review has been modified."},"request_number":{"type":"integer","format":"int64","description":"The request number of the review."},"resolution_comment":{"type":"string","description":"The resolution comment of the review."}},"x-tag":"institutions"};
@@ -783,9 +783,9 @@ margin-bottom: 20px;
         defs["ProjectNotePrivate"] = {"properties":{"text":{"type":"string","example":"text","description":"Full text of note"}},"required":["text"],"allOf":[{"$ref":"#/definitions/ProjectNote"}],"x-tag":"projects"};
         defs["ProjectPrivate"] = {"properties":{"role":{"type":"string","example":"Owner","description":"Role inside this project","enum":["Owner","Collaborator","Viewer"]},"storage":{"type":"string","example":"individual","description":"Project storage type","enum":["individual","group"]}},"required":["role","storage"],"allOf":[{"$ref":"#/definitions/Project"}],"x-tag":"projects"};
         defs["ProjectUpdate"] = {"type":"object","properties":{"title":{"type":"string","example":"project title","description":"The title for this project - mandatory. 3 - 1000 characters.","minLength":3,"maxLength":1000},"description":{"type":"string","example":"project description","description":"Project description","maxLength":20000},"funding":{"type":"string","example":"","description":"Grant number or organization(s) that funded this project. Up to 2000 characters permitted."},"funding_list":{"type":"array","description":"Funding creation / update items","items":{"$ref":"#/definitions/FundingCreate"}},"custom_fields":{"type":"object","example":{"defined_key":"value for it"},"description":"List of key, values pairs to be associated with the project","properties":{}},"custom_fields_list":{"type":"array","description":"List of custom fields values, supersedes custom_fields parameter","items":{"$ref":"#/definitions/CustomArticleFieldAdd"}}},"x-tag":"projects"};
-        defs["ProjectsSearch"] = {"properties":{"order":{"type":"string","example":"published_date","description":"The field by which to order.","enum":["published_date","modified_date","views"],"default":"published_date"}},"allOf":[{"$ref":"#/definitions/CommonSearch"}],"x-tag":"projects"};
+        defs["ProjectsSearch"] = {"properties":{"order":{"type":"string","example":"published_date","description":"The field by which to order.","default":"published_date","enum":["published_date","modified_date","views"]}},"allOf":[{"$ref":"#/definitions/CommonSearch"}],"x-tag":"projects"};
         defs["PublicFile"] = {"type":"object","required":["computed_md5","download_url","id","is_link_only","name","size","supplied_md5"],"properties":{"id":{"type":"integer","format":"int64","example":3000002,"description":"File id"},"name":{"type":"string","example":"test.xls","description":"File name"},"size":{"type":"integer","format":"int64","example":14848,"description":"File size"},"is_link_only":{"type":"boolean","example":false,"description":"True if file is hosted somewhere else"},"download_url":{"type":"string","format":"url","example":"https://ndownloader.figshare.com/files/3000002","description":"Url for file download"},"supplied_md5":{"type":"string","example":"043a51806d646e88cafbf19e7b82846f","description":"File supplied md5"},"computed_md5":{"type":"string","example":"043a51806d646e88cafbf19e7b82846f","description":"File computed md5"},"mimetype":{"type":"string","example":"application/pdf","description":"MIME Type of the file, it defaults to an empty string"}},"x-tag":"common"};
-        defs["RelatedMaterial"] = {"type":"object","properties":{"id":{"type":"integer","format":"int64","example":10432,"description":"The ID of the related material; can be used to add existing materials of the same account to items."},"identifier":{"type":"string","example":"10.6084/m9.figshare.1407024","description":"The related material identifier (e.g., DOI, Handle, ISBN). Mandatory if creating a new material."},"title":{"type":"string","example":"Rooter: A Methodology for the Typical Unification of Access Points and Redundancy","description":"The related material title"},"relation":{"type":"string","example":"IsSupplementTo","description":"The relation between the item and the related material; defaults to 'References'. Mandatory if creating a new material.","enum":["IsCitedBy","Cites","IsSupplementTo","IsSupplementedBy","IsContinuedBy","Continues","Describes","IsDescribedBy","HasMetadata","IsMetadataFor","HasVersion","IsVersionOf","IsNewVersionOf","IsPreviousVersionOf","IsPartOf","HasPart","IsPublishedIn","IsReferencedBy","References","IsDocumentedBy","Documents","IsCompiledBy","Compiles","IsVariantFormOf","IsOriginalFormOf","IsIdenticalTo","IsReviewedBy","Reviews","IsDerivedFrom","IsSourceOf","IsRequiredBy","Requires","IsObsoletedBy","Obsoletes"],"default":"References"},"identifier_type":{"type":"string","example":"DOI","description":"The type of the identifier of the related material; defaults to 'URL'. Mandatory if creating a new material.","enum":["ARK","arXiv","bibcode","DOI","EAN13","EISSN","Handle","IGSN","ISBN","ISSN","ISTC","LISSN","LSID","PMID","PURL","UPC","URL","URN","w3id"],"default":"URL"},"is_linkout":{"type":"boolean","example":true,"description":"Flag for highlighting this related material in the call-out box"},"link":{"type":"string","example":"https://doi.org/10.6084/m9.figshare.1407024","description":"The full hyperlink for the identifier. Automatically generated by Figshare.","readOnly":true}}};
+        defs["RelatedMaterial"] = {"type":"object","properties":{"id":{"type":"integer","format":"int64","example":10432,"description":"The ID of the related material; can be used to add existing materials of the same account to items."},"identifier":{"type":"string","example":"10.6084/m9.figshare.1407024","description":"The related material identifier (e.g., DOI, Handle, ISBN). Mandatory if creating a new material."},"title":{"type":"string","example":"Rooter: A Methodology for the Typical Unification of Access Points and Redundancy","description":"The related material title"},"relation":{"type":"string","example":"IsSupplementTo","description":"The relation between the item and the related material; defaults to 'References'. Mandatory if creating a new material.","default":"References","enum":["IsCitedBy","Cites","IsSupplementTo","IsSupplementedBy","IsContinuedBy","Continues","Describes","IsDescribedBy","HasMetadata","IsMetadataFor","HasVersion","IsVersionOf","IsNewVersionOf","IsPreviousVersionOf","IsPartOf","HasPart","IsPublishedIn","IsReferencedBy","References","IsDocumentedBy","Documents","IsCompiledBy","Compiles","IsVariantFormOf","IsOriginalFormOf","IsIdenticalTo","IsReviewedBy","Reviews","IsDerivedFrom","IsSourceOf","IsRequiredBy","Requires","IsObsoletedBy","Obsoletes"]},"identifier_type":{"type":"string","example":"DOI","description":"The type of the identifier of the related material; defaults to 'URL'. Mandatory if creating a new material.","default":"URL","enum":["ARK","arXiv","bibcode","DOI","EAN13","EISSN","Handle","IGSN","ISBN","ISSN","ISTC","LISSN","LSID","PMID","PURL","UPC","URL","URN","w3id"]},"is_linkout":{"type":"boolean","example":true,"description":"Flag for highlighting this related material in the call-out box"},"link":{"type":"string","example":"https://doi.org/10.6084/m9.figshare.1407024","description":"The full hyperlink for the identifier. Automatically generated by Figshare.","readOnly":true}}};
         defs["Resource"] = {"type":"object","properties":{"id":{"type":"string","example":"aaaa23512","description":"ID of resource item","maxLength":255,"default":""},"title":{"type":"string","example":"Test title","description":"Title of resource item","maxLength":1000,"default":""},"doi":{"type":"string","description":"DOI of resource item","default":""},"link":{"type":"string","example":"https://docs.figshare.com","description":"Link of resource item","maxLength":255,"default":""},"status":{"type":"string","example":"frozen","description":"Status of resource item","maxLength":100,"default":""},"version":{"type":"integer","format":"int64","example":1,"description":"Version of resource item","default":0}},"x-tag":"resource"};
         defs["ResponseMessage"] = {"type":"object","required":["message"],"properties":{"message":{"type":"string","example":"Project 1 has been published","description":"Response message text"}},"x-tag":"common"};
         defs["Role"] = {"type":"object","required":["category","description","id","name"],"properties":{"id":{"type":"integer","format":"int64","example":1,"description":"Role id"},"name":{"type":"string","example":"Curator","description":"Role name"},"category":{"type":"string","example":"group","description":"Role category"},"description":{"type":"string","description":"Role description"}},"x-tag":"institutions"};
@@ -842,6 +842,9 @@ margin-bottom: 20px;
                     </li>
                     <li data-group="Articles" data-name="articleVersionEmbargo" class="">
                       <a href="#api-Articles-articleVersionEmbargo">articleVersionEmbargo</a>
+                    </li>
+                    <li data-group="Articles" data-name="articleVersionPartialUpdate" class="">
+                      <a href="#api-Articles-articleVersionPartialUpdate">articleVersionPartialUpdate</a>
                     </li>
                     <li data-group="Articles" data-name="articleVersionUpdate" class="">
                       <a href="#api-Articles-articleVersionUpdate">articleVersionUpdate</a>
@@ -920,6 +923,9 @@ margin-bottom: 20px;
                     </li>
                     <li data-group="Articles" data-name="privateArticleFilesList" class="">
                       <a href="#api-Articles-privateArticleFilesList">privateArticleFilesList</a>
+                    </li>
+                    <li data-group="Articles" data-name="privateArticlePartialUpdate" class="">
+                      <a href="#api-Articles-privateArticlePartialUpdate">privateArticlePartialUpdate</a>
                     </li>
                     <li data-group="Articles" data-name="privateArticlePrivateLink" class="">
                       <a href="#api-Articles-privateArticlePrivateLink">privateArticlePrivateLink</a>
@@ -1033,6 +1039,9 @@ margin-bottom: 20px;
                     </li>
                     <li data-group="Collections" data-name="privateCollectionDetails" class="">
                       <a href="#api-Collections-privateCollectionDetails">privateCollectionDetails</a>
+                    </li>
+                    <li data-group="Collections" data-name="privateCollectionPatch" class="">
+                      <a href="#api-Collections-privateCollectionPatch">privateCollectionPatch</a>
                     </li>
                     <li data-group="Collections" data-name="privateCollectionPrivateLinkCreate" class="">
                       <a href="#api-Collections-privateCollectionPrivateLinkCreate">privateCollectionPrivateLinkCreate</a>
@@ -1226,6 +1235,9 @@ margin-bottom: 20px;
                     </li>
                     <li data-group="Projects" data-name="privateProjectNotesList" class="">
                       <a href="#api-Projects-privateProjectNotesList">privateProjectNotesList</a>
+                    </li>
+                    <li data-group="Projects" data-name="privateProjectPartialUpdate" class="">
+                      <a href="#api-Projects-privateProjectPartialUpdate">privateProjectPartialUpdate</a>
                     </li>
                     <li data-group="Projects" data-name="privateProjectPublish" class="">
                       <a href="#api-Projects-privateProjectPublish">privateProjectPublish</a>
@@ -3864,7 +3876,7 @@ except ApiException as e:
                         <p class="marked">Confidentiality for article version. The confidentiality feature is now deprecated. This has been replaced by the new extended embargo functionality and all items that used to be confidential have now been migrated to items with a permanent embargo on files. All API endpoints related to this functionality will remain for backwards compatibility, but will now be attached to the new extended embargo workflows.</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/articles/{article_id}/versions/{v_number}/confidentiality</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/articles/{article_id}/versions/{version_id}/confidentiality</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -3884,7 +3896,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Articles-articleVersionConfidentiality-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://api.figinternal.dev/v2/articles/{article_id}/versions/{v_number}/confidentiality"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://api.figinternal.dev/v2/articles/{article_id}/versions/{version_id}/confidentiality"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Articles-articleVersionConfidentiality-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -3901,9 +3913,9 @@ public class ArticlesApiExample {
         
         ArticlesApi apiInstance = new ArticlesApi();
         Long articleId = 789; // Long | Article Unique identifier
-        Long vNumber = 789; // Long | Version Number
+        Long versionId = 789; // Long | Version Number
         try {
-            ArticleConfidentiality result = apiInstance.articleVersionConfidentiality(articleId, vNumber);
+            ArticleConfidentiality result = apiInstance.articleVersionConfidentiality(articleId, versionId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ArticlesApi#articleVersionConfidentiality");
@@ -3921,9 +3933,9 @@ public class ArticlesApiExample {
     public static void main(String[] args) {
         ArticlesApi apiInstance = new ArticlesApi();
         Long articleId = 789; // Long | Article Unique identifier
-        Long vNumber = 789; // Long | Version Number
+        Long versionId = 789; // Long | Version Number
         try {
-            ArticleConfidentiality result = apiInstance.articleVersionConfidentiality(articleId, vNumber);
+            ArticleConfidentiality result = apiInstance.articleVersionConfidentiality(articleId, versionId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ArticlesApi#articleVersionConfidentiality");
@@ -3938,13 +3950,13 @@ public class ArticlesApiExample {
   </div> -->
                             <div class="tab-pane" id="examples-Articles-articleVersionConfidentiality-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Long *articleId = 789; // Article Unique identifier
-Long *vNumber = 789; // Version Number
+Long *versionId = 789; // Version Number
 
 ArticlesApi *apiInstance = [[ArticlesApi alloc] init];
 
 // Public Article Confidentiality for article version
 [apiInstance articleVersionConfidentialityWith:articleId
-    vNumber:vNumber
+    versionId:versionId
               completionHandler: ^(ArticleConfidentiality output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
@@ -3963,7 +3975,7 @@ var api = new FigshareApi.ArticlesApi()
 
 var articleId = 789; // {Long} Article Unique identifier
 
-var vNumber = 789; // {Long} Version Number
+var versionId = 789; // {Long} Version Number
 
 
 var callback = function(error, data, response) {
@@ -3973,7 +3985,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.articleVersionConfidentiality(articleId, vNumber, callback);
+api.articleVersionConfidentiality(articleId, versionId, callback);
 </code></pre>
                             </div>
 
@@ -3996,12 +4008,12 @@ namespace Example
             
             var apiInstance = new ArticlesApi();
             var articleId = 789;  // Long | Article Unique identifier
-            var vNumber = 789;  // Long | Version Number
+            var versionId = 789;  // Long | Version Number
 
             try
             {
                 // Public Article Confidentiality for article version
-                ArticleConfidentiality result = apiInstance.articleVersionConfidentiality(articleId, vNumber);
+                ArticleConfidentiality result = apiInstance.articleVersionConfidentiality(articleId, versionId);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -4020,10 +4032,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\ArticlesApi();
 $articleId = 789; // Long | Article Unique identifier
-$vNumber = 789; // Long | Version Number
+$versionId = 789; // Long | Version Number
 
 try {
-    $result = $api_instance->articleVersionConfidentiality($articleId, $vNumber);
+    $result = $api_instance->articleVersionConfidentiality($articleId, $versionId);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ArticlesApi->articleVersionConfidentiality: ', $e->getMessage(), PHP_EOL;
@@ -4038,10 +4050,10 @@ use WWW::SwaggerClient::ArticlesApi;
 
 my $api_instance = WWW::SwaggerClient::ArticlesApi->new();
 my $articleId = 789; # Long | Article Unique identifier
-my $vNumber = 789; # Long | Version Number
+my $versionId = 789; # Long | Version Number
 
 eval { 
-    my $result = $api_instance->articleVersionConfidentiality(articleId => $articleId, vNumber => $vNumber);
+    my $result = $api_instance->articleVersionConfidentiality(articleId => $articleId, versionId => $versionId);
     print Dumper($result);
 };
 if ($@) {
@@ -4059,11 +4071,11 @@ from pprint import pprint
 # create an instance of the API class
 api_instance = swagger_client.ArticlesApi()
 articleId = 789 # Long | Article Unique identifier
-vNumber = 789 # Long | Version Number
+versionId = 789 # Long | Version Number
 
 try: 
     # Public Article Confidentiality for article version
-    api_response = api_instance.article_version_confidentiality(articleId, vNumber)
+    api_response = api_instance.article_version_confidentiality(articleId, versionId)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling ArticlesApi->articleVersionConfidentiality: %s\n" % e)</code></pre>
@@ -4104,11 +4116,11 @@ except ApiException as e:
 </td>
 </tr>
 
-                                  <tr><td style="width:150px;">v_number*</td>
+                                  <tr><td style="width:150px;">version_id*</td>
 <td>
 
 
-    <div id="d2e199_articleVersionConfidentiality_vNumber">
+    <div id="d2e199_articleVersionConfidentiality_versionId">
         <div class="json-schema-view">
             <div class="primitive">
                 <span class="type">
@@ -4219,7 +4231,7 @@ except ApiException as e:
                         <p class="marked">Article with specified version</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/articles/{article_id}/versions/{v_number}</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/articles/{article_id}/versions/{version_id}</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -4239,7 +4251,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Articles-articleVersionDetails-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://api.figinternal.dev/v2/articles/{article_id}/versions/{v_number}"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://api.figinternal.dev/v2/articles/{article_id}/versions/{version_id}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Articles-articleVersionDetails-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4256,9 +4268,9 @@ public class ArticlesApiExample {
         
         ArticlesApi apiInstance = new ArticlesApi();
         Long articleId = 789; // Long | Article Unique identifier
-        Long vNumber = 789; // Long | Article Version Number
+        Long versionId = 789; // Long | Article Version Number
         try {
-            ArticleComplete result = apiInstance.articleVersionDetails(articleId, vNumber);
+            ArticleComplete result = apiInstance.articleVersionDetails(articleId, versionId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ArticlesApi#articleVersionDetails");
@@ -4276,9 +4288,9 @@ public class ArticlesApiExample {
     public static void main(String[] args) {
         ArticlesApi apiInstance = new ArticlesApi();
         Long articleId = 789; // Long | Article Unique identifier
-        Long vNumber = 789; // Long | Article Version Number
+        Long versionId = 789; // Long | Article Version Number
         try {
-            ArticleComplete result = apiInstance.articleVersionDetails(articleId, vNumber);
+            ArticleComplete result = apiInstance.articleVersionDetails(articleId, versionId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ArticlesApi#articleVersionDetails");
@@ -4293,13 +4305,13 @@ public class ArticlesApiExample {
   </div> -->
                             <div class="tab-pane" id="examples-Articles-articleVersionDetails-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Long *articleId = 789; // Article Unique identifier
-Long *vNumber = 789; // Article Version Number
+Long *versionId = 789; // Article Version Number
 
 ArticlesApi *apiInstance = [[ArticlesApi alloc] init];
 
 // Article details for version
 [apiInstance articleVersionDetailsWith:articleId
-    vNumber:vNumber
+    versionId:versionId
               completionHandler: ^(ArticleComplete output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
@@ -4318,7 +4330,7 @@ var api = new FigshareApi.ArticlesApi()
 
 var articleId = 789; // {Long} Article Unique identifier
 
-var vNumber = 789; // {Long} Article Version Number
+var versionId = 789; // {Long} Article Version Number
 
 
 var callback = function(error, data, response) {
@@ -4328,7 +4340,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.articleVersionDetails(articleId, vNumber, callback);
+api.articleVersionDetails(articleId, versionId, callback);
 </code></pre>
                             </div>
 
@@ -4351,12 +4363,12 @@ namespace Example
             
             var apiInstance = new ArticlesApi();
             var articleId = 789;  // Long | Article Unique identifier
-            var vNumber = 789;  // Long | Article Version Number
+            var versionId = 789;  // Long | Article Version Number
 
             try
             {
                 // Article details for version
-                ArticleComplete result = apiInstance.articleVersionDetails(articleId, vNumber);
+                ArticleComplete result = apiInstance.articleVersionDetails(articleId, versionId);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -4375,10 +4387,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\ArticlesApi();
 $articleId = 789; // Long | Article Unique identifier
-$vNumber = 789; // Long | Article Version Number
+$versionId = 789; // Long | Article Version Number
 
 try {
-    $result = $api_instance->articleVersionDetails($articleId, $vNumber);
+    $result = $api_instance->articleVersionDetails($articleId, $versionId);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ArticlesApi->articleVersionDetails: ', $e->getMessage(), PHP_EOL;
@@ -4393,10 +4405,10 @@ use WWW::SwaggerClient::ArticlesApi;
 
 my $api_instance = WWW::SwaggerClient::ArticlesApi->new();
 my $articleId = 789; # Long | Article Unique identifier
-my $vNumber = 789; # Long | Article Version Number
+my $versionId = 789; # Long | Article Version Number
 
 eval { 
-    my $result = $api_instance->articleVersionDetails(articleId => $articleId, vNumber => $vNumber);
+    my $result = $api_instance->articleVersionDetails(articleId => $articleId, versionId => $versionId);
     print Dumper($result);
 };
 if ($@) {
@@ -4414,11 +4426,11 @@ from pprint import pprint
 # create an instance of the API class
 api_instance = swagger_client.ArticlesApi()
 articleId = 789 # Long | Article Unique identifier
-vNumber = 789 # Long | Article Version Number
+versionId = 789 # Long | Article Version Number
 
 try: 
     # Article details for version
-    api_response = api_instance.article_version_details(articleId, vNumber)
+    api_response = api_instance.article_version_details(articleId, versionId)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling ArticlesApi->articleVersionDetails: %s\n" % e)</code></pre>
@@ -4459,11 +4471,11 @@ except ApiException as e:
 </td>
 </tr>
 
-                                  <tr><td style="width:150px;">v_number*</td>
+                                  <tr><td style="width:150px;">version_id*</td>
 <td>
 
 
-    <div id="d2e199_articleVersionDetails_vNumber">
+    <div id="d2e199_articleVersionDetails_versionId">
         <div class="json-schema-view">
             <div class="primitive">
                 <span class="type">
@@ -4574,7 +4586,7 @@ except ApiException as e:
                         <p class="marked">Embargo for article version</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/articles/{article_id}/versions/{v_number}/embargo</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/articles/{article_id}/versions/{version_id}/embargo</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -4594,7 +4606,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Articles-articleVersionEmbargo-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://api.figinternal.dev/v2/articles/{article_id}/versions/{v_number}/embargo"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://api.figinternal.dev/v2/articles/{article_id}/versions/{version_id}/embargo"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Articles-articleVersionEmbargo-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -4611,9 +4623,9 @@ public class ArticlesApiExample {
         
         ArticlesApi apiInstance = new ArticlesApi();
         Long articleId = 789; // Long | Article Unique identifier
-        Long vNumber = 789; // Long | Version Number
+        Long versionId = 789; // Long | Version Number
         try {
-            ArticleEmbargo result = apiInstance.articleVersionEmbargo(articleId, vNumber);
+            ArticleEmbargo result = apiInstance.articleVersionEmbargo(articleId, versionId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ArticlesApi#articleVersionEmbargo");
@@ -4631,9 +4643,9 @@ public class ArticlesApiExample {
     public static void main(String[] args) {
         ArticlesApi apiInstance = new ArticlesApi();
         Long articleId = 789; // Long | Article Unique identifier
-        Long vNumber = 789; // Long | Version Number
+        Long versionId = 789; // Long | Version Number
         try {
-            ArticleEmbargo result = apiInstance.articleVersionEmbargo(articleId, vNumber);
+            ArticleEmbargo result = apiInstance.articleVersionEmbargo(articleId, versionId);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ArticlesApi#articleVersionEmbargo");
@@ -4648,13 +4660,13 @@ public class ArticlesApiExample {
   </div> -->
                             <div class="tab-pane" id="examples-Articles-articleVersionEmbargo-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Long *articleId = 789; // Article Unique identifier
-Long *vNumber = 789; // Version Number
+Long *versionId = 789; // Version Number
 
 ArticlesApi *apiInstance = [[ArticlesApi alloc] init];
 
 // Public Article Embargo for article version
 [apiInstance articleVersionEmbargoWith:articleId
-    vNumber:vNumber
+    versionId:versionId
               completionHandler: ^(ArticleEmbargo output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
@@ -4673,7 +4685,7 @@ var api = new FigshareApi.ArticlesApi()
 
 var articleId = 789; // {Long} Article Unique identifier
 
-var vNumber = 789; // {Long} Version Number
+var versionId = 789; // {Long} Version Number
 
 
 var callback = function(error, data, response) {
@@ -4683,7 +4695,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.articleVersionEmbargo(articleId, vNumber, callback);
+api.articleVersionEmbargo(articleId, versionId, callback);
 </code></pre>
                             </div>
 
@@ -4706,12 +4718,12 @@ namespace Example
             
             var apiInstance = new ArticlesApi();
             var articleId = 789;  // Long | Article Unique identifier
-            var vNumber = 789;  // Long | Version Number
+            var versionId = 789;  // Long | Version Number
 
             try
             {
                 // Public Article Embargo for article version
-                ArticleEmbargo result = apiInstance.articleVersionEmbargo(articleId, vNumber);
+                ArticleEmbargo result = apiInstance.articleVersionEmbargo(articleId, versionId);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -4730,10 +4742,10 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\ArticlesApi();
 $articleId = 789; // Long | Article Unique identifier
-$vNumber = 789; // Long | Version Number
+$versionId = 789; // Long | Version Number
 
 try {
-    $result = $api_instance->articleVersionEmbargo($articleId, $vNumber);
+    $result = $api_instance->articleVersionEmbargo($articleId, $versionId);
     print_r($result);
 } catch (Exception $e) {
     echo 'Exception when calling ArticlesApi->articleVersionEmbargo: ', $e->getMessage(), PHP_EOL;
@@ -4748,10 +4760,10 @@ use WWW::SwaggerClient::ArticlesApi;
 
 my $api_instance = WWW::SwaggerClient::ArticlesApi->new();
 my $articleId = 789; # Long | Article Unique identifier
-my $vNumber = 789; # Long | Version Number
+my $versionId = 789; # Long | Version Number
 
 eval { 
-    my $result = $api_instance->articleVersionEmbargo(articleId => $articleId, vNumber => $vNumber);
+    my $result = $api_instance->articleVersionEmbargo(articleId => $articleId, versionId => $versionId);
     print Dumper($result);
 };
 if ($@) {
@@ -4769,11 +4781,11 @@ from pprint import pprint
 # create an instance of the API class
 api_instance = swagger_client.ArticlesApi()
 articleId = 789 # Long | Article Unique identifier
-vNumber = 789 # Long | Version Number
+versionId = 789 # Long | Version Number
 
 try: 
     # Public Article Embargo for article version
-    api_response = api_instance.article_version_embargo(articleId, vNumber)
+    api_response = api_instance.article_version_embargo(articleId, versionId)
     pprint(api_response)
 except ApiException as e:
     print("Exception when calling ArticlesApi->articleVersionEmbargo: %s\n" % e)</code></pre>
@@ -4814,11 +4826,11 @@ except ApiException as e:
 </td>
 </tr>
 
-                                  <tr><td style="width:150px;">v_number*</td>
+                                  <tr><td style="width:150px;">version_id*</td>
 <td>
 
 
-    <div id="d2e199_articleVersionEmbargo_vNumber">
+    <div id="d2e199_articleVersionEmbargo_versionId">
         <div class="json-schema-view">
             <div class="primitive">
                 <span class="type">
@@ -4917,6 +4929,501 @@ except ApiException as e:
                         </article>
                       </div>
                       <hr>
+                    <div id="api-Articles-articleVersionPartialUpdate">
+                      <article id="api-Articles-articleVersionPartialUpdate-0" data-group="User" data-name="articleVersionPartialUpdate" data-version="0">
+                        <div class="pull-left">
+                          <h1>articleVersionPartialUpdate</h1>
+                          <p>Partially update article version</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Partially updating an article version by passing only the fields to change.</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="patch"><code><span class="pln">/account/articles/{article_id}/versions/{version_id}</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Articles-articleVersionPartialUpdate-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Articles-articleVersionPartialUpdate-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Articles-articleVersionPartialUpdate-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Articles-articleVersionPartialUpdate-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Articles-articleVersionPartialUpdate-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Articles-articleVersionPartialUpdate-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Articles-articleVersionPartialUpdate-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Articles-articleVersionPartialUpdate-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Articles-articleVersionPartialUpdate-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Articles-articleVersionPartialUpdate-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Articles-articleVersionPartialUpdate-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Articles-articleVersionPartialUpdate-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PATCH "https://api.figinternal.dev/v2/account/articles/{article_id}/versions/{version_id}"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Articles-articleVersionPartialUpdate-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.ArticlesApi;
+
+import java.io.File;
+import java.util.*;
+
+public class ArticlesApiExample {
+
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        
+        // Configure OAuth2 access token for authorization: OAuth2
+        OAuth OAuth2 = (OAuth) defaultClient.getAuthentication("OAuth2");
+        OAuth2.setAccessToken("YOUR ACCESS TOKEN");
+
+        ArticlesApi apiInstance = new ArticlesApi();
+        Long articleId = 789; // Long | Article unique identifier
+        Long versionId = 789; // Long | Article version identifier
+        ArticleVersionUpdate article = ; // ArticleVersionUpdate | Subset of article version fields to update
+        try {
+            LocationWarningsUpdate result = apiInstance.articleVersionPartialUpdate(articleId, versionId, article);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ArticlesApi#articleVersionPartialUpdate");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Articles-articleVersionPartialUpdate-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.ArticlesApi;
+
+public class ArticlesApiExample {
+
+    public static void main(String[] args) {
+        ArticlesApi apiInstance = new ArticlesApi();
+        Long articleId = 789; // Long | Article unique identifier
+        Long versionId = 789; // Long | Article version identifier
+        ArticleVersionUpdate article = ; // ArticleVersionUpdate | Subset of article version fields to update
+        try {
+            LocationWarningsUpdate result = apiInstance.articleVersionPartialUpdate(articleId, versionId, article);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ArticlesApi#articleVersionPartialUpdate");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Articles-articleVersionPartialUpdate-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Articles-articleVersionPartialUpdate-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
+
+// Configure OAuth2 access token for authorization: (authentication scheme: OAuth2)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+
+Long *articleId = 789; // Article unique identifier
+Long *versionId = 789; // Article version identifier
+ArticleVersionUpdate *article = ; // Subset of article version fields to update
+
+ArticlesApi *apiInstance = [[ArticlesApi alloc] init];
+
+// Partially update article version
+[apiInstance articleVersionPartialUpdateWith:articleId
+    versionId:versionId
+    article:article
+              completionHandler: ^(LocationWarningsUpdate output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Articles-articleVersionPartialUpdate-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var FigshareApi = require('figshare_api');
+var defaultClient = FigshareApi.ApiClient.instance;
+
+// Configure OAuth2 access token for authorization: OAuth2
+var OAuth2 = defaultClient.authentications['OAuth2'];
+OAuth2.accessToken = "YOUR ACCESS TOKEN"
+
+var api = new FigshareApi.ArticlesApi()
+
+var articleId = 789; // {Long} Article unique identifier
+
+var versionId = 789; // {Long} Article version identifier
+
+var article = ; // {ArticleVersionUpdate} Subset of article version fields to update
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.articleVersionPartialUpdate(articleId, versionId, article, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Articles-articleVersionPartialUpdate-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Articles-articleVersionPartialUpdate-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class articleVersionPartialUpdateExample
+    {
+        public void main()
+        {
+            
+            // Configure OAuth2 access token for authorization: OAuth2
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+
+            var apiInstance = new ArticlesApi();
+            var articleId = 789;  // Long | Article unique identifier
+            var versionId = 789;  // Long | Article version identifier
+            var article = new ArticleVersionUpdate(); // ArticleVersionUpdate | Subset of article version fields to update
+
+            try
+            {
+                // Partially update article version
+                LocationWarningsUpdate result = apiInstance.articleVersionPartialUpdate(articleId, versionId, article);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling ArticlesApi.articleVersionPartialUpdate: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Articles-articleVersionPartialUpdate-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: OAuth2
+Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new Swagger\Client\Api\ArticlesApi();
+$articleId = 789; // Long | Article unique identifier
+$versionId = 789; // Long | Article version identifier
+$article = ; // ArticleVersionUpdate | Subset of article version fields to update
+
+try {
+    $result = $api_instance->articleVersionPartialUpdate($articleId, $versionId, $article);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling ArticlesApi->articleVersionPartialUpdate: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Articles-articleVersionPartialUpdate-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::ArticlesApi;
+
+# Configure OAuth2 access token for authorization: OAuth2
+$WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
+
+my $api_instance = WWW::SwaggerClient::ArticlesApi->new();
+my $articleId = 789; # Long | Article unique identifier
+my $versionId = 789; # Long | Article version identifier
+my $article = WWW::SwaggerClient::Object::ArticleVersionUpdate->new(); # ArticleVersionUpdate | Subset of article version fields to update
+
+eval { 
+    my $result = $api_instance->articleVersionPartialUpdate(articleId => $articleId, versionId => $versionId, article => $article);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling ArticlesApi->articleVersionPartialUpdate: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Articles-articleVersionPartialUpdate-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: OAuth2
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+
+# create an instance of the API class
+api_instance = swagger_client.ArticlesApi()
+articleId = 789 # Long | Article unique identifier
+versionId = 789 # Long | Article version identifier
+article =  # ArticleVersionUpdate | Subset of article version fields to update
+
+try: 
+    # Partially update article version
+    api_response = api_instance.article_version_partial_update(articleId, versionId, article)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling ArticlesApi->articleVersionPartialUpdate: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">article_id*</td>
+<td>
+
+
+    <div id="d2e199_articleVersionPartialUpdate_articleId">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Long
+                </span>
+                    <span class="format">
+                        (int64)
+                    </span>
+
+                    <div class="inner description">
+                        Article unique identifier
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                                  <tr><td style="width:150px;">version_id*</td>
+<td>
+
+
+    <div id="d2e199_articleVersionPartialUpdate_versionId">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Long
+                </span>
+                    <span class="format">
+                        (int64)
+                    </span>
+
+                    <div class="inner description">
+                        Article version identifier
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">article <span style="color:red;">*</span></td>
+<td>
+
+
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "in" : "body",
+  "name" : "Article",
+  "description" : "Subset of article version fields to update",
+  "required" : true,
+  "schema" : {
+    "$ref" : "#/definitions/ArticleVersionUpdate"
+  }
+};
+  var schema = schemaWrapper.schema;
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_articleVersionPartialUpdate_article');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_articleVersionPartialUpdate_article"></div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 205 - Reset Content </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-articleVersionPartialUpdate-205-schema">Schema</a>
+                                </li>
+
+                                <li class="">
+                                  <a data-toggle="tab" href="#responses-articleVersionPartialUpdate-205-headers">Headers</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-articleVersionPartialUpdate-205-schema">
+                                  <div id='responses-articleVersionPartialUpdate-205-schema-205' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Reset Content",
+  "headers" : {
+    "Location" : {
+      "type" : "string",
+      "format" : "link",
+      "description" : "Location of updated article version"
+    }
+  },
+  "schema" : {
+    "$ref" : "#/definitions/LocationWarningsUpdate"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-articleVersionPartialUpdate-205-schema-data').val(stringify(schema));
+                                        var result = $('#responses-articleVersionPartialUpdate-205-schema-205');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-articleVersionPartialUpdate-205-schema-data' type='hidden' value=''></input>
+                                </div>
+                                <div class="tab-pane" id="responses-articleVersionPartialUpdate-205-headers">
+                                    <table>
+                                        <tr>
+                                            <th width="150px">Name</th>
+                                            <th width="100px">Type</th>
+                                            <th width="100px">Format</th>
+                                            <th>Description</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Location</td>
+                                            <td>String</td>
+                                            <td>link</td>
+                                            <td>Location of updated article version</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <h3> Status: 403 - Forbidden </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-articleVersionPartialUpdate-403-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-articleVersionPartialUpdate-403-schema">
+                                  <div id='responses-articleVersionPartialUpdate-403-schema-403' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Forbidden",
+  "schema" : {
+    "$ref" : "#/definitions/ErrorMessage"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-articleVersionPartialUpdate-403-schema-data').val(stringify(schema));
+                                        var result = $('#responses-articleVersionPartialUpdate-403-schema-403');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-articleVersionPartialUpdate-403-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 404 - Not Found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 500 - Internal Server Error </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
                     <div id="api-Articles-articleVersionUpdate">
                       <article id="api-Articles-articleVersionUpdate-0" data-group="User" data-name="articleVersionUpdate" data-version="0">
                         <div class="pull-left">
@@ -4926,10 +5433,10 @@ except ApiException as e:
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Updating an article version by passing body parameters; request can also be made with the PATCH method.</p>
+                        <p class="marked">Updating an article version by passing body parameters.</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/account/articles/{article_id}/versions/{version_id}/</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/account/articles/{article_id}/versions/{version_id}</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -4949,7 +5456,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Articles-articleVersionUpdate-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT "https://api.figinternal.dev/v2/account/articles/{article_id}/versions/{version_id}/"</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PUT "https://api.figinternal.dev/v2/account/articles/{article_id}/versions/{version_id}"</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Articles-articleVersionUpdate-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -12149,7 +12656,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-api.privateArticleDelete(articleId, callback);
+api.privateArticleDelete(articleId, , callback);
 </code></pre>
                             </div>
 
@@ -12491,7 +12998,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.privateArticleDetails(articleId, callback);
+api.privateArticleDetails(articleId, , callback);
 </code></pre>
                             </div>
 
@@ -15559,6 +16066,465 @@ except ApiException as e:
                         </article>
                       </div>
                       <hr>
+                    <div id="api-Articles-privateArticlePartialUpdate">
+                      <article id="api-Articles-privateArticlePartialUpdate-0" data-group="User" data-name="privateArticlePartialUpdate" data-version="0">
+                        <div class="pull-left">
+                          <h1>privateArticlePartialUpdate</h1>
+                          <p>Partially update article</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Partially update an article by sending only the fields to change.</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="patch"><code><span class="pln">/account/articles/{article_id}</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Articles-privateArticlePartialUpdate-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Articles-privateArticlePartialUpdate-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Articles-privateArticlePartialUpdate-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Articles-privateArticlePartialUpdate-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Articles-privateArticlePartialUpdate-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Articles-privateArticlePartialUpdate-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Articles-privateArticlePartialUpdate-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Articles-privateArticlePartialUpdate-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Articles-privateArticlePartialUpdate-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Articles-privateArticlePartialUpdate-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Articles-privateArticlePartialUpdate-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Articles-privateArticlePartialUpdate-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PATCH "https://api.figinternal.dev/v2/account/articles/{article_id}"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Articles-privateArticlePartialUpdate-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.ArticlesApi;
+
+import java.io.File;
+import java.util.*;
+
+public class ArticlesApiExample {
+
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        
+        // Configure OAuth2 access token for authorization: OAuth2
+        OAuth OAuth2 = (OAuth) defaultClient.getAuthentication("OAuth2");
+        OAuth2.setAccessToken("YOUR ACCESS TOKEN");
+
+        ArticlesApi apiInstance = new ArticlesApi();
+        Long articleId = 789; // Long | Article unique identifier
+        ArticleUpdate article = ; // ArticleUpdate | Subset of article fields to update
+        try {
+            LocationWarningsUpdate result = apiInstance.privateArticlePartialUpdate(articleId, article);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ArticlesApi#privateArticlePartialUpdate");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Articles-privateArticlePartialUpdate-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.ArticlesApi;
+
+public class ArticlesApiExample {
+
+    public static void main(String[] args) {
+        ArticlesApi apiInstance = new ArticlesApi();
+        Long articleId = 789; // Long | Article unique identifier
+        ArticleUpdate article = ; // ArticleUpdate | Subset of article fields to update
+        try {
+            LocationWarningsUpdate result = apiInstance.privateArticlePartialUpdate(articleId, article);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ArticlesApi#privateArticlePartialUpdate");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Articles-privateArticlePartialUpdate-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Articles-privateArticlePartialUpdate-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
+
+// Configure OAuth2 access token for authorization: (authentication scheme: OAuth2)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+
+Long *articleId = 789; // Article unique identifier
+ArticleUpdate *article = ; // Subset of article fields to update
+
+ArticlesApi *apiInstance = [[ArticlesApi alloc] init];
+
+// Partially update article
+[apiInstance privateArticlePartialUpdateWith:articleId
+    article:article
+              completionHandler: ^(LocationWarningsUpdate output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Articles-privateArticlePartialUpdate-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var FigshareApi = require('figshare_api');
+var defaultClient = FigshareApi.ApiClient.instance;
+
+// Configure OAuth2 access token for authorization: OAuth2
+var OAuth2 = defaultClient.authentications['OAuth2'];
+OAuth2.accessToken = "YOUR ACCESS TOKEN"
+
+var api = new FigshareApi.ArticlesApi()
+
+var articleId = 789; // {Long} Article unique identifier
+
+var article = ; // {ArticleUpdate} Subset of article fields to update
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.privateArticlePartialUpdate(articleId, article, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Articles-privateArticlePartialUpdate-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Articles-privateArticlePartialUpdate-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class privateArticlePartialUpdateExample
+    {
+        public void main()
+        {
+            
+            // Configure OAuth2 access token for authorization: OAuth2
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+
+            var apiInstance = new ArticlesApi();
+            var articleId = 789;  // Long | Article unique identifier
+            var article = new ArticleUpdate(); // ArticleUpdate | Subset of article fields to update
+
+            try
+            {
+                // Partially update article
+                LocationWarningsUpdate result = apiInstance.privateArticlePartialUpdate(articleId, article);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling ArticlesApi.privateArticlePartialUpdate: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Articles-privateArticlePartialUpdate-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: OAuth2
+Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new Swagger\Client\Api\ArticlesApi();
+$articleId = 789; // Long | Article unique identifier
+$article = ; // ArticleUpdate | Subset of article fields to update
+
+try {
+    $result = $api_instance->privateArticlePartialUpdate($articleId, $article);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling ArticlesApi->privateArticlePartialUpdate: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Articles-privateArticlePartialUpdate-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::ArticlesApi;
+
+# Configure OAuth2 access token for authorization: OAuth2
+$WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
+
+my $api_instance = WWW::SwaggerClient::ArticlesApi->new();
+my $articleId = 789; # Long | Article unique identifier
+my $article = WWW::SwaggerClient::Object::ArticleUpdate->new(); # ArticleUpdate | Subset of article fields to update
+
+eval { 
+    my $result = $api_instance->privateArticlePartialUpdate(articleId => $articleId, article => $article);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling ArticlesApi->privateArticlePartialUpdate: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Articles-privateArticlePartialUpdate-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: OAuth2
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+
+# create an instance of the API class
+api_instance = swagger_client.ArticlesApi()
+articleId = 789 # Long | Article unique identifier
+article =  # ArticleUpdate | Subset of article fields to update
+
+try: 
+    # Partially update article
+    api_response = api_instance.private_article_partial_update(articleId, article)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling ArticlesApi->privateArticlePartialUpdate: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">article_id*</td>
+<td>
+
+
+    <div id="d2e199_privateArticlePartialUpdate_articleId">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Long
+                </span>
+                    <span class="format">
+                        (int64)
+                    </span>
+
+                    <div class="inner description">
+                        Article unique identifier
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">article <span style="color:red;">*</span></td>
+<td>
+
+
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "in" : "body",
+  "name" : "Article",
+  "description" : "Subset of article fields to update",
+  "required" : true,
+  "schema" : {
+    "$ref" : "#/definitions/ArticleUpdate"
+  }
+};
+  var schema = schemaWrapper.schema;
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_privateArticlePartialUpdate_article');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_privateArticlePartialUpdate_article"></div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 205 - Reset Content </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-privateArticlePartialUpdate-205-schema">Schema</a>
+                                </li>
+
+                                <li class="">
+                                  <a data-toggle="tab" href="#responses-privateArticlePartialUpdate-205-headers">Headers</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-privateArticlePartialUpdate-205-schema">
+                                  <div id='responses-privateArticlePartialUpdate-205-schema-205' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Reset Content",
+  "headers" : {
+    "Location" : {
+      "type" : "string",
+      "format" : "link",
+      "description" : "Location of the updated article"
+    }
+  },
+  "schema" : {
+    "$ref" : "#/definitions/LocationWarningsUpdate"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-privateArticlePartialUpdate-205-schema-data').val(stringify(schema));
+                                        var result = $('#responses-privateArticlePartialUpdate-205-schema-205');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-privateArticlePartialUpdate-205-schema-data' type='hidden' value=''></input>
+                                </div>
+                                <div class="tab-pane" id="responses-privateArticlePartialUpdate-205-headers">
+                                    <table>
+                                        <tr>
+                                            <th width="150px">Name</th>
+                                            <th width="100px">Type</th>
+                                            <th width="100px">Format</th>
+                                            <th>Description</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Location</td>
+                                            <td>String</td>
+                                            <td>link</td>
+                                            <td>Location of the updated article</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <h3> Status: 403 - Forbidden </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-privateArticlePartialUpdate-403-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-privateArticlePartialUpdate-403-schema">
+                                  <div id='responses-privateArticlePartialUpdate-403-schema-403' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Forbidden",
+  "schema" : {
+    "$ref" : "#/definitions/ErrorMessage"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-privateArticlePartialUpdate-403-schema-data').val(stringify(schema));
+                                        var result = $('#responses-privateArticlePartialUpdate-403-schema-403');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-privateArticlePartialUpdate-403-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 404 - Not Found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 500 - Internal Server Error </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
                     <div id="api-Articles-privateArticlePrivateLink">
                       <article id="api-Articles-privateArticlePrivateLink-0" data-group="User" data-name="privateArticlePrivateLink" data-version="0">
                         <div class="pull-left">
@@ -18515,7 +19481,7 @@ $(document).ready(function() {
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Updating an article by passing body parameters; request can also be made with the PATCH method.</p>
+                        <p class="marked">Update an article by passing full body parameters.</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/account/articles/{article_id}</span></code></pre>
@@ -18560,7 +19526,7 @@ public class ArticlesApiExample {
 
         ArticlesApi apiInstance = new ArticlesApi();
         Long articleId = 789; // Long | Article unique identifier
-        ArticleUpdate article = ; // ArticleUpdate | Article description
+        ArticleUpdate article = ; // ArticleUpdate | Full article representation
         try {
             LocationWarningsUpdate result = apiInstance.privateArticleUpdate(articleId, article);
             System.out.println(result);
@@ -18580,7 +19546,7 @@ public class ArticlesApiExample {
     public static void main(String[] args) {
         ArticlesApi apiInstance = new ArticlesApi();
         Long articleId = 789; // Long | Article unique identifier
-        ArticleUpdate article = ; // ArticleUpdate | Article description
+        ArticleUpdate article = ; // ArticleUpdate | Full article representation
         try {
             LocationWarningsUpdate result = apiInstance.privateArticleUpdate(articleId, article);
             System.out.println(result);
@@ -18602,7 +19568,7 @@ public class ArticlesApiExample {
 [apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
 
 Long *articleId = 789; // Article unique identifier
-ArticleUpdate *article = ; // Article description
+ArticleUpdate *article = ; // Full article representation
 
 ArticlesApi *apiInstance = [[ArticlesApi alloc] init];
 
@@ -18632,7 +19598,7 @@ var api = new FigshareApi.ArticlesApi()
 
 var articleId = 789; // {Long} Article unique identifier
 
-var article = ; // {ArticleUpdate} Article description
+var article = ; // {ArticleUpdate} Full article representation
 
 
 var callback = function(error, data, response) {
@@ -18642,7 +19608,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.privateArticleUpdate(articleIdarticle, callback);
+api.privateArticleUpdate(articleId, article, callback);
 </code></pre>
                             </div>
 
@@ -18668,7 +19634,7 @@ namespace Example
 
             var apiInstance = new ArticlesApi();
             var articleId = 789;  // Long | Article unique identifier
-            var article = new ArticleUpdate(); // ArticleUpdate | Article description
+            var article = new ArticleUpdate(); // ArticleUpdate | Full article representation
 
             try
             {
@@ -18695,7 +19661,7 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_AC
 
 $api_instance = new Swagger\Client\Api\ArticlesApi();
 $articleId = 789; // Long | Article unique identifier
-$article = ; // ArticleUpdate | Article description
+$article = ; // ArticleUpdate | Full article representation
 
 try {
     $result = $api_instance->privateArticleUpdate($articleId, $article);
@@ -18716,7 +19682,7 @@ $WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 
 my $api_instance = WWW::SwaggerClient::ArticlesApi->new();
 my $articleId = 789; # Long | Article unique identifier
-my $article = WWW::SwaggerClient::Object::ArticleUpdate->new(); # ArticleUpdate | Article description
+my $article = WWW::SwaggerClient::Object::ArticleUpdate->new(); # ArticleUpdate | Full article representation
 
 eval { 
     my $result = $api_instance->privateArticleUpdate(articleId => $articleId, article => $article);
@@ -18740,7 +19706,7 @@ swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 # create an instance of the API class
 api_instance = swagger_client.ArticlesApi()
 articleId = 789 # Long | Article unique identifier
-article =  # ArticleUpdate | Article description
+article =  # ArticleUpdate | Full article representation
 
 try: 
     # Update article
@@ -18803,7 +19769,7 @@ $(document).ready(function() {
   var schemaWrapper = {
   "in" : "body",
   "name" : "Article",
-  "description" : "Article description",
+  "description" : "Full article representation",
   "required" : true,
   "schema" : {
     "$ref" : "#/definitions/ArticleUpdate"
@@ -21137,7 +22103,7 @@ except ApiException as e:
                         <p class="marked">Download files from a certain version of an public article preserving the folder structure</p>
                         <p></p>
                         <br />
-                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/articles/{article_id}/versions/{v_number}/download</span></code></pre>
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/articles/{article_id}/versions/{version_id}/download</span></code></pre>
                         <p>
                           <h3>Usage and SDK Samples</h3>
                         </p>
@@ -21157,7 +22123,7 @@ except ApiException as e:
 
                         <div class="tab-content">
                           <div class="tab-pane active" id="examples-Articles-publicArticleVersionDownload-0-curl">
-                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://api.figinternal.dev/v2/articles/{article_id}/versions/{v_number}/download?folder_path="</code></pre>
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://api.figinternal.dev/v2/articles/{article_id}/versions/{version_id}/download?folder_path="</code></pre>
                           </div>
                           <div class="tab-pane" id="examples-Articles-publicArticleVersionDownload-0-java">
                             <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
@@ -21174,10 +22140,10 @@ public class ArticlesApiExample {
         
         ArticlesApi apiInstance = new ArticlesApi();
         Long articleId = 789; // Long | Article unique identifier
-        Long vNumber = 789; // Long | Version Number
+        Long versionId = 789; // Long | Version Number
         String folderPath = folderPath_example; // String | Folder path to download. If not provided, all files from the article will be downloaded
         try {
-            apiInstance.publicArticleVersionDownload(articleId, vNumber, folderPath);
+            apiInstance.publicArticleVersionDownload(articleId, versionId, folderPath);
         } catch (ApiException e) {
             System.err.println("Exception when calling ArticlesApi#publicArticleVersionDownload");
             e.printStackTrace();
@@ -21194,10 +22160,10 @@ public class ArticlesApiExample {
     public static void main(String[] args) {
         ArticlesApi apiInstance = new ArticlesApi();
         Long articleId = 789; // Long | Article unique identifier
-        Long vNumber = 789; // Long | Version Number
+        Long versionId = 789; // Long | Version Number
         String folderPath = folderPath_example; // String | Folder path to download. If not provided, all files from the article will be downloaded
         try {
-            apiInstance.publicArticleVersionDownload(articleId, vNumber, folderPath);
+            apiInstance.publicArticleVersionDownload(articleId, versionId, folderPath);
         } catch (ApiException e) {
             System.err.println("Exception when calling ArticlesApi#publicArticleVersionDownload");
             e.printStackTrace();
@@ -21211,14 +22177,14 @@ public class ArticlesApiExample {
   </div> -->
                             <div class="tab-pane" id="examples-Articles-publicArticleVersionDownload-0-objc">
                               <pre class="prettyprint"><code class="language-cpp">Long *articleId = 789; // Article unique identifier
-Long *vNumber = 789; // Version Number
+Long *versionId = 789; // Version Number
 String *folderPath = folderPath_example; // Folder path to download. If not provided, all files from the article will be downloaded (optional)
 
 ArticlesApi *apiInstance = [[ArticlesApi alloc] init];
 
 // Public Article Version Download
 [apiInstance publicArticleVersionDownloadWith:articleId
-    vNumber:vNumber
+    versionId:versionId
     folderPath:folderPath
               completionHandler: ^(NSError* error) {
                             if (error) {
@@ -21235,7 +22201,7 @@ var api = new FigshareApi.ArticlesApi()
 
 var articleId = 789; // {Long} Article unique identifier
 
-var vNumber = 789; // {Long} Version Number
+var versionId = 789; // {Long} Version Number
 
 var opts = { 
   'folderPath': folderPath_example // {String} Folder path to download. If not provided, all files from the article will be downloaded
@@ -21248,7 +22214,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-api.publicArticleVersionDownload(articleId, vNumber, opts, callback);
+api.publicArticleVersionDownload(articleId, versionId, opts, callback);
 </code></pre>
                             </div>
 
@@ -21271,13 +22237,13 @@ namespace Example
             
             var apiInstance = new ArticlesApi();
             var articleId = 789;  // Long | Article unique identifier
-            var vNumber = 789;  // Long | Version Number
+            var versionId = 789;  // Long | Version Number
             var folderPath = folderPath_example;  // String | Folder path to download. If not provided, all files from the article will be downloaded (optional) 
 
             try
             {
                 // Public Article Version Download
-                apiInstance.publicArticleVersionDownload(articleId, vNumber, folderPath);
+                apiInstance.publicArticleVersionDownload(articleId, versionId, folderPath);
             }
             catch (Exception e)
             {
@@ -21295,11 +22261,11 @@ require_once(__DIR__ . '/vendor/autoload.php');
 
 $api_instance = new Swagger\Client\Api\ArticlesApi();
 $articleId = 789; // Long | Article unique identifier
-$vNumber = 789; // Long | Version Number
+$versionId = 789; // Long | Version Number
 $folderPath = folderPath_example; // String | Folder path to download. If not provided, all files from the article will be downloaded
 
 try {
-    $api_instance->publicArticleVersionDownload($articleId, $vNumber, $folderPath);
+    $api_instance->publicArticleVersionDownload($articleId, $versionId, $folderPath);
 } catch (Exception $e) {
     echo 'Exception when calling ArticlesApi->publicArticleVersionDownload: ', $e->getMessage(), PHP_EOL;
 }
@@ -21313,11 +22279,11 @@ use WWW::SwaggerClient::ArticlesApi;
 
 my $api_instance = WWW::SwaggerClient::ArticlesApi->new();
 my $articleId = 789; # Long | Article unique identifier
-my $vNumber = 789; # Long | Version Number
+my $versionId = 789; # Long | Version Number
 my $folderPath = folderPath_example; # String | Folder path to download. If not provided, all files from the article will be downloaded
 
 eval { 
-    $api_instance->publicArticleVersionDownload(articleId => $articleId, vNumber => $vNumber, folderPath => $folderPath);
+    $api_instance->publicArticleVersionDownload(articleId => $articleId, versionId => $versionId, folderPath => $folderPath);
 };
 if ($@) {
     warn "Exception when calling ArticlesApi->publicArticleVersionDownload: $@\n";
@@ -21334,12 +22300,12 @@ from pprint import pprint
 # create an instance of the API class
 api_instance = swagger_client.ArticlesApi()
 articleId = 789 # Long | Article unique identifier
-vNumber = 789 # Long | Version Number
+versionId = 789 # Long | Version Number
 folderPath = folderPath_example # String | Folder path to download. If not provided, all files from the article will be downloaded (optional)
 
 try: 
     # Public Article Version Download
-    api_instance.public_article_version_download(articleId, vNumber, folderPath=folderPath)
+    api_instance.public_article_version_download(articleId, versionId, folderPath=folderPath)
 except ApiException as e:
     print("Exception when calling ArticlesApi->publicArticleVersionDownload: %s\n" % e)</code></pre>
                             </div>
@@ -21379,11 +22345,11 @@ except ApiException as e:
 </td>
 </tr>
 
-                                  <tr><td style="width:150px;">v_number*</td>
+                                  <tr><td style="width:150px;">version_id*</td>
 <td>
 
 
-    <div id="d2e199_publicArticleVersionDownload_vNumber">
+    <div id="d2e199_publicArticleVersionDownload_versionId">
         <div class="json-schema-view">
             <div class="primitive">
                 <span class="type">
@@ -30446,7 +31412,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully.');
   }
 };
-api.privateCollectionDelete(collectionId, callback);
+api.privateCollectionDelete(collectionId, , callback);
 </code></pre>
                             </div>
 
@@ -30796,7 +31762,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.privateCollectionDetails(collectionId, callback);
+api.privateCollectionDetails(collectionId, , callback);
 </code></pre>
                             </div>
 
@@ -30991,6 +31957,473 @@ except ApiException as e:
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 404 - Not Found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 500 - Internal Server Error </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Collections-privateCollectionPatch">
+                      <article id="api-Collections-privateCollectionPatch-0" data-group="User" data-name="privateCollectionPatch" data-version="0">
+                        <div class="pull-left">
+                          <h1>privateCollectionPatch</h1>
+                          <p>Partially update collection</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Partially update a collection by sending only the fields to change.</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="patch"><code><span class="pln">/account/collections/{collection_id}</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Collections-privateCollectionPatch-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Collections-privateCollectionPatch-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Collections-privateCollectionPatch-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Collections-privateCollectionPatch-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Collections-privateCollectionPatch-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Collections-privateCollectionPatch-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Collections-privateCollectionPatch-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Collections-privateCollectionPatch-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Collections-privateCollectionPatch-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Collections-privateCollectionPatch-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Collections-privateCollectionPatch-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Collections-privateCollectionPatch-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PATCH "https://api.figinternal.dev/v2/account/collections/{collection_id}"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Collections-privateCollectionPatch-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.CollectionsApi;
+
+import java.io.File;
+import java.util.*;
+
+public class CollectionsApiExample {
+
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        
+        // Configure OAuth2 access token for authorization: OAuth2
+        OAuth OAuth2 = (OAuth) defaultClient.getAuthentication("OAuth2");
+        OAuth2.setAccessToken("YOUR ACCESS TOKEN");
+
+        CollectionsApi apiInstance = new CollectionsApi();
+        Long collectionId = 789; // Long | Collection Unique identifier
+        CollectionUpdate collection = ; // CollectionUpdate | Subset of collection fields to update
+        try {
+            LocationWarningsUpdate result = apiInstance.privateCollectionPatch(collectionId, collection);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling CollectionsApi#privateCollectionPatch");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Collections-privateCollectionPatch-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.CollectionsApi;
+
+public class CollectionsApiExample {
+
+    public static void main(String[] args) {
+        CollectionsApi apiInstance = new CollectionsApi();
+        Long collectionId = 789; // Long | Collection Unique identifier
+        CollectionUpdate collection = ; // CollectionUpdate | Subset of collection fields to update
+        try {
+            LocationWarningsUpdate result = apiInstance.privateCollectionPatch(collectionId, collection);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling CollectionsApi#privateCollectionPatch");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Collections-privateCollectionPatch-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Collections-privateCollectionPatch-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
+
+// Configure OAuth2 access token for authorization: (authentication scheme: OAuth2)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+
+Long *collectionId = 789; // Collection Unique identifier
+CollectionUpdate *collection = ; // Subset of collection fields to update
+
+CollectionsApi *apiInstance = [[CollectionsApi alloc] init];
+
+// Partially update collection
+[apiInstance privateCollectionPatchWith:collectionId
+    collection:collection
+              completionHandler: ^(LocationWarningsUpdate output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Collections-privateCollectionPatch-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var FigshareApi = require('figshare_api');
+var defaultClient = FigshareApi.ApiClient.instance;
+
+// Configure OAuth2 access token for authorization: OAuth2
+var OAuth2 = defaultClient.authentications['OAuth2'];
+OAuth2.accessToken = "YOUR ACCESS TOKEN"
+
+var api = new FigshareApi.CollectionsApi()
+
+var collectionId = 789; // {Long} Collection Unique identifier
+
+var collection = ; // {CollectionUpdate} Subset of collection fields to update
+
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.privateCollectionPatch(collectionId, collection, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Collections-privateCollectionPatch-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Collections-privateCollectionPatch-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class privateCollectionPatchExample
+    {
+        public void main()
+        {
+            
+            // Configure OAuth2 access token for authorization: OAuth2
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+
+            var apiInstance = new CollectionsApi();
+            var collectionId = 789;  // Long | Collection Unique identifier
+            var collection = new CollectionUpdate(); // CollectionUpdate | Subset of collection fields to update
+
+            try
+            {
+                // Partially update collection
+                LocationWarningsUpdate result = apiInstance.privateCollectionPatch(collectionId, collection);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling CollectionsApi.privateCollectionPatch: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Collections-privateCollectionPatch-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: OAuth2
+Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new Swagger\Client\Api\CollectionsApi();
+$collectionId = 789; // Long | Collection Unique identifier
+$collection = ; // CollectionUpdate | Subset of collection fields to update
+
+try {
+    $result = $api_instance->privateCollectionPatch($collectionId, $collection);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling CollectionsApi->privateCollectionPatch: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Collections-privateCollectionPatch-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::CollectionsApi;
+
+# Configure OAuth2 access token for authorization: OAuth2
+$WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
+
+my $api_instance = WWW::SwaggerClient::CollectionsApi->new();
+my $collectionId = 789; # Long | Collection Unique identifier
+my $collection = WWW::SwaggerClient::Object::CollectionUpdate->new(); # CollectionUpdate | Subset of collection fields to update
+
+eval { 
+    my $result = $api_instance->privateCollectionPatch(collectionId => $collectionId, collection => $collection);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling CollectionsApi->privateCollectionPatch: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Collections-privateCollectionPatch-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: OAuth2
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+
+# create an instance of the API class
+api_instance = swagger_client.CollectionsApi()
+collectionId = 789 # Long | Collection Unique identifier
+collection =  # CollectionUpdate | Subset of collection fields to update
+
+try: 
+    # Partially update collection
+    api_response = api_instance.private_collection_patch(collectionId, collection)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling CollectionsApi->privateCollectionPatch: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">collection_id*</td>
+<td>
+
+
+    <div id="d2e199_privateCollectionPatch_collectionId">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Long
+                </span>
+                    <span class="format">
+                        (int64)
+                    </span>
+
+                    <div class="inner description">
+                        Collection Unique identifier
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">collection <span style="color:red;">*</span></td>
+<td>
+
+
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "in" : "body",
+  "name" : "Collection",
+  "description" : "Subset of collection fields to update",
+  "required" : true,
+  "schema" : {
+    "$ref" : "#/definitions/CollectionUpdate"
+  }
+};
+  var schema = schemaWrapper.schema;
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_privateCollectionPatch_collection');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_privateCollectionPatch_collection"></div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 205 - Reset Content </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-privateCollectionPatch-205-schema">Schema</a>
+                                </li>
+
+                                <li class="">
+                                  <a data-toggle="tab" href="#responses-privateCollectionPatch-205-headers">Headers</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-privateCollectionPatch-205-schema">
+                                  <div id='responses-privateCollectionPatch-205-schema-205' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Reset Content",
+  "headers" : {
+    "Location" : {
+      "type" : "string",
+      "format" : "link",
+      "description" : "Location of collection"
+    }
+  },
+  "schema" : {
+    "$ref" : "#/definitions/LocationWarningsUpdate"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-privateCollectionPatch-205-schema-data').val(stringify(schema));
+                                        var result = $('#responses-privateCollectionPatch-205-schema-205');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-privateCollectionPatch-205-schema-data' type='hidden' value=''></input>
+                                </div>
+                                <div class="tab-pane" id="responses-privateCollectionPatch-205-headers">
+                                    <table>
+                                        <tr>
+                                            <th width="150px">Name</th>
+                                            <th width="100px">Type</th>
+                                            <th width="100px">Format</th>
+                                            <th>Description</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Location</td>
+                                            <td>String</td>
+                                            <td>link</td>
+                                            <td>Location of collection</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Bad Request </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 403 - Forbidden </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-privateCollectionPatch-403-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-privateCollectionPatch-403-schema">
+                                  <div id='responses-privateCollectionPatch-403-schema-403' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Forbidden",
+  "schema" : {
+    "$ref" : "#/definitions/ErrorMessage"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-privateCollectionPatch-403-schema-data').val(stringify(schema));
+                                        var result = $('#responses-privateCollectionPatch-403-schema-403');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-privateCollectionPatch-403-schema-data' type='hidden' value=''></input>
+                                </div>
                             </div>
 
                             <h3> Status: 404 - Not Found </h3>
@@ -34765,7 +36198,7 @@ $(document).ready(function() {
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Update collection details; request can also be made with the PATCH method.</p>
+                        <p class="marked">Update a collection by passing full body parameters.</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/account/collections/{collection_id}</span></code></pre>
@@ -34892,7 +36325,7 @@ var callback = function(error, data, response) {
     console.log('API called successfully. Returned data: ' + data);
   }
 };
-api.privateCollectionUpdate(collectionIdcollection, callback);
+api.privateCollectionUpdate(collectionId, collection, callback);
 </code></pre>
                             </div>
 
@@ -56704,6 +58137,415 @@ except ApiException as e:
                         </article>
                       </div>
                       <hr>
+                    <div id="api-Projects-privateProjectPartialUpdate">
+                      <article id="api-Projects-privateProjectPartialUpdate-0" data-group="User" data-name="privateProjectPartialUpdate" data-version="0">
+                        <div class="pull-left">
+                          <h1>privateProjectPartialUpdate</h1>
+                          <p>Partially update project</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Partially update a project; only provided fields will be changed.</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="patch"><code><span class="pln">/account/projects/{project_id}</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Projects-privateProjectPartialUpdate-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Projects-privateProjectPartialUpdate-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Projects-privateProjectPartialUpdate-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Projects-privateProjectPartialUpdate-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Projects-privateProjectPartialUpdate-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Projects-privateProjectPartialUpdate-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Projects-privateProjectPartialUpdate-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Projects-privateProjectPartialUpdate-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Projects-privateProjectPartialUpdate-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Projects-privateProjectPartialUpdate-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Projects-privateProjectPartialUpdate-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Projects-privateProjectPartialUpdate-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X PATCH "https://api.figinternal.dev/v2/account/projects/{project_id}"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Projects-privateProjectPartialUpdate-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.ProjectsApi;
+
+import java.io.File;
+import java.util.*;
+
+public class ProjectsApiExample {
+
+    public static void main(String[] args) {
+        ApiClient defaultClient = Configuration.getDefaultApiClient();
+        
+        // Configure OAuth2 access token for authorization: OAuth2
+        OAuth OAuth2 = (OAuth) defaultClient.getAuthentication("OAuth2");
+        OAuth2.setAccessToken("YOUR ACCESS TOKEN");
+
+        ProjectsApi apiInstance = new ProjectsApi();
+        Long projectId = 789; // Long | Project unique identifier
+        ProjectUpdate project = ; // ProjectUpdate | Fields to update
+        try {
+            apiInstance.privateProjectPartialUpdate(projectId, project);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ProjectsApi#privateProjectPartialUpdate");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Projects-privateProjectPartialUpdate-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.ProjectsApi;
+
+public class ProjectsApiExample {
+
+    public static void main(String[] args) {
+        ProjectsApi apiInstance = new ProjectsApi();
+        Long projectId = 789; // Long | Project unique identifier
+        ProjectUpdate project = ; // ProjectUpdate | Fields to update
+        try {
+            apiInstance.privateProjectPartialUpdate(projectId, project);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling ProjectsApi#privateProjectPartialUpdate");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Projects-privateProjectPartialUpdate-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Projects-privateProjectPartialUpdate-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">Configuration *apiConfig = [Configuration sharedConfig];
+
+// Configure OAuth2 access token for authorization: (authentication scheme: OAuth2)
+[apiConfig setAccessToken:@"YOUR_ACCESS_TOKEN"];
+
+Long *projectId = 789; // Project unique identifier
+ProjectUpdate *project = ; // Fields to update (optional)
+
+ProjectsApi *apiInstance = [[ProjectsApi alloc] init];
+
+// Partially update project
+[apiInstance privateProjectPartialUpdateWith:projectId
+    project:project
+              completionHandler: ^(NSError* error) {
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Projects-privateProjectPartialUpdate-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var FigshareApi = require('figshare_api');
+var defaultClient = FigshareApi.ApiClient.instance;
+
+// Configure OAuth2 access token for authorization: OAuth2
+var OAuth2 = defaultClient.authentications['OAuth2'];
+OAuth2.accessToken = "YOUR ACCESS TOKEN"
+
+var api = new FigshareApi.ProjectsApi()
+
+var projectId = 789; // {Long} Project unique identifier
+
+var opts = { 
+  'project':  // {ProjectUpdate} Fields to update
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully.');
+  }
+};
+api.privateProjectPartialUpdate(projectId, opts, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Projects-privateProjectPartialUpdate-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Projects-privateProjectPartialUpdate-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class privateProjectPartialUpdateExample
+    {
+        public void main()
+        {
+            
+            // Configure OAuth2 access token for authorization: OAuth2
+            Configuration.Default.AccessToken = "YOUR_ACCESS_TOKEN";
+
+            var apiInstance = new ProjectsApi();
+            var projectId = 789;  // Long | Project unique identifier
+            var project = new ProjectUpdate(); // ProjectUpdate | Fields to update (optional) 
+
+            try
+            {
+                // Partially update project
+                apiInstance.privateProjectPartialUpdate(projectId, project);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling ProjectsApi.privateProjectPartialUpdate: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Projects-privateProjectPartialUpdate-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+// Configure OAuth2 access token for authorization: OAuth2
+Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_ACCESS_TOKEN');
+
+$api_instance = new Swagger\Client\Api\ProjectsApi();
+$projectId = 789; // Long | Project unique identifier
+$project = ; // ProjectUpdate | Fields to update
+
+try {
+    $api_instance->privateProjectPartialUpdate($projectId, $project);
+} catch (Exception $e) {
+    echo 'Exception when calling ProjectsApi->privateProjectPartialUpdate: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Projects-privateProjectPartialUpdate-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::ProjectsApi;
+
+# Configure OAuth2 access token for authorization: OAuth2
+$WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
+
+my $api_instance = WWW::SwaggerClient::ProjectsApi->new();
+my $projectId = 789; # Long | Project unique identifier
+my $project = WWW::SwaggerClient::Object::ProjectUpdate->new(); # ProjectUpdate | Fields to update
+
+eval { 
+    $api_instance->privateProjectPartialUpdate(projectId => $projectId, project => $project);
+};
+if ($@) {
+    warn "Exception when calling ProjectsApi->privateProjectPartialUpdate: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Projects-privateProjectPartialUpdate-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# Configure OAuth2 access token for authorization: OAuth2
+swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
+
+# create an instance of the API class
+api_instance = swagger_client.ProjectsApi()
+projectId = 789 # Long | Project unique identifier
+project =  # ProjectUpdate | Fields to update (optional)
+
+try: 
+    # Partially update project
+    api_instance.private_project_partial_update(projectId, project=project)
+except ApiException as e:
+    print("Exception when calling ProjectsApi->privateProjectPartialUpdate: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+                            <div class="methodsubtabletitle">Path parameters</div>
+                            <table id="methodsubtable">
+                                <tr>
+                                  <th width="150px">Name</th>
+                                  <th>Description</th>
+                                </tr>
+                                  <tr><td style="width:150px;">project_id*</td>
+<td>
+
+
+    <div id="d2e199_privateProjectPartialUpdate_projectId">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    Long
+                </span>
+                    <span class="format">
+                        (int64)
+                    </span>
+
+                    <div class="inner description">
+                        Project unique identifier
+                    </div>
+            </div>
+                <div class="inner required">
+                    Required
+                </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">project </td>
+<td>
+
+
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "in" : "body",
+  "name" : "Project",
+  "description" : "Fields to update",
+  "required" : false,
+  "schema" : {
+    "$ref" : "#/definitions/ProjectUpdate"
+  }
+};
+  var schema = schemaWrapper.schema;
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_privateProjectPartialUpdate_project');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_privateProjectPartialUpdate_project"></div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 205 - Reset Content </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="">
+                                  <a data-toggle="tab" href="#responses-privateProjectPartialUpdate-205-headers">Headers</a>
+                                </li>
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane" id="responses-privateProjectPartialUpdate-205-headers">
+                                    <table>
+                                        <tr>
+                                            <th width="150px">Name</th>
+                                            <th width="100px">Type</th>
+                                            <th width="100px">Format</th>
+                                            <th>Description</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Location</td>
+                                            <td>String</td>
+                                            <td>link</td>
+                                            <td>Location of project</td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <h3> Status: 403 - Forbidden </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-privateProjectPartialUpdate-403-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-privateProjectPartialUpdate-403-schema">
+                                  <div id='responses-privateProjectPartialUpdate-403-schema-403' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Forbidden",
+  "schema" : {
+    "$ref" : "#/definitions/ErrorMessage"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-privateProjectPartialUpdate-403-schema-data').val(stringify(schema));
+                                        var result = $('#responses-privateProjectPartialUpdate-403-schema-403');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-privateProjectPartialUpdate-403-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 404 - Not Found </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 500 - Internal Server Error </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
                     <div id="api-Projects-privateProjectPublish">
                       <article id="api-Projects-privateProjectPublish-0" data-group="User" data-name="privateProjectPublish" data-version="0">
                         <div class="pull-left">
@@ -57102,7 +58944,7 @@ except ApiException as e:
                         <div class="pull-right"></div>
                         <div class="clearfix"></div>
                         <p></p>
-                        <p class="marked">Updating an project by passing body parameters; request can also be made with the PATCH method.</p>
+                        <p class="marked">Updating an project by passing body parameters.</p>
                         <p></p>
                         <br />
                         <pre class="prettyprint language-html prettyprinted" data-type="put"><code><span class="pln">/account/projects/{project_id}</span></code></pre>
