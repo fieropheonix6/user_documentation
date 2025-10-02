@@ -14,6 +14,73 @@
         "application/json"
     ],
     "paths": {
+        "/token": {
+            "get": {
+                "tags": [
+                    "oauth"
+                ],
+                "operationId": "get_token_info",
+                "summary": "Get OAuth token information",
+                "description": "Returns information about the current OAuth token",
+                "security": [],
+                "parameters": [
+                    {
+                        "name": "access_token",
+                        "in": "query",
+                        "description": "OAuth access token",
+                        "required": false,
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK. Token information",
+                        "schema": {
+                            "$ref": "#/definitions/OAuthToken"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "403": {
+                        "description": "Forbidden",
+                        "schema": {
+                            "$ref": "#/definitions/ErrorMessage"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "oauth"
+                ],
+                "operationId": "create_token",
+                "summary": "Create OAuth token",
+                "description": "Creates OAuth token using various grant types",
+                "security": [],
+                "parameters": [
+                    {
+                        "in": "body",
+                        "name": "body",
+                        "description": "Create OAuth Token Parameters",
+                        "schema": {
+                            "$ref": "#/definitions/CreateOAuthToken"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK. Token created successfully <a href='http://tools.ietf.org/html/rfc6749#section-5.1' target='_blank'>RFC 6749 Section 5.1</a>.",
+                        "schema": {
+                            "$ref": "#/definitions/OAuthToken"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request <a href='http://tools.ietf.org/html/rfc6749#section-5.2' target='_blank'>RFC 6749 Section 5.2</a>."
+                    }
+                }
+            }
+        },
         "/articles": {
             "get": {
                 "tags": [
@@ -9255,6 +9322,90 @@
         }
     },
     "definitions": {
+        "CreateOAuthToken": {
+            "x-tag": "oauth",
+            "type": "object",
+            "required": [
+                "client_id",
+                "client_secret",
+                "grant_type"
+            ],
+            "properties": {
+                "client_id": {
+                    "type": "string"
+                },
+                "client_secret": {
+                    "type": "string"
+                },
+                "grant_type": {
+                    "type": "string",
+                    "enum": [
+                        "authorization_code",
+                        "refresh_token",
+                        "password",
+                        "client_credentials"
+                    ]
+                },
+                "code": {
+                    "type": "string",
+                    "description": "Required if grant_type is 'authorization_code'"
+                },
+                "refresh_token": {
+                    "type": "string",
+                    "description": "Required if grant_type is 'refresh_token'"
+                },
+                "username": {
+                    "type": "string",
+                    "description": "Required if grant_type is 'password'"
+                },
+                "password": {
+                    "type": "string",
+                    "description": "Required if grant_type is 'password'"
+                }
+            }
+        },
+        "OAuthToken": {
+            "x-tag": "oauth",
+            "type": "object",
+            "required": [
+                "access_token",
+                "token_type",
+                "expires_in"
+            ],
+            "properties": {
+                "access_token": {
+                    "type": "string",
+                    "description": "The OAuth access token",
+                    "example": "abcd1234567890efgh"
+                },
+                "token": {
+                    "type": "string",
+                    "description": "The OAuth access token",
+                    "example": "abcd1234567890efgh"
+                },
+                "token_type": {
+                    "type": "string",
+                    "description": "The type of token issued",
+                    "example": "bearer"
+                },
+                "expires_in": {
+                    "type": "integer",
+                    "format": "int64",
+                    "description": "Token expiration time in seconds",
+                    "example": 3600
+                },
+                "refresh_token": {
+                    "type": "string",
+                    "description": "The refresh token (only provided for certain grant types)",
+                    "example": "refresh_abcd1234567890efgh"
+                },
+                "scope": {
+                    "type": "string",
+                    "description": "The scope of the access token",
+                    "example": "all"
+                }
+            }
+        },
         "AccountGroupRoles": {
             "x-tag": "institutions",
             "type": "object",
