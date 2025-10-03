@@ -739,6 +739,7 @@ margin-bottom: 20px;
         defs["CollectionVersions"] = {"type":"object","required":["funding","url","version"],"properties":{"version":{"type":"integer","format":"int64","example":1,"description":"Version number"},"url":{"type":"string","format":"url","example":"https://api.figshare.com/v2/collections/2000005/versions/1","description":"Api endpoint for the collection version"},"funding":{"type":"array","description":"Full Collection funding information","items":{"$ref":"#/definitions/FundingInformation"}}},"x-tag":"collections"};
         defs["CommonSearch"] = {"type":"object","properties":{"search_for":{"type":"string","example":"figshare","description":"Search term"},"page":{"type":"integer","format":"int64","example":1,"description":"Page number. Used for pagination with page_size","minimum":1,"maximum":5000},"page_size":{"type":"integer","format":"int64","example":10,"description":"The number of results included on a page. Used for pagination with page","minimum":1,"maximum":1000,"default":10},"limit":{"type":"integer","format":"int64","example":10,"description":"Number of results included on a page. Used for pagination with query","minimum":1,"maximum":1000},"offset":{"type":"integer","format":"int64","example":0,"description":"Where to start the listing(the offset of the first result). Used for pagination with limit","minimum":0,"maximum":5000},"order_direction":{"type":"string","example":"desc","description":"Direction of ordering","default":"desc","enum":["asc","desc"]},"institution":{"type":"integer","format":"int32","example":2000013,"description":"only return collections from this institution"},"published_since":{"type":"string","example":"2017-12-22","description":"Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ"},"modified_since":{"type":"string","example":"2017-12-22","description":"Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ"},"group":{"type":"integer","format":"int32","example":2000013,"description":"only return collections from this group"}},"x-tag":"common"};
         defs["ConfidentialityCreator"] = {"type":"object","required":["reason"],"properties":{"reason":{"type":"string","description":"Reason for confidentiality"}}};
+        defs["CreateOAuthToken"] = {"type":"object","required":["client_id","client_secret","grant_type"],"properties":{"client_id":{"type":"string"},"client_secret":{"type":"string"},"grant_type":{"type":"string","enum":["authorization_code","refresh_token","password","client_credentials"]},"code":{"type":"string","description":"Required if grant_type is 'authorization_code'"},"refresh_token":{"type":"string","description":"Required if grant_type is 'refresh_token'"},"username":{"type":"string","description":"Required if grant_type is 'password'"},"password":{"type":"string","description":"Required if grant_type is 'password'"}},"x-tag":"oauth"};
         defs["CreateProjectResponse"] = {"type":"object","required":["entity_id","location"],"properties":{"entity_id":{"type":"integer","format":"int64","example":33334444,"description":"Figshare ID of the entity"},"location":{"type":"string","format":"url","description":"Url for entity"}},"x-tag":"common"};
         defs["Curation"] = {"type":"object","required":["account_id","article_id","assigned_to","comments_count","created_date","group_id","id","modified_date","request_number","resolution_comment","status","version"],"properties":{"id":{"type":"integer","format":"int64","description":"The review id"},"group_id":{"type":"integer","format":"int64","description":"The group in which the article is present."},"account_id":{"type":"integer","format":"int64","description":"The ID of the account of the owner of the article of this review."},"assigned_to":{"type":"integer","format":"int64","description":"The ID of the account to which this review is assigned."},"article_id":{"type":"integer","format":"int64","description":"The ID of the article of this review."},"version":{"type":"integer","format":"int64","description":"The Version number of the article in review."},"comments_count":{"type":"integer","format":"int64","description":"The number of comments in the review."},"status":{"type":"string","description":"The status of the review.","enum":["pending","approved","rejected","closed"]},"created_date":{"type":"string","description":"The creation date of the review."},"modified_date":{"type":"string","description":"The date the review has been modified."},"request_number":{"type":"integer","format":"int64","description":"The request number of the review."},"resolution_comment":{"type":"string","description":"The resolution comment of the review."}},"x-tag":"institutions"};
         defs["CurationComment"] = {"type":"object","required":["account_id","created_date","id","modified_date","text","type"],"properties":{"id":{"type":"integer","format":"int64","description":"The ID of the comment."},"account_id":{"type":"integer","format":"int64","description":"The ID of the account which generated this comment."},"type":{"type":"string","description":"The ID of the account which generated this comment.","enum":["comment","approved","rejected","closed"]},"text":{"type":"string","description":"The value/content of the comment."},"created_date":{"type":"string","description":"The creation date of the comment."},"modified_date":{"type":"string","description":"The date the comment has been modified."}},"x-tag":"institutions"};
@@ -761,6 +762,7 @@ margin-bottom: 20px;
         defs["Location"] = {"type":"object","required":["location"],"properties":{"location":{"type":"string","format":"url","description":"Url for item"}},"x-tag":"common"};
         defs["LocationWarnings"] = {"type":"object","required":["entity_id","location","warnings"],"properties":{"entity_id":{"type":"integer","format":"int64","example":33334444,"description":"Figshare ID of the entity"},"location":{"type":"string","format":"url","description":"Url for entity"},"warnings":{"type":"array","description":"Issues encountered during the operation","items":{"type":"string"}}},"x-tag":"common"};
         defs["LocationWarningsUpdate"] = {"type":"object","required":["location","warnings"],"properties":{"location":{"type":"string","format":"url","description":"Url for entity"},"warnings":{"type":"array","description":"Issues encountered during the operation","items":{"type":"string"}}},"x-tag":"common"};
+        defs["OAuthToken"] = {"type":"object","required":["access_token","expires_in","token_type"],"properties":{"access_token":{"type":"string","example":"abcd1234567890efgh","description":"The OAuth access token"},"token":{"type":"string","example":"abcd1234567890efgh","description":"The OAuth access token"},"token_type":{"type":"string","example":"bearer","description":"The type of token issued"},"expires_in":{"type":"integer","format":"int64","example":3600,"description":"Token expiration time in seconds"},"refresh_token":{"type":"string","example":"refresh_abcd1234567890efgh","description":"The refresh token (only provided for certain grant types)"},"scope":{"type":"string","example":"all","description":"The scope of the access token"}},"x-tag":"oauth"};
         defs["PrivateArticleSearch"] = {"properties":{"resource_id":{"type":"string","example":"1407024","description":"only return collections with this resource_id"}},"allOf":[{"$ref":"#/definitions/ArticleSearch"}],"x-tag":"articles"};
         defs["PrivateAuthorsSearch"] = {"type":"object","properties":{"search_for":{"type":"string","example":"figshare","description":"Search term"},"page":{"type":"integer","format":"int64","example":1,"description":"Page number. Used for pagination with page_size","minimum":1,"maximum":5000},"page_size":{"type":"integer","format":"int64","example":10,"description":"The number of results included on a page. Used for pagination with page","minimum":1,"maximum":1000,"default":10},"limit":{"type":"integer","format":"int64","example":10,"description":"Number of results included on a page. Used for pagination with query","minimum":1,"maximum":1000},"offset":{"type":"integer","format":"int64","example":0,"description":"Where to start the listing(the offset of the first result). Used for pagination with limit","minimum":0,"maximum":5000},"institution_id":{"type":"integer","format":"int64","example":1,"description":"Return only authors associated to this institution","minimum":0},"orcid":{"type":"string","description":"Orcid of author"},"group_id":{"type":"integer","format":"int64","description":"Return only authors in this group or subgroups of the group","minimum":0},"is_active":{"type":"boolean","description":"Return only active authors if True"},"is_public":{"type":"boolean","description":"Return only authors that have published items if True"}},"x-tag":"authors"};
         defs["PrivateCollectionSearch"] = {"properties":{"resource_id":{"type":"string","example":"1407024","description":"only return collections with this resource_id"}},"allOf":[{"$ref":"#/definitions/CollectionSearch"}],"x-tag":"collections"};
@@ -1151,6 +1153,13 @@ margin-bottom: 20px;
                     </li>
                     <li data-group="Institutions" data-name="privateInstitutionRolesList" class="">
                       <a href="#api-Institutions-privateInstitutionRolesList">privateInstitutionRolesList</a>
+                    </li>
+                  <li class="nav-header" data-group="Oauth"><a href="#api-Oauth">API Methods - Oauth</a></li>
+                    <li data-group="Oauth" data-name="createToken" class="">
+                      <a href="#api-Oauth-createToken">createToken</a>
+                    </li>
+                    <li data-group="Oauth" data-name="getTokenInfo" class="">
+                      <a href="#api-Oauth-getTokenInfo">getTokenInfo</a>
                     </li>
                   <li class="nav-header" data-group="Other"><a href="#api-Other">API Methods - Other</a></li>
                     <li data-group="Other" data-name="categoriesList" class="">
@@ -47502,6 +47511,663 @@ except ApiException as e:
                             </ul>
 
                             <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                  </section>
+                <section id="api-Oauth">
+                  <h1>Oauth</h1>
+                    <div id="api-Oauth-createToken">
+                      <article id="api-Oauth-createToken-0" data-group="User" data-name="createToken" data-version="0">
+                        <div class="pull-left">
+                          <h1>createToken</h1>
+                          <p>Create OAuth token</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Creates OAuth token using various grant types</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="post"><code><span class="pln">/token</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Oauth-createToken-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Oauth-createToken-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Oauth-createToken-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Oauth-createToken-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Oauth-createToken-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Oauth-createToken-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Oauth-createToken-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Oauth-createToken-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Oauth-createToken-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Oauth-createToken-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Oauth-createToken-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Oauth-createToken-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X POST "https://api.figinternal.dev/v2/token"</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Oauth-createToken-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.OauthApi;
+
+import java.io.File;
+import java.util.*;
+
+public class OauthApiExample {
+
+    public static void main(String[] args) {
+        
+        OauthApi apiInstance = new OauthApi();
+        CreateOAuthToken body = ; // CreateOAuthToken | Create OAuth Token Parameters
+        try {
+            OAuthToken result = apiInstance.createToken(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling OauthApi#createToken");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Oauth-createToken-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.OauthApi;
+
+public class OauthApiExample {
+
+    public static void main(String[] args) {
+        OauthApi apiInstance = new OauthApi();
+        CreateOAuthToken body = ; // CreateOAuthToken | Create OAuth Token Parameters
+        try {
+            OAuthToken result = apiInstance.createToken(body);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling OauthApi#createToken");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Oauth-createToken-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Oauth-createToken-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">CreateOAuthToken *body = ; // Create OAuth Token Parameters (optional)
+
+OauthApi *apiInstance = [[OauthApi alloc] init];
+
+// Create OAuth token
+[apiInstance createTokenWith:body
+              completionHandler: ^(OAuthToken output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Oauth-createToken-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var FigshareApi = require('figshare_api');
+
+var api = new FigshareApi.OauthApi()
+
+var opts = { 
+  'body':  // {CreateOAuthToken} Create OAuth Token Parameters
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.createToken(opts, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Oauth-createToken-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Oauth-createToken-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class createTokenExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new OauthApi();
+            var body = new CreateOAuthToken(); // CreateOAuthToken | Create OAuth Token Parameters (optional) 
+
+            try
+            {
+                // Create OAuth token
+                OAuthToken result = apiInstance.createToken(body);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling OauthApi.createToken: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Oauth-createToken-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\OauthApi();
+$body = ; // CreateOAuthToken | Create OAuth Token Parameters
+
+try {
+    $result = $api_instance->createToken($body);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling OauthApi->createToken: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Oauth-createToken-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::OauthApi;
+
+my $api_instance = WWW::SwaggerClient::OauthApi->new();
+my $body = WWW::SwaggerClient::Object::CreateOAuthToken->new(); # CreateOAuthToken | Create OAuth Token Parameters
+
+eval { 
+    my $result = $api_instance->createToken(body => $body);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling OauthApi->createToken: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Oauth-createToken-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.OauthApi()
+body =  # CreateOAuthToken | Create OAuth Token Parameters (optional)
+
+try: 
+    # Create OAuth token
+    api_response = api_instance.create_token(body=body)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling OauthApi->createToken: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+                            <div class="methodsubtabletitle">Body parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">body </td>
+<td>
+
+
+<script>
+$(document).ready(function() {
+  var schemaWrapper = {
+  "in" : "body",
+  "name" : "body",
+  "description" : "Create OAuth Token Parameters",
+  "required" : false,
+  "schema" : {
+    "$ref" : "#/definitions/CreateOAuthToken"
+  }
+};
+  var schema = schemaWrapper.schema;
+  if (schema.$ref != null) {
+    schema = defsParser.$refs.get(schema.$ref);
+  } else {
+    schemaWrapper.definitions = Object.assign({}, defs);
+    $RefParser.dereference(schemaWrapper).catch(function(err) {
+      console.log(err);
+    });
+  }
+
+  var view = new JSONSchemaView(schema,2,{isBodyParam: true});
+  var result = $('#d2e199_createToken_body');
+  result.empty();
+  result.append(view.render());
+});
+</script>
+<div id="d2e199_createToken_body"></div>
+</td>
+</tr>
+
+                            </table>
+
+
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - OK. Token created successfully &lt;a href&#x3D;&#39;http://tools.ietf.org/html/rfc6749#section-5.1&#39; target&#x3D;&#39;_blank&#39;&gt;RFC 6749 Section 5.1&lt;/a&gt;. </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-createToken-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-createToken-200-schema">
+                                  <div id='responses-createToken-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "OK. Token created successfully <a href='http://tools.ietf.org/html/rfc6749#section-5.1' target='_blank'>RFC 6749 Section 5.1</a>.",
+  "schema" : {
+    "$ref" : "#/definitions/OAuthToken"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-createToken-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-createToken-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-createToken-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Bad Request &lt;a href&#x3D;&#39;http://tools.ietf.org/html/rfc6749#section-5.2&#39; target&#x3D;&#39;_blank&#39;&gt;RFC 6749 Section 5.2&lt;/a&gt;. </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                        </article>
+                      </div>
+                      <hr>
+                    <div id="api-Oauth-getTokenInfo">
+                      <article id="api-Oauth-getTokenInfo-0" data-group="User" data-name="getTokenInfo" data-version="0">
+                        <div class="pull-left">
+                          <h1>getTokenInfo</h1>
+                          <p>Get OAuth token information</p>
+                        </div>
+                        <div class="pull-right"></div>
+                        <div class="clearfix"></div>
+                        <p></p>
+                        <p class="marked">Returns information about the current OAuth token</p>
+                        <p></p>
+                        <br />
+                        <pre class="prettyprint language-html prettyprinted" data-type="get"><code><span class="pln">/token</span></code></pre>
+                        <p>
+                          <h3>Usage and SDK Samples</h3>
+                        </p>
+                        <ul class="nav nav-tabs nav-tabs-examples">
+                          <li class="active"><a href="#examples-Oauth-getTokenInfo-0-curl">Curl</a></li>
+                          <li class=""><a href="#examples-Oauth-getTokenInfo-0-java">Java</a></li>
+                          <li class=""><a href="#examples-Oauth-getTokenInfo-0-android">Android</a></li>
+                          <!--<li class=""><a href="#examples-Oauth-getTokenInfo-0-groovy">Groovy</a></li>-->
+                          <li class=""><a href="#examples-Oauth-getTokenInfo-0-objc">Obj-C</a></li>
+                          <li class=""><a href="#examples-Oauth-getTokenInfo-0-javascript">JavaScript</a></li>
+                          <!--<li class=""><a href="#examples-Oauth-getTokenInfo-0-angular">Angular</a></li>-->
+                          <li class=""><a href="#examples-Oauth-getTokenInfo-0-csharp">C#</a></li>
+                          <li class=""><a href="#examples-Oauth-getTokenInfo-0-php">PHP</a></li>
+                          <li class=""><a href="#examples-Oauth-getTokenInfo-0-perl">Perl</a></li>
+                          <li class=""><a href="#examples-Oauth-getTokenInfo-0-python">Python</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div class="tab-pane active" id="examples-Oauth-getTokenInfo-0-curl">
+                            <pre class="prettyprint"><code class="language-bsh">curl -X GET "https://api.figinternal.dev/v2/token?access_token="</code></pre>
+                          </div>
+                          <div class="tab-pane" id="examples-Oauth-getTokenInfo-0-java">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.*;
+import io.swagger.client.auth.*;
+import io.swagger.client.model.*;
+import io.swagger.client.api.OauthApi;
+
+import java.io.File;
+import java.util.*;
+
+public class OauthApiExample {
+
+    public static void main(String[] args) {
+        
+        OauthApi apiInstance = new OauthApi();
+        String accessToken = accessToken_example; // String | OAuth access token
+        try {
+            OAuthToken result = apiInstance.getTokenInfo(accessToken);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling OauthApi#getTokenInfo");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+
+                          <div class="tab-pane" id="examples-Oauth-getTokenInfo-0-android">
+                            <pre class="prettyprint"><code class="language-java">import io.swagger.client.api.OauthApi;
+
+public class OauthApiExample {
+
+    public static void main(String[] args) {
+        OauthApi apiInstance = new OauthApi();
+        String accessToken = accessToken_example; // String | OAuth access token
+        try {
+            OAuthToken result = apiInstance.getTokenInfo(accessToken);
+            System.out.println(result);
+        } catch (ApiException e) {
+            System.err.println("Exception when calling OauthApi#getTokenInfo");
+            e.printStackTrace();
+        }
+    }
+}</code></pre>
+                          </div>
+  <!--
+  <div class="tab-pane" id="examples-Oauth-getTokenInfo-0-groovy">
+  <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+  </div> -->
+                            <div class="tab-pane" id="examples-Oauth-getTokenInfo-0-objc">
+                              <pre class="prettyprint"><code class="language-cpp">String *accessToken = accessToken_example; // OAuth access token (optional)
+
+OauthApi *apiInstance = [[OauthApi alloc] init];
+
+// Get OAuth token information
+[apiInstance getTokenInfoWith:accessToken
+              completionHandler: ^(OAuthToken output, NSError* error) {
+                            if (output) {
+                                NSLog(@"%@", output);
+                            }
+                            if (error) {
+                                NSLog(@"Error: %@", error);
+                            }
+                        }];
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Oauth-getTokenInfo-0-javascript">
+                              <pre class="prettyprint"><code class="language-js">var FigshareApi = require('figshare_api');
+
+var api = new FigshareApi.OauthApi()
+
+var opts = { 
+  'accessToken': accessToken_example // {String} OAuth access token
+};
+
+var callback = function(error, data, response) {
+  if (error) {
+    console.error(error);
+  } else {
+    console.log('API called successfully. Returned data: ' + data);
+  }
+};
+api.getTokenInfo(opts, callback);
+</code></pre>
+                            </div>
+
+                            <!--<div class="tab-pane" id="examples-Oauth-getTokenInfo-0-angular">
+              <pre class="prettyprint language-json prettyprinted" data-type="json"><code>Coming Soon!</code></pre>
+            </div>-->
+                            <div class="tab-pane" id="examples-Oauth-getTokenInfo-0-csharp">
+                              <pre class="prettyprint"><code class="language-cs">using System;
+using System.Diagnostics;
+using IO.Swagger.Api;
+using IO.Swagger.Client;
+using IO.Swagger.Model;
+
+namespace Example
+{
+    public class getTokenInfoExample
+    {
+        public void main()
+        {
+            
+            var apiInstance = new OauthApi();
+            var accessToken = accessToken_example;  // String | OAuth access token (optional) 
+
+            try
+            {
+                // Get OAuth token information
+                OAuthToken result = apiInstance.getTokenInfo(accessToken);
+                Debug.WriteLine(result);
+            }
+            catch (Exception e)
+            {
+                Debug.Print("Exception when calling OauthApi.getTokenInfo: " + e.Message );
+            }
+        }
+    }
+}
+</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Oauth-getTokenInfo-0-php">
+                              <pre class="prettyprint"><code class="language-php"><&#63;php
+require_once(__DIR__ . '/vendor/autoload.php');
+
+$api_instance = new Swagger\Client\Api\OauthApi();
+$accessToken = accessToken_example; // String | OAuth access token
+
+try {
+    $result = $api_instance->getTokenInfo($accessToken);
+    print_r($result);
+} catch (Exception $e) {
+    echo 'Exception when calling OauthApi->getTokenInfo: ', $e->getMessage(), PHP_EOL;
+}
+?></code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Oauth-getTokenInfo-0-perl">
+                              <pre class="prettyprint"><code class="language-perl">use Data::Dumper;
+use WWW::SwaggerClient::Configuration;
+use WWW::SwaggerClient::OauthApi;
+
+my $api_instance = WWW::SwaggerClient::OauthApi->new();
+my $accessToken = accessToken_example; # String | OAuth access token
+
+eval { 
+    my $result = $api_instance->getTokenInfo(accessToken => $accessToken);
+    print Dumper($result);
+};
+if ($@) {
+    warn "Exception when calling OauthApi->getTokenInfo: $@\n";
+}</code></pre>
+                            </div>
+
+                            <div class="tab-pane" id="examples-Oauth-getTokenInfo-0-python">
+                              <pre class="prettyprint"><code class="language-python">from __future__ import print_statement
+import time
+import swagger_client
+from swagger_client.rest import ApiException
+from pprint import pprint
+
+# create an instance of the API class
+api_instance = swagger_client.OauthApi()
+accessToken = accessToken_example # String | OAuth access token (optional)
+
+try: 
+    # Get OAuth token information
+    api_response = api_instance.get_token_info(accessToken=accessToken)
+    pprint(api_response)
+except ApiException as e:
+    print("Exception when calling OauthApi->getTokenInfo: %s\n" % e)</code></pre>
+                            </div>
+                          </div>
+
+                          <h2>Parameters</h2>
+
+
+
+
+
+                            <div class="methodsubtabletitle">Query parameters</div>
+                            <table id="methodsubtable">
+                              <tr>
+                                <th width="150px">Name</th>
+                                <th>Description</th>
+                              </tr>
+                                <tr><td style="width:150px;">access_token</td>
+<td>
+
+
+    <div id="d2e199_getTokenInfo_accessToken">
+        <div class="json-schema-view">
+            <div class="primitive">
+                <span class="type">
+                    String
+                </span>
+
+                    <div class="inner description">
+                        OAuth access token
+                    </div>
+            </div>
+        </div>
+    </div>
+</td>
+</tr>
+
+                            </table>
+
+                          <h2>Responses</h2>
+                            <h3> Status: 200 - OK. Token information </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getTokenInfo-200-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getTokenInfo-200-schema">
+                                  <div id='responses-getTokenInfo-200-schema-200' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "OK. Token information",
+  "schema" : {
+    "$ref" : "#/definitions/OAuthToken"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getTokenInfo-200-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getTokenInfo-200-schema-200');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getTokenInfo-200-schema-data' type='hidden' value=''></input>
+                                </div>
+                            </div>
+
+                            <h3> Status: 400 - Bad Request </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                            </div>
+
+                            <h3> Status: 403 - Forbidden </h3>
+
+                            <ul class="nav nav-tabs nav-tabs-examples" >
+                                <li class="active">
+                                  <a data-toggle="tab" href="#responses-getTokenInfo-403-schema">Schema</a>
+                                </li>
+
+                            </ul>
+
+                            <div class="tab-content" style='margin-bottom: 10px;'>
+                                <div class="tab-pane active" id="responses-getTokenInfo-403-schema">
+                                  <div id='responses-getTokenInfo-403-schema-403' style="padding: 30px; border-left: 1px solid #eee; border-right: 1px solid #eee; border-bottom: 1px solid #eee;">
+                                    <script>
+                                      $(document).ready(function() {
+                                        var schemaWrapper = {
+  "description" : "Forbidden",
+  "schema" : {
+    "$ref" : "#/definitions/ErrorMessage"
+  }
+};
+                                        var schema = schemaWrapper.schema;
+                                        if (schema.$ref != null) {
+                                          schema = defsParser.$refs.get(schema.$ref);
+                                        } else {
+                                          schemaWrapper.definitions = defs;
+                                          $RefParser.dereference(schemaWrapper).catch(function(err) {
+                                            console.log(err);
+                                          });
+                                        }
+
+                                        //console.log(JSON.stringify(schema));
+                                        var view = new JSONSchemaView(schema, 3);
+                                        $('#responses-getTokenInfo-403-schema-data').val(stringify(schema));
+                                        var result = $('#responses-getTokenInfo-403-schema-403');
+                                        result.empty();
+                                        result.append(view.render());
+                                      });
+                                    </script>
+                                  </div>
+                                  <input id='responses-getTokenInfo-403-schema-data' type='hidden' value=''></input>
+                                </div>
                             </div>
 
                         </article>
