@@ -444,6 +444,96 @@
                 }
             }
         },
+        "/articles/{article_id}/versions/{version_id}/files": {
+            "get": {
+                "tags": [
+                    "articles"
+                ],
+                "x-subcategory": "Public Article version files",
+                "operationId": "article_version_files",
+                "summary": "Article version file details",
+                "description": "File by version id",
+                "security": [],
+                "parameters": [
+                    {
+                        "name": "article_id",
+                        "in": "path",
+                        "description": "Article Unique identifier",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    {
+                        "name": "version_id",
+                        "in": "path",
+                        "description": "Article Version Unique identifier",
+                        "required": true,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1
+                    },
+                    {
+                        "name": "page",
+                        "in": "query",
+                        "description": "Page number. Used for pagination with page_size",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "maximum": 5000
+                    },
+                    {
+                        "name": "page_size",
+                        "in": "query",
+                        "description": "The number of results included on a page. Used for pagination with page",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "maximum": 1000,
+                        "default": 10
+                    },
+                    {
+                        "name": "limit",
+                        "in": "query",
+                        "description": "Number of results included on a page. Used for pagination with query",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 1,
+                        "maximum": 1000
+                    },
+                    {
+                        "name": "offset",
+                        "in": "query",
+                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "required": false,
+                        "type": "integer",
+                        "format": "int64",
+                        "minimum": 0,
+                        "maximum": 5000
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK. File representation",
+                        "schema": {
+                            "$ref": "#/definitions/PublicFile"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request"
+                    },
+                    "404": {
+                        "description": "Not Found"
+                    },
+                    "500": {
+                        "description": "Internal Server Error"
+                    }
+                }
+            }
+        },
         "/articles/{article_id}/download": {
             "get": {
                 "tags": [
