@@ -737,7 +737,7 @@ margin-bottom: 20px;
         defs["CollectionSearch"] = {"properties":{"resource_doi":{"type":"string","example":"10.6084/m9.figshare.1407024","description":"Only return collections with this resource_doi"},"doi":{"type":"string","example":"10.6084/m9.figshare.1407024","description":"Only return collections with this doi"},"handle":{"type":"string","example":"10084/figshare.1407024","description":"Only return collections with this handle"},"order":{"type":"string","example":"published_date","description":"The field by which to order.","default":"created_date","enum":["created_date","published_date","modified_date","views","shares","cites"]}},"allOf":[{"$ref":"#/definitions/CommonSearch"}],"x-tag":"collections"};
         defs["CollectionUpdate"] = {"type":"object","properties":{"funding":{"type":"string","description":"Grant number or funding authority","default":""},"funding_list":{"type":"array","description":"Funding creation / update items","items":{"$ref":"#/definitions/FundingCreate"}},"title":{"type":"string","example":"Test collection title","description":"Title of collection","minLength":3,"maxLength":1000},"description":{"type":"string","example":"Test description of collection","description":"The collection description. In a publisher case, usually this is the remote collection description","maxLength":20000,"default":""},"articles":{"type":"array","example":[2000001,2000005],"description":"List of articles to be associated with the collection","items":{"type":"integer"}},"authors":{"type":"array","example":[{"name":"John Doe"},{"id":20005}],"description":"List of authors to be associated with the collection. The list can contain the following fields: id, name, first_name, last_name, email, orcid_id. If an id is supplied, it will take priority and everything else will be ignored. For adding more authors use the specific authors endpoint.","items":{"type":"object","properties":{}}},"categories":{"type":"array","example":[1,10,11],"description":"List of category ids to be associated with the collection (e.g [1, 23, 33, 66])","items":{"type":"integer","format":"int64"}},"categories_by_source_id":{"type":"array","example":["300204","400207"],"description":"List of category source ids to be associated with the article, supersedes the categories property","items":{"type":"string"}},"tags":{"type":"array","example":["tag1","tag2"],"description":"List of tags to be associated with the collection. Keywords can be used instead","items":{"type":"string"}},"keywords":{"type":"array","example":["tag1","tag2"],"description":"List of tags to be associated with the collection. Tags can be used instead","items":{"type":"string"}},"references":{"type":"array","example":["http://figshare.com","http://api.figshare.com"],"description":"List of links to be associated with the collection (e.g [\"http://link1\", \"http://link2\", \"http://link3\"])","items":{"type":"string","format":"link"}},"related_materials":{"type":"array","example":[{"id":10432,"identifier":"10.6084/m9.figshare.1407024","identifier_type":"DOI","relation":"IsSupplementTo","title":"Figshare for institutions brochure","is_linkout":false}],"description":"List of related materials; supersedes references and resource DOI/title.","items":{"$ref":"#/definitions/RelatedMaterial"}},"custom_fields":{"type":"object","example":{"defined_key":"value for it"},"description":"List of key, values pairs to be associated with the collection","properties":{}},"custom_fields_list":{"type":"array","description":"List of custom fields values, supersedes custom_fields parameter","items":{"$ref":"#/definitions/CustomArticleFieldAdd"}},"doi":{"type":"string","description":"Not applicable for regular users. In an institutional case, make sure your group supports setting DOIs. This setting is applied by figshare via opening a ticket through our support/helpdesk system.","default":""},"handle":{"type":"string","description":"Not applicable for regular users. In an institutional case, make sure your group supports setting Handles. This setting is applied by figshare via opening a ticket through our support/helpdesk system.","default":""},"resource_id":{"type":"string","description":"Not applicable to regular users. In a publisher case, this is the publisher article id"},"resource_doi":{"type":"string","description":"Not applicable to regular users. In a publisher case, this is the publisher article DOI.","default":""},"resource_link":{"type":"string","description":"Not applicable to regular users. In a publisher case, this is the publisher article link"},"resource_title":{"type":"string","description":"Not applicable to regular users. In a publisher case, this is the publisher article title.","default":""},"resource_version":{"type":"integer","description":"Not applicable to regular users. In a publisher case, this is the publisher article version"},"group_id":{"type":"integer","format":"int64","description":"Not applicable to regular users. This field is reserved to institutions/publishers with access to assign to specific groups"},"timeline":{"description":"Various timeline dates","$ref":"#/definitions/TimelineUpdate"}},"x-tag":"collections"};
         defs["CollectionVersions"] = {"type":"object","required":["funding","url","version"],"properties":{"version":{"type":"integer","format":"int64","example":1,"description":"Version number"},"url":{"type":"string","format":"url","example":"https://api.figshare.com/v2/collections/2000005/versions/1","description":"Api endpoint for the collection version"},"funding":{"type":"array","description":"Full Collection funding information","items":{"$ref":"#/definitions/FundingInformation"}}},"x-tag":"collections"};
-        defs["CommonSearch"] = {"type":"object","properties":{"search_for":{"type":"string","example":"figshare","description":"Search term"},"page":{"type":"integer","format":"int64","example":1,"description":"Page number. Used for pagination with page_size","minimum":1,"maximum":5000},"page_size":{"type":"integer","format":"int64","example":10,"description":"The number of results included on a page. Used for pagination with page","minimum":1,"maximum":1000,"default":10},"limit":{"type":"integer","format":"int64","example":10,"description":"Number of results included on a page. Used for pagination with query","minimum":1,"maximum":1000},"offset":{"type":"integer","format":"int64","example":0,"description":"Where to start the listing(the offset of the first result). Used for pagination with limit","minimum":0,"maximum":5000},"order_direction":{"type":"string","example":"desc","description":"Direction of ordering","default":"desc","enum":["asc","desc"]},"institution":{"type":"integer","format":"int32","example":2000013,"description":"only return collections from this institution"},"published_since":{"type":"string","example":"2017-12-22","description":"Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ"},"modified_since":{"type":"string","example":"2017-12-22","description":"Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ"},"group":{"type":"integer","format":"int32","example":2000013,"description":"only return collections from this group"}},"x-tag":"common"};
+        defs["CommonSearch"] = {"type":"object","properties":{"search_for":{"type":"string","example":"figshare","description":"Search term"},"page":{"type":"integer","format":"int64","example":1,"description":"Page number. Used for pagination with page_size","minimum":1,"maximum":5000},"page_size":{"type":"integer","format":"int64","example":10,"description":"The number of results included on a page. Used for pagination with page","minimum":1,"maximum":1000,"default":10},"limit":{"type":"integer","format":"int64","example":10,"description":"Number of results included on a page. Used for pagination with query","minimum":1,"maximum":1000},"offset":{"type":"integer","format":"int64","example":0,"description":"Where to start the listing (the offset of the first result). Used for pagination with limit","minimum":0,"maximum":5000},"order_direction":{"type":"string","example":"desc","description":"Direction of ordering","default":"desc","enum":["asc","desc"]},"institution":{"type":"integer","format":"int32","example":2000013,"description":"only return collections from this institution"},"published_since":{"type":"string","example":"2017-12-22","description":"Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ"},"modified_since":{"type":"string","example":"2017-12-22","description":"Filter by article modified date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ"},"group":{"type":"integer","format":"int32","example":2000013,"description":"only return collections from this group"}},"x-tag":"common"};
         defs["ConfidentialityCreator"] = {"type":"object","required":["reason"],"properties":{"reason":{"type":"string","description":"Reason for confidentiality"}}};
         defs["CreateOAuthToken"] = {"type":"object","required":["client_id","client_secret","grant_type"],"properties":{"client_id":{"type":"string"},"client_secret":{"type":"string"},"grant_type":{"type":"string","enum":["authorization_code","refresh_token","password","client_credentials"]},"code":{"type":"string","description":"Required if grant_type is 'authorization_code'"},"refresh_token":{"type":"string","description":"Required if grant_type is 'refresh_token'"},"username":{"type":"string","description":"Required if grant_type is 'password'"},"password":{"type":"string","description":"Required if grant_type is 'password'"}},"x-tag":"oauth"};
         defs["CreateProjectResponse"] = {"type":"object","required":["entity_id","location"],"properties":{"entity_id":{"type":"integer","format":"int64","example":33334444,"description":"Figshare ID of the entity"},"location":{"type":"string","format":"url","description":"Url for entity"}},"x-tag":"common"};
@@ -756,7 +756,7 @@ margin-bottom: 20px;
         defs["Group"] = {"type":"object","required":["association_criteria","id","name","parent_id","resource_id"],"properties":{"id":{"type":"integer","format":"int64","example":1,"description":"Group id"},"name":{"type":"string","example":"Materials","description":"Group name"},"resource_id":{"type":"string","example":"","description":"Group resource id"},"parent_id":{"type":"integer","format":"int64","example":0,"description":"Parent group if any"},"association_criteria":{"type":"string","example":"IT","description":"HR code associated with group, if code exists"}},"x-tag":"institutions"};
         defs["GroupEmbargoOptions"] = {"type":"object","required":["id","ip_name","type"],"properties":{"id":{"type":"integer","format":"int64","example":364,"description":"Embargo option id"},"type":{"type":"string","example":"ip_range","description":"Embargo permission type","enum":["logged_in","ip_range","administrator"]},"ip_name":{"type":"string","example":"Figshare IP range","description":"IP range name; value appears if type is ip_range"}},"x-tag":"institutions"};
         defs["Institution"] = {"type":"object","required":["id","name"],"properties":{"id":{"type":"integer","format":"int64","example":0,"description":"Institution id"},"name":{"type":"string","example":"Institution","description":"Institution name"}},"x-tag":"institutions"};
-        defs["InstitutionAccountsSearch"] = {"type":"object","properties":{"search_for":{"type":"string","example":"figshare","description":"Search term"},"is_active":{"type":"integer","format":"int64","description":"Filter by active status","minimum":0,"maximum":1},"page":{"type":"integer","format":"int64","example":1,"description":"Page number. Used for pagination with page_size","minimum":1,"maximum":5000},"page_size":{"type":"integer","format":"int64","example":10,"description":"The number of results included on a page. Used for pagination with page","minimum":1,"maximum":1000,"default":10},"limit":{"type":"integer","format":"int64","example":10,"description":"Number of results included on a page. Used for pagination with query","minimum":1,"maximum":1000},"offset":{"type":"integer","format":"int64","example":0,"description":"Where to start the listing(the offset of the first result). Used for pagination with limit","minimum":0,"maximum":5000},"institution_user_id":{"type":"string","example":"alan","description":"filter by institution_user_id"},"email":{"type":"string","example":"alan@institution.com","description":"filter by email"}},"x-tag":"institutions"};
+        defs["InstitutionAccountsSearch"] = {"type":"object","properties":{"search_for":{"type":"string","example":"figshare","description":"Search term"},"is_active":{"type":"integer","format":"int64","description":"Filter by active status","minimum":0,"maximum":1},"page":{"type":"integer","format":"int64","example":1,"description":"Page number. Used for pagination with page_size","minimum":1,"maximum":5000},"page_size":{"type":"integer","format":"int64","example":10,"description":"The number of results included on a page. Used for pagination with page","minimum":1,"maximum":1000,"default":10},"limit":{"type":"integer","format":"int64","example":10,"description":"Number of results included on a page. Used for pagination with query","minimum":1,"maximum":1000},"offset":{"type":"integer","format":"int64","example":0,"description":"Where to start the listing (the offset of the first result). Used for pagination with limit","minimum":0,"maximum":5000},"institution_user_id":{"type":"string","example":"alan","description":"filter by institution_user_id"},"email":{"type":"string","example":"alan@institution.com","description":"filter by email"}},"x-tag":"institutions"};
         defs["ItemType"] = {"type":"object","required":["icon","id","is_selectable","name","public_description","string_id","url_name"],"properties":{"id":{"type":"integer","format":"int64","description":"The ID of the item type.","minimum":1},"name":{"type":"string","example":"journal contribution","description":"The name of the item type"},"string_id":{"type":"string","example":"journal_contribution","description":"The string identifier of the item type."},"icon":{"type":"string","example":"paper","description":"The string identifying the icon of the item type."},"public_description":{"type":"string","example":"This is the description of an item type","description":"The description of the item type."},"is_selectable":{"type":"boolean","example":true,"description":"The selectable status"},"url_name":{"type":"string","example":"journal_contribution","description":"The URL name of the item type."}}};
         defs["License"] = {"type":"object","required":["name","url","value"],"properties":{"value":{"type":"integer","format":"int64","example":1,"description":"License value"},"name":{"type":"string","example":"CC BY","description":"License name"},"url":{"type":"string","format":"url","example":"http://creativecommons.org/licenses/by/4.0/","description":"License url"}},"x-tag":"institutions"};
         defs["Location"] = {"type":"object","required":["location"],"properties":{"location":{"type":"string","format":"url","description":"Url for item"}},"x-tag":"common"};
@@ -764,7 +764,7 @@ margin-bottom: 20px;
         defs["LocationWarningsUpdate"] = {"type":"object","required":["location","warnings"],"properties":{"location":{"type":"string","format":"url","description":"Url for entity"},"warnings":{"type":"array","description":"Issues encountered during the operation","items":{"type":"string"}}},"x-tag":"common"};
         defs["OAuthToken"] = {"type":"object","required":["access_token","expires_in","token_type"],"properties":{"access_token":{"type":"string","example":"abcd1234567890efgh","description":"The OAuth access token"},"token":{"type":"string","example":"abcd1234567890efgh","description":"The OAuth access token"},"token_type":{"type":"string","example":"bearer","description":"The type of token issued"},"expires_in":{"type":"integer","format":"int64","example":3600,"description":"Token expiration time in seconds"},"refresh_token":{"type":"string","example":"refresh_abcd1234567890efgh","description":"The refresh token (only provided for certain grant types)"},"scope":{"type":"string","example":"all","description":"The scope of the access token"}},"x-tag":"oauth"};
         defs["PrivateArticleSearch"] = {"properties":{"resource_id":{"type":"string","example":"1407024","description":"only return collections with this resource_id"}},"allOf":[{"$ref":"#/definitions/ArticleSearch"}],"x-tag":"articles"};
-        defs["PrivateAuthorsSearch"] = {"type":"object","properties":{"search_for":{"type":"string","example":"figshare","description":"Search term"},"page":{"type":"integer","format":"int64","example":1,"description":"Page number. Used for pagination with page_size","minimum":1,"maximum":5000},"page_size":{"type":"integer","format":"int64","example":10,"description":"The number of results included on a page. Used for pagination with page","minimum":1,"maximum":1000,"default":10},"limit":{"type":"integer","format":"int64","example":10,"description":"Number of results included on a page. Used for pagination with query","minimum":1,"maximum":1000},"offset":{"type":"integer","format":"int64","example":0,"description":"Where to start the listing(the offset of the first result). Used for pagination with limit","minimum":0,"maximum":5000},"institution_id":{"type":"integer","format":"int64","example":1,"description":"Return only authors associated to this institution","minimum":0},"orcid":{"type":"string","description":"Orcid of author"},"group_id":{"type":"integer","format":"int64","description":"Return only authors in this group or subgroups of the group","minimum":0},"is_active":{"type":"boolean","description":"Return only active authors if True"},"is_public":{"type":"boolean","description":"Return only authors that have published items if True"}},"x-tag":"authors"};
+        defs["PrivateAuthorsSearch"] = {"type":"object","properties":{"search_for":{"type":"string","example":"figshare","description":"Search term"},"page":{"type":"integer","format":"int64","example":1,"description":"Page number. Used for pagination with page_size","minimum":1,"maximum":5000},"page_size":{"type":"integer","format":"int64","example":10,"description":"The number of results included on a page. Used for pagination with page","minimum":1,"maximum":1000,"default":10},"limit":{"type":"integer","format":"int64","example":10,"description":"Number of results included on a page. Used for pagination with query","minimum":1,"maximum":1000},"offset":{"type":"integer","format":"int64","example":0,"description":"Where to start the listing (the offset of the first result). Used for pagination with limit","minimum":0,"maximum":5000},"institution_id":{"type":"integer","format":"int64","example":1,"description":"Return only authors associated to this institution","minimum":0},"orcid":{"type":"string","description":"Orcid of author"},"group_id":{"type":"integer","format":"int64","description":"Return only authors in this group or subgroups of the group","minimum":0},"is_active":{"type":"boolean","description":"Return only active authors if True"},"is_public":{"type":"boolean","description":"Return only authors that have published items if True"}},"x-tag":"authors"};
         defs["PrivateCollectionSearch"] = {"properties":{"resource_id":{"type":"string","example":"1407024","description":"only return collections with this resource_id"}},"allOf":[{"$ref":"#/definitions/CollectionSearch"}],"x-tag":"collections"};
         defs["PrivateFile"] = {"properties":{"viewer_type":{"type":"string","description":"File viewer type"},"preview_state":{"type":"string","example":"preview not available","description":"File preview state"},"upload_url":{"type":"string","format":"url","example":"https://uploads.figshare.com","description":"Upload url for file"},"upload_token":{"type":"string","example":"9dfc5fe3-d617-4d93-ac11-8afe7e984a4b","description":"Token for file upload"},"is_attached_to_public_version":{"type":"boolean","example":true,"description":"True if the file is attached to a public item version"}},"required":["is_attached_to_public_version","preview_state","upload_token","upload_url","viewer_type"],"allOf":[{"$ref":"#/definitions/PublicFile"}],"x-tag":"common"};
         defs["PrivateLink"] = {"type":"object","required":["expires_date","html_location","id","is_active"],"properties":{"id":{"type":"string","example":"0cfb0dbeac92df445df4aba45f63fdc85fa0b9a888b64e157ce3c93b576aa300fb3621ef3a219515dd482","description":"Private link id"},"is_active":{"type":"boolean","example":true,"description":"True if private link is active"},"expires_date":{"type":"string","example":"2015-07-03T00:00:00","description":"Date when link will expire"},"html_location":{"type":"string","format":"url","example":"https://figshare.com/s/d5ec7a85bcd6dbe9d9b2","description":"HTML url for private link"}},"x-tag":"articles"};
@@ -3469,7 +3469,7 @@ public class ArticlesApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             array[PublicFile] result = apiInstance.articleFiles(articleId, page, pageSize, limit, offset);
             System.out.println(result);
@@ -3492,7 +3492,7 @@ public class ArticlesApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             array[PublicFile] result = apiInstance.articleFiles(articleId, page, pageSize, limit, offset);
             System.out.println(result);
@@ -3512,7 +3512,7 @@ public class ArticlesApiExample {
 Long *page = 789; // Page number. Used for pagination with page_size (optional)
 Long *pageSize = 789; // The number of results included on a page. Used for pagination with page (optional) (default to 10)
 Long *limit = 789; // Number of results included on a page. Used for pagination with query (optional)
-Long *offset = 789; // Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+Long *offset = 789; // Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 ArticlesApi *apiInstance = [[ArticlesApi alloc] init];
 
@@ -3544,7 +3544,7 @@ var opts = {
   'page': 789, // {Long} Page number. Used for pagination with page_size
   'pageSize': 789, // {Long} The number of results included on a page. Used for pagination with page
   'limit': 789, // {Long} Number of results included on a page. Used for pagination with query
-  'offset': 789 // {Long} Where to start the listing(the offset of the first result). Used for pagination with limit
+  'offset': 789 // {Long} Where to start the listing (the offset of the first result). Used for pagination with limit
 };
 
 var callback = function(error, data, response) {
@@ -3580,7 +3580,7 @@ namespace Example
             var page = 789;  // Long | Page number. Used for pagination with page_size (optional) 
             var pageSize = 789;  // Long | The number of results included on a page. Used for pagination with page (optional)  (default to 10)
             var limit = 789;  // Long | Number of results included on a page. Used for pagination with query (optional) 
-            var offset = 789;  // Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional) 
+            var offset = 789;  // Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional) 
 
             try
             {
@@ -3607,7 +3607,7 @@ $articleId = 789; // Long | Article Unique identifier
 $page = 789; // Long | Page number. Used for pagination with page_size
 $pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
 $limit = 789; // Long | Number of results included on a page. Used for pagination with query
-$offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+$offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 try {
     $result = $api_instance->articleFiles($articleId, $page, $pageSize, $limit, $offset);
@@ -3628,7 +3628,7 @@ my $articleId = 789; # Long | Article Unique identifier
 my $page = 789; # Long | Page number. Used for pagination with page_size
 my $pageSize = 789; # Long | The number of results included on a page. Used for pagination with page
 my $limit = 789; # Long | Number of results included on a page. Used for pagination with query
-my $offset = 789; # Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+my $offset = 789; # Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 eval { 
     my $result = $api_instance->articleFiles(articleId => $articleId, page => $page, pageSize => $pageSize, limit => $limit, offset => $offset);
@@ -3652,7 +3652,7 @@ articleId = 789 # Long | Article Unique identifier
 page = 789 # Long | Page number. Used for pagination with page_size (optional)
 pageSize = 789 # Long | The number of results included on a page. Used for pagination with page (optional) (default to 10)
 limit = 789 # Long | Number of results included on a page. Used for pagination with query (optional)
-offset = 789 # Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+offset = 789 # Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 try: 
     # List article files
@@ -3792,7 +3792,7 @@ except ApiException as e:
                     </span>
 
                     <div class="inner description">
-                        Where to start the listing(the offset of the first result). Used for pagination with limit
+                        Where to start the listing (the offset of the first result). Used for pagination with limit
                     </div>
             </div>
         </div>
@@ -4994,9 +4994,9 @@ public class ArticlesApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
-            PublicFile result = apiInstance.articleVersionFiles(articleId, versionId, page, pageSize, limit, offset);
+            array[PublicFile] result = apiInstance.articleVersionFiles(articleId, versionId, page, pageSize, limit, offset);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ArticlesApi#articleVersionFiles");
@@ -5018,9 +5018,9 @@ public class ArticlesApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
-            PublicFile result = apiInstance.articleVersionFiles(articleId, versionId, page, pageSize, limit, offset);
+            array[PublicFile] result = apiInstance.articleVersionFiles(articleId, versionId, page, pageSize, limit, offset);
             System.out.println(result);
         } catch (ApiException e) {
             System.err.println("Exception when calling ArticlesApi#articleVersionFiles");
@@ -5039,7 +5039,7 @@ Long *versionId = 789; // Article Version Unique identifier
 Long *page = 789; // Page number. Used for pagination with page_size (optional)
 Long *pageSize = 789; // The number of results included on a page. Used for pagination with page (optional) (default to 10)
 Long *limit = 789; // Number of results included on a page. Used for pagination with query (optional)
-Long *offset = 789; // Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+Long *offset = 789; // Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 ArticlesApi *apiInstance = [[ArticlesApi alloc] init];
 
@@ -5050,7 +5050,7 @@ ArticlesApi *apiInstance = [[ArticlesApi alloc] init];
     pageSize:pageSize
     limit:limit
     offset:offset
-              completionHandler: ^(PublicFile output, NSError* error) {
+              completionHandler: ^(array[PublicFile] output, NSError* error) {
                             if (output) {
                                 NSLog(@"%@", output);
                             }
@@ -5074,7 +5074,7 @@ var opts = {
   'page': 789, // {Long} Page number. Used for pagination with page_size
   'pageSize': 789, // {Long} The number of results included on a page. Used for pagination with page
   'limit': 789, // {Long} Number of results included on a page. Used for pagination with query
-  'offset': 789 // {Long} Where to start the listing(the offset of the first result). Used for pagination with limit
+  'offset': 789 // {Long} Where to start the listing (the offset of the first result). Used for pagination with limit
 };
 
 var callback = function(error, data, response) {
@@ -5111,12 +5111,12 @@ namespace Example
             var page = 789;  // Long | Page number. Used for pagination with page_size (optional) 
             var pageSize = 789;  // Long | The number of results included on a page. Used for pagination with page (optional)  (default to 10)
             var limit = 789;  // Long | Number of results included on a page. Used for pagination with query (optional) 
-            var offset = 789;  // Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional) 
+            var offset = 789;  // Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional) 
 
             try
             {
                 // Article version file details
-                PublicFile result = apiInstance.articleVersionFiles(articleId, versionId, page, pageSize, limit, offset);
+                array[PublicFile] result = apiInstance.articleVersionFiles(articleId, versionId, page, pageSize, limit, offset);
                 Debug.WriteLine(result);
             }
             catch (Exception e)
@@ -5139,7 +5139,7 @@ $versionId = 789; // Long | Article Version Unique identifier
 $page = 789; // Long | Page number. Used for pagination with page_size
 $pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
 $limit = 789; // Long | Number of results included on a page. Used for pagination with query
-$offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+$offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 try {
     $result = $api_instance->articleVersionFiles($articleId, $versionId, $page, $pageSize, $limit, $offset);
@@ -5161,7 +5161,7 @@ my $versionId = 789; # Long | Article Version Unique identifier
 my $page = 789; # Long | Page number. Used for pagination with page_size
 my $pageSize = 789; # Long | The number of results included on a page. Used for pagination with page
 my $limit = 789; # Long | Number of results included on a page. Used for pagination with query
-my $offset = 789; # Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+my $offset = 789; # Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 eval { 
     my $result = $api_instance->articleVersionFiles(articleId => $articleId, versionId => $versionId, page => $page, pageSize => $pageSize, limit => $limit, offset => $offset);
@@ -5186,7 +5186,7 @@ versionId = 789 # Long | Article Version Unique identifier
 page = 789 # Long | Page number. Used for pagination with page_size (optional)
 pageSize = 789 # Long | The number of results included on a page. Used for pagination with page (optional) (default to 10)
 limit = 789 # Long | Number of results included on a page. Used for pagination with query (optional)
-offset = 789 # Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+offset = 789 # Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 try: 
     # Article version file details
@@ -5352,7 +5352,7 @@ except ApiException as e:
                     </span>
 
                     <div class="inner description">
-                        Where to start the listing(the offset of the first result). Used for pagination with limit
+                        Where to start the listing (the offset of the first result). Used for pagination with limit
                     </div>
             </div>
         </div>
@@ -5363,7 +5363,7 @@ except ApiException as e:
                             </table>
 
                           <h2>Responses</h2>
-                            <h3> Status: 200 - OK. File representation </h3>
+                            <h3> Status: 200 - OK. List of article version files </h3>
 
                             <ul class="nav nav-tabs nav-tabs-examples" >
                                 <li class="active">
@@ -5378,9 +5378,12 @@ except ApiException as e:
                                     <script>
                                       $(document).ready(function() {
                                         var schemaWrapper = {
-  "description" : "OK. File representation",
+  "description" : "OK. List of article version files",
   "schema" : {
-    "$ref" : "#/definitions/PublicFile"
+    "type" : "array",
+    "items" : {
+      "$ref" : "#/definitions/PublicFile"
+    }
   }
 };
                                         var schema = schemaWrapper.schema;
@@ -7241,7 +7244,7 @@ public class ArticlesApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         String order = order_example; // String | The field by which to order. Default varies by endpoint/resource.
         String orderDirection = orderDirection_example; // String | 
         Long institution = 789; // Long | only return articles from this institution
@@ -7274,7 +7277,7 @@ public class ArticlesApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         String order = order_example; // String | The field by which to order. Default varies by endpoint/resource.
         String orderDirection = orderDirection_example; // String | 
         Long institution = 789; // Long | only return articles from this institution
@@ -7304,7 +7307,7 @@ public class ArticlesApiExample {
 Long *page = 789; // Page number. Used for pagination with page_size (optional)
 Long *pageSize = 789; // The number of results included on a page. Used for pagination with page (optional) (default to 10)
 Long *limit = 789; // Number of results included on a page. Used for pagination with query (optional)
-Long *offset = 789; // Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+Long *offset = 789; // Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 String *order = order_example; // The field by which to order. Default varies by endpoint/resource. (optional) (default to published_date)
 String *orderDirection = orderDirection_example; //  (optional) (default to desc)
 Long *institution = 789; // only return articles from this institution (optional)
@@ -7355,7 +7358,7 @@ var opts = {
   'page': 789, // {Long} Page number. Used for pagination with page_size
   'pageSize': 789, // {Long} The number of results included on a page. Used for pagination with page
   'limit': 789, // {Long} Number of results included on a page. Used for pagination with query
-  'offset': 789, // {Long} Where to start the listing(the offset of the first result). Used for pagination with limit
+  'offset': 789, // {Long} Where to start the listing (the offset of the first result). Used for pagination with limit
   'order': order_example, // {String} The field by which to order. Default varies by endpoint/resource.
   'orderDirection': orderDirection_example, // {String} 
   'institution': 789, // {Long} only return articles from this institution
@@ -7401,7 +7404,7 @@ namespace Example
             var page = 789;  // Long | Page number. Used for pagination with page_size (optional) 
             var pageSize = 789;  // Long | The number of results included on a page. Used for pagination with page (optional)  (default to 10)
             var limit = 789;  // Long | Number of results included on a page. Used for pagination with query (optional) 
-            var offset = 789;  // Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional) 
+            var offset = 789;  // Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional) 
             var order = order_example;  // String | The field by which to order. Default varies by endpoint/resource. (optional)  (default to published_date)
             var orderDirection = orderDirection_example;  // String |  (optional)  (default to desc)
             var institution = 789;  // Long | only return articles from this institution (optional) 
@@ -7438,7 +7441,7 @@ $xCursor = ; // UUID | Unique hash used for bypassing the item retrieval limit o
 $page = 789; // Long | Page number. Used for pagination with page_size
 $pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
 $limit = 789; // Long | Number of results included on a page. Used for pagination with query
-$offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+$offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 $order = order_example; // String | The field by which to order. Default varies by endpoint/resource.
 $orderDirection = orderDirection_example; // String | 
 $institution = 789; // Long | only return articles from this institution
@@ -7469,7 +7472,7 @@ my $xCursor = ; # UUID | Unique hash used for bypassing the item retrieval limit
 my $page = 789; # Long | Page number. Used for pagination with page_size
 my $pageSize = 789; # Long | The number of results included on a page. Used for pagination with page
 my $limit = 789; # Long | Number of results included on a page. Used for pagination with query
-my $offset = 789; # Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+my $offset = 789; # Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 my $order = order_example; # String | The field by which to order. Default varies by endpoint/resource.
 my $orderDirection = orderDirection_example; # String | 
 my $institution = 789; # Long | only return articles from this institution
@@ -7503,7 +7506,7 @@ xCursor =  # UUID | Unique hash used for bypassing the item retrieval limit of 9
 page = 789 # Long | Page number. Used for pagination with page_size (optional)
 pageSize = 789 # Long | The number of results included on a page. Used for pagination with page (optional) (default to 10)
 limit = 789 # Long | Number of results included on a page. Used for pagination with query (optional)
-offset = 789 # Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+offset = 789 # Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 order = order_example # String | The field by which to order. Default varies by endpoint/resource. (optional) (default to published_date)
 orderDirection = orderDirection_example # String |  (optional) (default to desc)
 institution = 789 # Long | only return articles from this institution (optional)
@@ -7650,7 +7653,7 @@ except ApiException as e:
                     </span>
 
                     <div class="inner description">
-                        Where to start the listing(the offset of the first result). Used for pagination with limit
+                        Where to start the listing (the offset of the first result). Used for pagination with limit
                     </div>
             </div>
         </div>
@@ -16098,7 +16101,7 @@ public class ArticlesApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             array[PrivateFile] result = apiInstance.privateArticleFilesList(articleId, page, pageSize, limit, offset);
             System.out.println(result);
@@ -16121,7 +16124,7 @@ public class ArticlesApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             array[PrivateFile] result = apiInstance.privateArticleFilesList(articleId, page, pageSize, limit, offset);
             System.out.println(result);
@@ -16146,7 +16149,7 @@ Long *articleId = 789; // Article unique identifier
 Long *page = 789; // Page number. Used for pagination with page_size (optional)
 Long *pageSize = 789; // The number of results included on a page. Used for pagination with page (optional) (default to 10)
 Long *limit = 789; // Number of results included on a page. Used for pagination with query (optional)
-Long *offset = 789; // Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+Long *offset = 789; // Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 ArticlesApi *apiInstance = [[ArticlesApi alloc] init];
 
@@ -16183,7 +16186,7 @@ var opts = {
   'page': 789, // {Long} Page number. Used for pagination with page_size
   'pageSize': 789, // {Long} The number of results included on a page. Used for pagination with page
   'limit': 789, // {Long} Number of results included on a page. Used for pagination with query
-  'offset': 789 // {Long} Where to start the listing(the offset of the first result). Used for pagination with limit
+  'offset': 789 // {Long} Where to start the listing (the offset of the first result). Used for pagination with limit
 };
 
 var callback = function(error, data, response) {
@@ -16222,7 +16225,7 @@ namespace Example
             var page = 789;  // Long | Page number. Used for pagination with page_size (optional) 
             var pageSize = 789;  // Long | The number of results included on a page. Used for pagination with page (optional)  (default to 10)
             var limit = 789;  // Long | Number of results included on a page. Used for pagination with query (optional) 
-            var offset = 789;  // Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional) 
+            var offset = 789;  // Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional) 
 
             try
             {
@@ -16252,7 +16255,7 @@ $articleId = 789; // Long | Article unique identifier
 $page = 789; // Long | Page number. Used for pagination with page_size
 $pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
 $limit = 789; // Long | Number of results included on a page. Used for pagination with query
-$offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+$offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 try {
     $result = $api_instance->privateArticleFilesList($articleId, $page, $pageSize, $limit, $offset);
@@ -16276,7 +16279,7 @@ my $articleId = 789; # Long | Article unique identifier
 my $page = 789; # Long | Page number. Used for pagination with page_size
 my $pageSize = 789; # Long | The number of results included on a page. Used for pagination with page
 my $limit = 789; # Long | Number of results included on a page. Used for pagination with query
-my $offset = 789; # Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+my $offset = 789; # Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 eval { 
     my $result = $api_instance->privateArticleFilesList(articleId => $articleId, page => $page, pageSize => $pageSize, limit => $limit, offset => $offset);
@@ -16303,7 +16306,7 @@ articleId = 789 # Long | Article unique identifier
 page = 789 # Long | Page number. Used for pagination with page_size (optional)
 pageSize = 789 # Long | The number of results included on a page. Used for pagination with page (optional) (default to 10)
 limit = 789 # Long | Number of results included on a page. Used for pagination with query (optional)
-offset = 789 # Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+offset = 789 # Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 try: 
     # List article files
@@ -16443,7 +16446,7 @@ except ApiException as e:
                     </span>
 
                     <div class="inner description">
-                        Where to start the listing(the offset of the first result). Used for pagination with limit
+                        Where to start the listing (the offset of the first result). Used for pagination with limit
                     </div>
             </div>
         </div>
@@ -20874,7 +20877,7 @@ public class ArticlesApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             Location result = apiInstance.privateArticleUploadInitiate(articleId, file, page, pageSize, limit, offset);
             System.out.println(result);
@@ -20898,7 +20901,7 @@ public class ArticlesApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             Location result = apiInstance.privateArticleUploadInitiate(articleId, file, page, pageSize, limit, offset);
             System.out.println(result);
@@ -20924,7 +20927,7 @@ FileCreator *file = ; //
 Long *page = 789; // Page number. Used for pagination with page_size (optional)
 Long *pageSize = 789; // The number of results included on a page. Used for pagination with page (optional) (default to 10)
 Long *limit = 789; // Number of results included on a page. Used for pagination with query (optional)
-Long *offset = 789; // Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+Long *offset = 789; // Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 ArticlesApi *apiInstance = [[ArticlesApi alloc] init];
 
@@ -20964,7 +20967,7 @@ var opts = {
   'page': 789, // {Long} Page number. Used for pagination with page_size
   'pageSize': 789, // {Long} The number of results included on a page. Used for pagination with page
   'limit': 789, // {Long} Number of results included on a page. Used for pagination with query
-  'offset': 789 // {Long} Where to start the listing(the offset of the first result). Used for pagination with limit
+  'offset': 789 // {Long} Where to start the listing (the offset of the first result). Used for pagination with limit
 };
 
 var callback = function(error, data, response) {
@@ -21004,7 +21007,7 @@ namespace Example
             var page = 789;  // Long | Page number. Used for pagination with page_size (optional) 
             var pageSize = 789;  // Long | The number of results included on a page. Used for pagination with page (optional)  (default to 10)
             var limit = 789;  // Long | Number of results included on a page. Used for pagination with query (optional) 
-            var offset = 789;  // Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional) 
+            var offset = 789;  // Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional) 
 
             try
             {
@@ -21035,7 +21038,7 @@ $file = ; // FileCreator |
 $page = 789; // Long | Page number. Used for pagination with page_size
 $pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
 $limit = 789; // Long | Number of results included on a page. Used for pagination with query
-$offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+$offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 try {
     $result = $api_instance->privateArticleUploadInitiate($articleId, $file, $page, $pageSize, $limit, $offset);
@@ -21060,7 +21063,7 @@ my $file = WWW::SwaggerClient::Object::FileCreator->new(); # FileCreator |
 my $page = 789; # Long | Page number. Used for pagination with page_size
 my $pageSize = 789; # Long | The number of results included on a page. Used for pagination with page
 my $limit = 789; # Long | Number of results included on a page. Used for pagination with query
-my $offset = 789; # Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+my $offset = 789; # Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 eval { 
     my $result = $api_instance->privateArticleUploadInitiate(articleId => $articleId, file => $file, page => $page, pageSize => $pageSize, limit => $limit, offset => $offset);
@@ -21088,7 +21091,7 @@ file =  # FileCreator |
 page = 789 # Long | Page number. Used for pagination with page_size (optional)
 pageSize = 789 # Long | The number of results included on a page. Used for pagination with page (optional) (default to 10)
 limit = 789 # Long | Number of results included on a page. Used for pagination with query (optional)
-offset = 789 # Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+offset = 789 # Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 try: 
     # Initiate Upload
@@ -21269,7 +21272,7 @@ $(document).ready(function() {
                     </span>
 
                     <div class="inner description">
-                        Where to start the listing(the offset of the first result). Used for pagination with limit
+                        Where to start the listing (the offset of the first result). Used for pagination with limit
                     </div>
             </div>
         </div>
@@ -21483,7 +21486,7 @@ public class ArticlesApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             array[Article] result = apiInstance.privateArticlesList(page, pageSize, limit, offset);
             System.out.println(result);
@@ -21505,7 +21508,7 @@ public class ArticlesApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             array[Article] result = apiInstance.privateArticlesList(page, pageSize, limit, offset);
             System.out.println(result);
@@ -21529,7 +21532,7 @@ public class ArticlesApiExample {
 Long *page = 789; // Page number. Used for pagination with page_size (optional)
 Long *pageSize = 789; // The number of results included on a page. Used for pagination with page (optional) (default to 10)
 Long *limit = 789; // Number of results included on a page. Used for pagination with query (optional)
-Long *offset = 789; // Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+Long *offset = 789; // Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 ArticlesApi *apiInstance = [[ArticlesApi alloc] init];
 
@@ -21563,7 +21566,7 @@ var opts = {
   'page': 789, // {Long} Page number. Used for pagination with page_size
   'pageSize': 789, // {Long} The number of results included on a page. Used for pagination with page
   'limit': 789, // {Long} Number of results included on a page. Used for pagination with query
-  'offset': 789 // {Long} Where to start the listing(the offset of the first result). Used for pagination with limit
+  'offset': 789 // {Long} Where to start the listing (the offset of the first result). Used for pagination with limit
 };
 
 var callback = function(error, data, response) {
@@ -21601,7 +21604,7 @@ namespace Example
             var page = 789;  // Long | Page number. Used for pagination with page_size (optional) 
             var pageSize = 789;  // Long | The number of results included on a page. Used for pagination with page (optional)  (default to 10)
             var limit = 789;  // Long | Number of results included on a page. Used for pagination with query (optional) 
-            var offset = 789;  // Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional) 
+            var offset = 789;  // Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional) 
 
             try
             {
@@ -21630,7 +21633,7 @@ $api_instance = new Swagger\Client\Api\ArticlesApi();
 $page = 789; // Long | Page number. Used for pagination with page_size
 $pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
 $limit = 789; // Long | Number of results included on a page. Used for pagination with query
-$offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+$offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 try {
     $result = $api_instance->privateArticlesList($page, $pageSize, $limit, $offset);
@@ -21653,7 +21656,7 @@ my $api_instance = WWW::SwaggerClient::ArticlesApi->new();
 my $page = 789; # Long | Page number. Used for pagination with page_size
 my $pageSize = 789; # Long | The number of results included on a page. Used for pagination with page
 my $limit = 789; # Long | Number of results included on a page. Used for pagination with query
-my $offset = 789; # Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+my $offset = 789; # Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 eval { 
     my $result = $api_instance->privateArticlesList(page => $page, pageSize => $pageSize, limit => $limit, offset => $offset);
@@ -21679,7 +21682,7 @@ api_instance = swagger_client.ArticlesApi()
 page = 789 # Long | Page number. Used for pagination with page_size (optional)
 pageSize = 789 # Long | The number of results included on a page. Used for pagination with page (optional) (default to 10)
 limit = 789 # Long | Number of results included on a page. Used for pagination with query (optional)
-offset = 789 # Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+offset = 789 # Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 try: 
     # Private Articles
@@ -21786,7 +21789,7 @@ except ApiException as e:
                     </span>
 
                     <div class="inner description">
-                        Where to start the listing(the offset of the first result). Used for pagination with limit
+                        Where to start the listing (the offset of the first result). Used for pagination with limit
                     </div>
             </div>
         </div>
@@ -23769,7 +23772,7 @@ public class CollectionsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             array[Article] result = apiInstance.collectionArticles(collectionId, page, pageSize, limit, offset);
             System.out.println(result);
@@ -23792,7 +23795,7 @@ public class CollectionsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             array[Article] result = apiInstance.collectionArticles(collectionId, page, pageSize, limit, offset);
             System.out.println(result);
@@ -23812,7 +23815,7 @@ public class CollectionsApiExample {
 Long *page = 789; // Page number. Used for pagination with page_size (optional)
 Long *pageSize = 789; // The number of results included on a page. Used for pagination with page (optional) (default to 10)
 Long *limit = 789; // Number of results included on a page. Used for pagination with query (optional)
-Long *offset = 789; // Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+Long *offset = 789; // Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 CollectionsApi *apiInstance = [[CollectionsApi alloc] init];
 
@@ -23844,7 +23847,7 @@ var opts = {
   'page': 789, // {Long} Page number. Used for pagination with page_size
   'pageSize': 789, // {Long} The number of results included on a page. Used for pagination with page
   'limit': 789, // {Long} Number of results included on a page. Used for pagination with query
-  'offset': 789 // {Long} Where to start the listing(the offset of the first result). Used for pagination with limit
+  'offset': 789 // {Long} Where to start the listing (the offset of the first result). Used for pagination with limit
 };
 
 var callback = function(error, data, response) {
@@ -23880,7 +23883,7 @@ namespace Example
             var page = 789;  // Long | Page number. Used for pagination with page_size (optional) 
             var pageSize = 789;  // Long | The number of results included on a page. Used for pagination with page (optional)  (default to 10)
             var limit = 789;  // Long | Number of results included on a page. Used for pagination with query (optional) 
-            var offset = 789;  // Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional) 
+            var offset = 789;  // Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional) 
 
             try
             {
@@ -23907,7 +23910,7 @@ $collectionId = 789; // Long | Collection Unique identifier
 $page = 789; // Long | Page number. Used for pagination with page_size
 $pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
 $limit = 789; // Long | Number of results included on a page. Used for pagination with query
-$offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+$offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 try {
     $result = $api_instance->collectionArticles($collectionId, $page, $pageSize, $limit, $offset);
@@ -23928,7 +23931,7 @@ my $collectionId = 789; # Long | Collection Unique identifier
 my $page = 789; # Long | Page number. Used for pagination with page_size
 my $pageSize = 789; # Long | The number of results included on a page. Used for pagination with page
 my $limit = 789; # Long | Number of results included on a page. Used for pagination with query
-my $offset = 789; # Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+my $offset = 789; # Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 eval { 
     my $result = $api_instance->collectionArticles(collectionId => $collectionId, page => $page, pageSize => $pageSize, limit => $limit, offset => $offset);
@@ -23952,7 +23955,7 @@ collectionId = 789 # Long | Collection Unique identifier
 page = 789 # Long | Page number. Used for pagination with page_size (optional)
 pageSize = 789 # Long | The number of results included on a page. Used for pagination with page (optional) (default to 10)
 limit = 789 # Long | Number of results included on a page. Used for pagination with query (optional)
-offset = 789 # Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+offset = 789 # Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 try: 
     # Public Collection Articles
@@ -24092,7 +24095,7 @@ except ApiException as e:
                     </span>
 
                     <div class="inner description">
-                        Where to start the listing(the offset of the first result). Used for pagination with limit
+                        Where to start the listing (the offset of the first result). Used for pagination with limit
                     </div>
             </div>
         </div>
@@ -25232,7 +25235,7 @@ public class CollectionsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         String order = order_example; // String | The field by which to order. Default varies by endpoint/resource.
         String orderDirection = orderDirection_example; // String | 
         Long institution = 789; // Long | only return collections from this institution
@@ -25264,7 +25267,7 @@ public class CollectionsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         String order = order_example; // String | The field by which to order. Default varies by endpoint/resource.
         String orderDirection = orderDirection_example; // String | 
         Long institution = 789; // Long | only return collections from this institution
@@ -25293,7 +25296,7 @@ public class CollectionsApiExample {
 Long *page = 789; // Page number. Used for pagination with page_size (optional)
 Long *pageSize = 789; // The number of results included on a page. Used for pagination with page (optional) (default to 10)
 Long *limit = 789; // Number of results included on a page. Used for pagination with query (optional)
-Long *offset = 789; // Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+Long *offset = 789; // Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 String *order = order_example; // The field by which to order. Default varies by endpoint/resource. (optional) (default to published_date)
 String *orderDirection = orderDirection_example; //  (optional) (default to desc)
 Long *institution = 789; // only return collections from this institution (optional)
@@ -25342,7 +25345,7 @@ var opts = {
   'page': 789, // {Long} Page number. Used for pagination with page_size
   'pageSize': 789, // {Long} The number of results included on a page. Used for pagination with page
   'limit': 789, // {Long} Number of results included on a page. Used for pagination with query
-  'offset': 789, // {Long} Where to start the listing(the offset of the first result). Used for pagination with limit
+  'offset': 789, // {Long} Where to start the listing (the offset of the first result). Used for pagination with limit
   'order': order_example, // {String} The field by which to order. Default varies by endpoint/resource.
   'orderDirection': orderDirection_example, // {String} 
   'institution': 789, // {Long} only return collections from this institution
@@ -25387,7 +25390,7 @@ namespace Example
             var page = 789;  // Long | Page number. Used for pagination with page_size (optional) 
             var pageSize = 789;  // Long | The number of results included on a page. Used for pagination with page (optional)  (default to 10)
             var limit = 789;  // Long | Number of results included on a page. Used for pagination with query (optional) 
-            var offset = 789;  // Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional) 
+            var offset = 789;  // Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional) 
             var order = order_example;  // String | The field by which to order. Default varies by endpoint/resource. (optional)  (default to published_date)
             var orderDirection = orderDirection_example;  // String |  (optional)  (default to desc)
             var institution = 789;  // Long | only return collections from this institution (optional) 
@@ -25423,7 +25426,7 @@ $xCursor = ; // UUID | Unique hash used for bypassing the item retrieval limit o
 $page = 789; // Long | Page number. Used for pagination with page_size
 $pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
 $limit = 789; // Long | Number of results included on a page. Used for pagination with query
-$offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+$offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 $order = order_example; // String | The field by which to order. Default varies by endpoint/resource.
 $orderDirection = orderDirection_example; // String | 
 $institution = 789; // Long | only return collections from this institution
@@ -25453,7 +25456,7 @@ my $xCursor = ; # UUID | Unique hash used for bypassing the item retrieval limit
 my $page = 789; # Long | Page number. Used for pagination with page_size
 my $pageSize = 789; # Long | The number of results included on a page. Used for pagination with page
 my $limit = 789; # Long | Number of results included on a page. Used for pagination with query
-my $offset = 789; # Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+my $offset = 789; # Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 my $order = order_example; # String | The field by which to order. Default varies by endpoint/resource.
 my $orderDirection = orderDirection_example; # String | 
 my $institution = 789; # Long | only return collections from this institution
@@ -25486,7 +25489,7 @@ xCursor =  # UUID | Unique hash used for bypassing the item retrieval limit of 9
 page = 789 # Long | Page number. Used for pagination with page_size (optional)
 pageSize = 789 # Long | The number of results included on a page. Used for pagination with page (optional) (default to 10)
 limit = 789 # Long | Number of results included on a page. Used for pagination with query (optional)
-offset = 789 # Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+offset = 789 # Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 order = order_example # String | The field by which to order. Default varies by endpoint/resource. (optional) (default to published_date)
 orderDirection = orderDirection_example # String |  (optional) (default to desc)
 institution = 789 # Long | only return collections from this institution (optional)
@@ -25632,7 +25635,7 @@ except ApiException as e:
                     </span>
 
                     <div class="inner description">
-                        Where to start the listing(the offset of the first result). Used for pagination with limit
+                        Where to start the listing (the offset of the first result). Used for pagination with limit
                     </div>
             </div>
         </div>
@@ -27217,7 +27220,7 @@ public class CollectionsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             array[Article] result = apiInstance.privateCollectionArticlesList(collectionId, page, pageSize, limit, offset);
             System.out.println(result);
@@ -27240,7 +27243,7 @@ public class CollectionsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             array[Article] result = apiInstance.privateCollectionArticlesList(collectionId, page, pageSize, limit, offset);
             System.out.println(result);
@@ -27265,7 +27268,7 @@ Long *collectionId = 789; // Collection unique identifier
 Long *page = 789; // Page number. Used for pagination with page_size (optional)
 Long *pageSize = 789; // The number of results included on a page. Used for pagination with page (optional) (default to 10)
 Long *limit = 789; // Number of results included on a page. Used for pagination with query (optional)
-Long *offset = 789; // Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+Long *offset = 789; // Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 CollectionsApi *apiInstance = [[CollectionsApi alloc] init];
 
@@ -27302,7 +27305,7 @@ var opts = {
   'page': 789, // {Long} Page number. Used for pagination with page_size
   'pageSize': 789, // {Long} The number of results included on a page. Used for pagination with page
   'limit': 789, // {Long} Number of results included on a page. Used for pagination with query
-  'offset': 789 // {Long} Where to start the listing(the offset of the first result). Used for pagination with limit
+  'offset': 789 // {Long} Where to start the listing (the offset of the first result). Used for pagination with limit
 };
 
 var callback = function(error, data, response) {
@@ -27341,7 +27344,7 @@ namespace Example
             var page = 789;  // Long | Page number. Used for pagination with page_size (optional) 
             var pageSize = 789;  // Long | The number of results included on a page. Used for pagination with page (optional)  (default to 10)
             var limit = 789;  // Long | Number of results included on a page. Used for pagination with query (optional) 
-            var offset = 789;  // Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional) 
+            var offset = 789;  // Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional) 
 
             try
             {
@@ -27371,7 +27374,7 @@ $collectionId = 789; // Long | Collection unique identifier
 $page = 789; // Long | Page number. Used for pagination with page_size
 $pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
 $limit = 789; // Long | Number of results included on a page. Used for pagination with query
-$offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+$offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 try {
     $result = $api_instance->privateCollectionArticlesList($collectionId, $page, $pageSize, $limit, $offset);
@@ -27395,7 +27398,7 @@ my $collectionId = 789; # Long | Collection unique identifier
 my $page = 789; # Long | Page number. Used for pagination with page_size
 my $pageSize = 789; # Long | The number of results included on a page. Used for pagination with page
 my $limit = 789; # Long | Number of results included on a page. Used for pagination with query
-my $offset = 789; # Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+my $offset = 789; # Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 eval { 
     my $result = $api_instance->privateCollectionArticlesList(collectionId => $collectionId, page => $page, pageSize => $pageSize, limit => $limit, offset => $offset);
@@ -27422,7 +27425,7 @@ collectionId = 789 # Long | Collection unique identifier
 page = 789 # Long | Page number. Used for pagination with page_size (optional)
 pageSize = 789 # Long | The number of results included on a page. Used for pagination with page (optional) (default to 10)
 limit = 789 # Long | Number of results included on a page. Used for pagination with query (optional)
-offset = 789 # Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+offset = 789 # Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 try: 
     # List collection articles
@@ -27562,7 +27565,7 @@ except ApiException as e:
                     </span>
 
                     <div class="inner description">
-                        Where to start the listing(the offset of the first result). Used for pagination with limit
+                        Where to start the listing (the offset of the first result). Used for pagination with limit
                     </div>
             </div>
         </div>
@@ -37216,7 +37219,7 @@ public class CollectionsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         String order = order_example; // String | The field by which to order. Default varies by endpoint/resource.
         String orderDirection = orderDirection_example; // String | 
         try {
@@ -37240,7 +37243,7 @@ public class CollectionsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         String order = order_example; // String | The field by which to order. Default varies by endpoint/resource.
         String orderDirection = orderDirection_example; // String | 
         try {
@@ -37266,7 +37269,7 @@ public class CollectionsApiExample {
 Long *page = 789; // Page number. Used for pagination with page_size (optional)
 Long *pageSize = 789; // The number of results included on a page. Used for pagination with page (optional) (default to 10)
 Long *limit = 789; // Number of results included on a page. Used for pagination with query (optional)
-Long *offset = 789; // Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+Long *offset = 789; // Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 String *order = order_example; // The field by which to order. Default varies by endpoint/resource. (optional) (default to published_date)
 String *orderDirection = orderDirection_example; //  (optional) (default to desc)
 
@@ -37304,7 +37307,7 @@ var opts = {
   'page': 789, // {Long} Page number. Used for pagination with page_size
   'pageSize': 789, // {Long} The number of results included on a page. Used for pagination with page
   'limit': 789, // {Long} Number of results included on a page. Used for pagination with query
-  'offset': 789, // {Long} Where to start the listing(the offset of the first result). Used for pagination with limit
+  'offset': 789, // {Long} Where to start the listing (the offset of the first result). Used for pagination with limit
   'order': order_example, // {String} The field by which to order. Default varies by endpoint/resource.
   'orderDirection': orderDirection_example // {String} 
 };
@@ -37344,7 +37347,7 @@ namespace Example
             var page = 789;  // Long | Page number. Used for pagination with page_size (optional) 
             var pageSize = 789;  // Long | The number of results included on a page. Used for pagination with page (optional)  (default to 10)
             var limit = 789;  // Long | Number of results included on a page. Used for pagination with query (optional) 
-            var offset = 789;  // Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional) 
+            var offset = 789;  // Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional) 
             var order = order_example;  // String | The field by which to order. Default varies by endpoint/resource. (optional)  (default to published_date)
             var orderDirection = orderDirection_example;  // String |  (optional)  (default to desc)
 
@@ -37375,7 +37378,7 @@ $api_instance = new Swagger\Client\Api\CollectionsApi();
 $page = 789; // Long | Page number. Used for pagination with page_size
 $pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
 $limit = 789; // Long | Number of results included on a page. Used for pagination with query
-$offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+$offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 $order = order_example; // String | The field by which to order. Default varies by endpoint/resource.
 $orderDirection = orderDirection_example; // String | 
 
@@ -37400,7 +37403,7 @@ my $api_instance = WWW::SwaggerClient::CollectionsApi->new();
 my $page = 789; # Long | Page number. Used for pagination with page_size
 my $pageSize = 789; # Long | The number of results included on a page. Used for pagination with page
 my $limit = 789; # Long | Number of results included on a page. Used for pagination with query
-my $offset = 789; # Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+my $offset = 789; # Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 my $order = order_example; # String | The field by which to order. Default varies by endpoint/resource.
 my $orderDirection = orderDirection_example; # String | 
 
@@ -37428,7 +37431,7 @@ api_instance = swagger_client.CollectionsApi()
 page = 789 # Long | Page number. Used for pagination with page_size (optional)
 pageSize = 789 # Long | The number of results included on a page. Used for pagination with page (optional) (default to 10)
 limit = 789 # Long | Number of results included on a page. Used for pagination with query (optional)
-offset = 789 # Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+offset = 789 # Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 order = order_example # String | The field by which to order. Default varies by endpoint/resource. (optional) (default to published_date)
 orderDirection = orderDirection_example # String |  (optional) (default to desc)
 
@@ -37537,7 +37540,7 @@ except ApiException as e:
                     </span>
 
                     <div class="inner description">
-                        Where to start the listing(the offset of the first result). Used for pagination with limit
+                        Where to start the listing (the offset of the first result). Used for pagination with limit
                     </div>
             </div>
         </div>
@@ -38535,7 +38538,7 @@ public class InstitutionsApiExample {
         Long articleId = 789; // Long | Retrieve the reviews for this article
         String status = status_example; // String | Filter by the status of the review
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             Curation result = apiInstance.accountInstitutionCurations(groupId, articleId, status, limit, offset);
             System.out.println(result);
@@ -38558,7 +38561,7 @@ public class InstitutionsApiExample {
         Long articleId = 789; // Long | Retrieve the reviews for this article
         String status = status_example; // String | Filter by the status of the review
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             Curation result = apiInstance.accountInstitutionCurations(groupId, articleId, status, limit, offset);
             System.out.println(result);
@@ -38583,7 +38586,7 @@ Long *groupId = 789; // Filter by the group ID (optional)
 Long *articleId = 789; // Retrieve the reviews for this article (optional)
 String *status = status_example; // Filter by the status of the review (optional)
 Long *limit = 789; // Number of results included on a page. Used for pagination with query (optional)
-Long *offset = 789; // Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+Long *offset = 789; // Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 InstitutionsApi *apiInstance = [[InstitutionsApi alloc] init];
 
@@ -38619,7 +38622,7 @@ var opts = {
   'articleId': 789, // {Long} Retrieve the reviews for this article
   'status': status_example, // {String} Filter by the status of the review
   'limit': 789, // {Long} Number of results included on a page. Used for pagination with query
-  'offset': 789 // {Long} Where to start the listing(the offset of the first result). Used for pagination with limit
+  'offset': 789 // {Long} Where to start the listing (the offset of the first result). Used for pagination with limit
 };
 
 var callback = function(error, data, response) {
@@ -38658,7 +38661,7 @@ namespace Example
             var articleId = 789;  // Long | Retrieve the reviews for this article (optional) 
             var status = status_example;  // String | Filter by the status of the review (optional) 
             var limit = 789;  // Long | Number of results included on a page. Used for pagination with query (optional) 
-            var offset = 789;  // Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional) 
+            var offset = 789;  // Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional) 
 
             try
             {
@@ -38688,7 +38691,7 @@ $groupId = 789; // Long | Filter by the group ID
 $articleId = 789; // Long | Retrieve the reviews for this article
 $status = status_example; // String | Filter by the status of the review
 $limit = 789; // Long | Number of results included on a page. Used for pagination with query
-$offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+$offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 try {
     $result = $api_instance->accountInstitutionCurations($groupId, $articleId, $status, $limit, $offset);
@@ -38712,7 +38715,7 @@ my $groupId = 789; # Long | Filter by the group ID
 my $articleId = 789; # Long | Retrieve the reviews for this article
 my $status = status_example; # String | Filter by the status of the review
 my $limit = 789; # Long | Number of results included on a page. Used for pagination with query
-my $offset = 789; # Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+my $offset = 789; # Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 eval { 
     my $result = $api_instance->accountInstitutionCurations(groupId => $groupId, articleId => $articleId, status => $status, limit => $limit, offset => $offset);
@@ -38739,7 +38742,7 @@ groupId = 789 # Long | Filter by the group ID (optional)
 articleId = 789 # Long | Retrieve the reviews for this article (optional)
 status = status_example # String | Filter by the status of the review (optional)
 limit = 789 # Long | Number of results included on a page. Used for pagination with query (optional)
-offset = 789 # Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+offset = 789 # Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 try: 
     # Institution Curation Reviews
@@ -38866,7 +38869,7 @@ except ApiException as e:
                     </span>
 
                     <div class="inner description">
-                        Where to start the listing(the offset of the first result). Used for pagination with limit
+                        Where to start the listing (the offset of the first result). Used for pagination with limit
                     </div>
             </div>
         </div>
@@ -39858,7 +39861,7 @@ public class InstitutionsApiExample {
         InstitutionsApi apiInstance = new InstitutionsApi();
         Long curationId = 789; // Long | ID of the curation
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             CurationComment result = apiInstance.getAccountInstitutionCurationComments(curationId, limit, offset);
             System.out.println(result);
@@ -39879,7 +39882,7 @@ public class InstitutionsApiExample {
         InstitutionsApi apiInstance = new InstitutionsApi();
         Long curationId = 789; // Long | ID of the curation
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             CurationComment result = apiInstance.getAccountInstitutionCurationComments(curationId, limit, offset);
             System.out.println(result);
@@ -39902,7 +39905,7 @@ public class InstitutionsApiExample {
 
 Long *curationId = 789; // ID of the curation
 Long *limit = 789; // Number of results included on a page. Used for pagination with query (optional)
-Long *offset = 789; // Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+Long *offset = 789; // Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 InstitutionsApi *apiInstance = [[InstitutionsApi alloc] init];
 
@@ -39935,7 +39938,7 @@ var curationId = 789; // {Long} ID of the curation
 
 var opts = { 
   'limit': 789, // {Long} Number of results included on a page. Used for pagination with query
-  'offset': 789 // {Long} Where to start the listing(the offset of the first result). Used for pagination with limit
+  'offset': 789 // {Long} Where to start the listing (the offset of the first result). Used for pagination with limit
 };
 
 var callback = function(error, data, response) {
@@ -39972,7 +39975,7 @@ namespace Example
             var apiInstance = new InstitutionsApi();
             var curationId = 789;  // Long | ID of the curation
             var limit = 789;  // Long | Number of results included on a page. Used for pagination with query (optional) 
-            var offset = 789;  // Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional) 
+            var offset = 789;  // Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional) 
 
             try
             {
@@ -40000,7 +40003,7 @@ Swagger\Client\Configuration::getDefaultConfiguration()->setAccessToken('YOUR_AC
 $api_instance = new Swagger\Client\Api\InstitutionsApi();
 $curationId = 789; // Long | ID of the curation
 $limit = 789; // Long | Number of results included on a page. Used for pagination with query
-$offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+$offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 try {
     $result = $api_instance->getAccountInstitutionCurationComments($curationId, $limit, $offset);
@@ -40022,7 +40025,7 @@ $WWW::SwaggerClient::Configuration::access_token = 'YOUR_ACCESS_TOKEN';
 my $api_instance = WWW::SwaggerClient::InstitutionsApi->new();
 my $curationId = 789; # Long | ID of the curation
 my $limit = 789; # Long | Number of results included on a page. Used for pagination with query
-my $offset = 789; # Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+my $offset = 789; # Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 eval { 
     my $result = $api_instance->getAccountInstitutionCurationComments(curationId => $curationId, limit => $limit, offset => $offset);
@@ -40047,7 +40050,7 @@ swagger_client.configuration.access_token = 'YOUR_ACCESS_TOKEN'
 api_instance = swagger_client.InstitutionsApi()
 curationId = 789 # Long | ID of the curation
 limit = 789 # Long | Number of results included on a page. Used for pagination with query (optional)
-offset = 789 # Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+offset = 789 # Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 try: 
     # Institution Curation Review Comments
@@ -40141,7 +40144,7 @@ except ApiException as e:
                     </span>
 
                     <div class="inner description">
-                        Where to start the listing(the offset of the first result). Used for pagination with limit
+                        Where to start the listing (the offset of the first result). Used for pagination with limit
                     </div>
             </div>
         </div>
@@ -44549,7 +44552,7 @@ public class InstitutionsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         Long isActive = 789; // Long | Filter by active status
         String institutionUserId = institutionUserId_example; // String | Filter by institution_user_id
         String email = email_example; // String | Filter by email
@@ -44576,7 +44579,7 @@ public class InstitutionsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         Long isActive = 789; // Long | Filter by active status
         String institutionUserId = institutionUserId_example; // String | Filter by institution_user_id
         String email = email_example; // String | Filter by email
@@ -44605,7 +44608,7 @@ public class InstitutionsApiExample {
 Long *page = 789; // Page number. Used for pagination with page_size (optional)
 Long *pageSize = 789; // The number of results included on a page. Used for pagination with page (optional) (default to 10)
 Long *limit = 789; // Number of results included on a page. Used for pagination with query (optional)
-Long *offset = 789; // Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+Long *offset = 789; // Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 Long *isActive = 789; // Filter by active status (optional)
 String *institutionUserId = institutionUserId_example; // Filter by institution_user_id (optional)
 String *email = email_example; // Filter by email (optional)
@@ -44649,7 +44652,7 @@ var opts = {
   'page': 789, // {Long} Page number. Used for pagination with page_size
   'pageSize': 789, // {Long} The number of results included on a page. Used for pagination with page
   'limit': 789, // {Long} Number of results included on a page. Used for pagination with query
-  'offset': 789, // {Long} Where to start the listing(the offset of the first result). Used for pagination with limit
+  'offset': 789, // {Long} Where to start the listing (the offset of the first result). Used for pagination with limit
   'isActive': 789, // {Long} Filter by active status
   'institutionUserId': institutionUserId_example, // {String} Filter by institution_user_id
   'email': email_example, // {String} Filter by email
@@ -44692,7 +44695,7 @@ namespace Example
             var page = 789;  // Long | Page number. Used for pagination with page_size (optional) 
             var pageSize = 789;  // Long | The number of results included on a page. Used for pagination with page (optional)  (default to 10)
             var limit = 789;  // Long | Number of results included on a page. Used for pagination with query (optional) 
-            var offset = 789;  // Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional) 
+            var offset = 789;  // Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional) 
             var isActive = 789;  // Long | Filter by active status (optional) 
             var institutionUserId = institutionUserId_example;  // String | Filter by institution_user_id (optional) 
             var email = email_example;  // String | Filter by email (optional) 
@@ -44726,7 +44729,7 @@ $api_instance = new Swagger\Client\Api\InstitutionsApi();
 $page = 789; // Long | Page number. Used for pagination with page_size
 $pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
 $limit = 789; // Long | Number of results included on a page. Used for pagination with query
-$offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+$offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 $isActive = 789; // Long | Filter by active status
 $institutionUserId = institutionUserId_example; // String | Filter by institution_user_id
 $email = email_example; // String | Filter by email
@@ -44754,7 +44757,7 @@ my $api_instance = WWW::SwaggerClient::InstitutionsApi->new();
 my $page = 789; # Long | Page number. Used for pagination with page_size
 my $pageSize = 789; # Long | The number of results included on a page. Used for pagination with page
 my $limit = 789; # Long | Number of results included on a page. Used for pagination with query
-my $offset = 789; # Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+my $offset = 789; # Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 my $isActive = 789; # Long | Filter by active status
 my $institutionUserId = institutionUserId_example; # String | Filter by institution_user_id
 my $email = email_example; # String | Filter by email
@@ -44785,7 +44788,7 @@ api_instance = swagger_client.InstitutionsApi()
 page = 789 # Long | Page number. Used for pagination with page_size (optional)
 pageSize = 789 # Long | The number of results included on a page. Used for pagination with page (optional) (default to 10)
 limit = 789 # Long | Number of results included on a page. Used for pagination with query (optional)
-offset = 789 # Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+offset = 789 # Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 isActive = 789 # Long | Filter by active status (optional)
 institutionUserId = institutionUserId_example # String | Filter by institution_user_id (optional)
 email = email_example # String | Filter by email (optional)
@@ -44897,7 +44900,7 @@ except ApiException as e:
                     </span>
 
                     <div class="inner description">
-                        Where to start the listing(the offset of the first result). Used for pagination with limit
+                        Where to start the listing (the offset of the first result). Used for pagination with limit
                     </div>
             </div>
         </div>
@@ -45990,7 +45993,7 @@ public class InstitutionsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         String order = order_example; // String | The field by which to order. Default varies by endpoint/resource.
         String orderDirection = orderDirection_example; // String | 
         String publishedSince = publishedSince_example; // String | Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ
@@ -46020,7 +46023,7 @@ public class InstitutionsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         String order = order_example; // String | The field by which to order. Default varies by endpoint/resource.
         String orderDirection = orderDirection_example; // String | 
         String publishedSince = publishedSince_example; // String | Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ
@@ -46052,7 +46055,7 @@ public class InstitutionsApiExample {
 Long *page = 789; // Page number. Used for pagination with page_size (optional)
 Long *pageSize = 789; // The number of results included on a page. Used for pagination with page (optional) (default to 10)
 Long *limit = 789; // Number of results included on a page. Used for pagination with query (optional)
-Long *offset = 789; // Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+Long *offset = 789; // Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 String *order = order_example; // The field by which to order. Default varies by endpoint/resource. (optional) (default to published_date)
 String *orderDirection = orderDirection_example; //  (optional) (default to desc)
 String *publishedSince = publishedSince_example; // Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ (optional)
@@ -46102,7 +46105,7 @@ var opts = {
   'page': 789, // {Long} Page number. Used for pagination with page_size
   'pageSize': 789, // {Long} The number of results included on a page. Used for pagination with page
   'limit': 789, // {Long} Number of results included on a page. Used for pagination with query
-  'offset': 789, // {Long} Where to start the listing(the offset of the first result). Used for pagination with limit
+  'offset': 789, // {Long} Where to start the listing (the offset of the first result). Used for pagination with limit
   'order': order_example, // {String} The field by which to order. Default varies by endpoint/resource.
   'orderDirection': orderDirection_example, // {String} 
   'publishedSince': publishedSince_example, // {String} Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ
@@ -46148,7 +46151,7 @@ namespace Example
             var page = 789;  // Long | Page number. Used for pagination with page_size (optional) 
             var pageSize = 789;  // Long | The number of results included on a page. Used for pagination with page (optional)  (default to 10)
             var limit = 789;  // Long | Number of results included on a page. Used for pagination with query (optional) 
-            var offset = 789;  // Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional) 
+            var offset = 789;  // Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional) 
             var order = order_example;  // String | The field by which to order. Default varies by endpoint/resource. (optional)  (default to published_date)
             var orderDirection = orderDirection_example;  // String |  (optional)  (default to desc)
             var publishedSince = publishedSince_example;  // String | Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ (optional) 
@@ -46185,7 +46188,7 @@ $api_instance = new Swagger\Client\Api\InstitutionsApi();
 $page = 789; // Long | Page number. Used for pagination with page_size
 $pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
 $limit = 789; // Long | Number of results included on a page. Used for pagination with query
-$offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+$offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 $order = order_example; // String | The field by which to order. Default varies by endpoint/resource.
 $orderDirection = orderDirection_example; // String | 
 $publishedSince = publishedSince_example; // String | Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ
@@ -46216,7 +46219,7 @@ my $api_instance = WWW::SwaggerClient::InstitutionsApi->new();
 my $page = 789; # Long | Page number. Used for pagination with page_size
 my $pageSize = 789; # Long | The number of results included on a page. Used for pagination with page
 my $limit = 789; # Long | Number of results included on a page. Used for pagination with query
-my $offset = 789; # Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+my $offset = 789; # Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 my $order = order_example; # String | The field by which to order. Default varies by endpoint/resource.
 my $orderDirection = orderDirection_example; # String | 
 my $publishedSince = publishedSince_example; # String | Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ
@@ -46250,7 +46253,7 @@ api_instance = swagger_client.InstitutionsApi()
 page = 789 # Long | Page number. Used for pagination with page_size (optional)
 pageSize = 789 # Long | The number of results included on a page. Used for pagination with page (optional) (default to 10)
 limit = 789 # Long | Number of results included on a page. Used for pagination with query (optional)
-offset = 789 # Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+offset = 789 # Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 order = order_example # String | The field by which to order. Default varies by endpoint/resource. (optional) (default to published_date)
 orderDirection = orderDirection_example # String |  (optional) (default to desc)
 publishedSince = publishedSince_example # String | Filter by article publishing date. Will only return articles published after the date. date(ISO 8601) YYYY-MM-DD or date-time(ISO 8601) YYYY-MM-DDTHH:mm:ssZ (optional)
@@ -46365,7 +46368,7 @@ except ApiException as e:
                     </span>
 
                     <div class="inner description">
-                        Where to start the listing(the offset of the first result). Used for pagination with limit
+                        Where to start the listing (the offset of the first result). Used for pagination with limit
                     </div>
             </div>
         </div>
@@ -58826,7 +58829,7 @@ public class ProjectsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             array[ProjectNote] result = apiInstance.privateProjectNotesList(projectId, page, pageSize, limit, offset);
             System.out.println(result);
@@ -58849,7 +58852,7 @@ public class ProjectsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             array[ProjectNote] result = apiInstance.privateProjectNotesList(projectId, page, pageSize, limit, offset);
             System.out.println(result);
@@ -58874,7 +58877,7 @@ Long *projectId = 789; // Project unique identifier
 Long *page = 789; // Page number. Used for pagination with page_size (optional)
 Long *pageSize = 789; // The number of results included on a page. Used for pagination with page (optional) (default to 10)
 Long *limit = 789; // Number of results included on a page. Used for pagination with query (optional)
-Long *offset = 789; // Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+Long *offset = 789; // Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 ProjectsApi *apiInstance = [[ProjectsApi alloc] init];
 
@@ -58911,7 +58914,7 @@ var opts = {
   'page': 789, // {Long} Page number. Used for pagination with page_size
   'pageSize': 789, // {Long} The number of results included on a page. Used for pagination with page
   'limit': 789, // {Long} Number of results included on a page. Used for pagination with query
-  'offset': 789 // {Long} Where to start the listing(the offset of the first result). Used for pagination with limit
+  'offset': 789 // {Long} Where to start the listing (the offset of the first result). Used for pagination with limit
 };
 
 var callback = function(error, data, response) {
@@ -58950,7 +58953,7 @@ namespace Example
             var page = 789;  // Long | Page number. Used for pagination with page_size (optional) 
             var pageSize = 789;  // Long | The number of results included on a page. Used for pagination with page (optional)  (default to 10)
             var limit = 789;  // Long | Number of results included on a page. Used for pagination with query (optional) 
-            var offset = 789;  // Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional) 
+            var offset = 789;  // Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional) 
 
             try
             {
@@ -58980,7 +58983,7 @@ $projectId = 789; // Long | Project unique identifier
 $page = 789; // Long | Page number. Used for pagination with page_size
 $pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
 $limit = 789; // Long | Number of results included on a page. Used for pagination with query
-$offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+$offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 try {
     $result = $api_instance->privateProjectNotesList($projectId, $page, $pageSize, $limit, $offset);
@@ -59004,7 +59007,7 @@ my $projectId = 789; # Long | Project unique identifier
 my $page = 789; # Long | Page number. Used for pagination with page_size
 my $pageSize = 789; # Long | The number of results included on a page. Used for pagination with page
 my $limit = 789; # Long | Number of results included on a page. Used for pagination with query
-my $offset = 789; # Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+my $offset = 789; # Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 eval { 
     my $result = $api_instance->privateProjectNotesList(projectId => $projectId, page => $page, pageSize => $pageSize, limit => $limit, offset => $offset);
@@ -59031,7 +59034,7 @@ projectId = 789 # Long | Project unique identifier
 page = 789 # Long | Page number. Used for pagination with page_size (optional)
 pageSize = 789 # Long | The number of results included on a page. Used for pagination with page (optional) (default to 10)
 limit = 789 # Long | Number of results included on a page. Used for pagination with query (optional)
-offset = 789 # Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+offset = 789 # Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 try: 
     # List project notes
@@ -59171,7 +59174,7 @@ except ApiException as e:
                     </span>
 
                     <div class="inner description">
-                        Where to start the listing(the offset of the first result). Used for pagination with limit
+                        Where to start the listing (the offset of the first result). Used for pagination with limit
                     </div>
             </div>
         </div>
@@ -60560,7 +60563,7 @@ public class ProjectsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         String order = order_example; // String | The field by which to order.
         String orderDirection = orderDirection_example; // String | 
         String storage = storage_example; // String | only return collections from this institution
@@ -60586,7 +60589,7 @@ public class ProjectsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         String order = order_example; // String | The field by which to order.
         String orderDirection = orderDirection_example; // String | 
         String storage = storage_example; // String | only return collections from this institution
@@ -60614,7 +60617,7 @@ public class ProjectsApiExample {
 Long *page = 789; // Page number. Used for pagination with page_size (optional)
 Long *pageSize = 789; // The number of results included on a page. Used for pagination with page (optional) (default to 10)
 Long *limit = 789; // Number of results included on a page. Used for pagination with query (optional)
-Long *offset = 789; // Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+Long *offset = 789; // Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 String *order = order_example; // The field by which to order. (optional) (default to published_date)
 String *orderDirection = orderDirection_example; //  (optional) (default to desc)
 String *storage = storage_example; // only return collections from this institution (optional)
@@ -60656,7 +60659,7 @@ var opts = {
   'page': 789, // {Long} Page number. Used for pagination with page_size
   'pageSize': 789, // {Long} The number of results included on a page. Used for pagination with page
   'limit': 789, // {Long} Number of results included on a page. Used for pagination with query
-  'offset': 789, // {Long} Where to start the listing(the offset of the first result). Used for pagination with limit
+  'offset': 789, // {Long} Where to start the listing (the offset of the first result). Used for pagination with limit
   'order': order_example, // {String} The field by which to order.
   'orderDirection': orderDirection_example, // {String} 
   'storage': storage_example, // {String} only return collections from this institution
@@ -60698,7 +60701,7 @@ namespace Example
             var page = 789;  // Long | Page number. Used for pagination with page_size (optional) 
             var pageSize = 789;  // Long | The number of results included on a page. Used for pagination with page (optional)  (default to 10)
             var limit = 789;  // Long | Number of results included on a page. Used for pagination with query (optional) 
-            var offset = 789;  // Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional) 
+            var offset = 789;  // Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional) 
             var order = order_example;  // String | The field by which to order. (optional)  (default to published_date)
             var orderDirection = orderDirection_example;  // String |  (optional)  (default to desc)
             var storage = storage_example;  // String | only return collections from this institution (optional) 
@@ -60731,7 +60734,7 @@ $api_instance = new Swagger\Client\Api\ProjectsApi();
 $page = 789; // Long | Page number. Used for pagination with page_size
 $pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
 $limit = 789; // Long | Number of results included on a page. Used for pagination with query
-$offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+$offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 $order = order_example; // String | The field by which to order.
 $orderDirection = orderDirection_example; // String | 
 $storage = storage_example; // String | only return collections from this institution
@@ -60758,7 +60761,7 @@ my $api_instance = WWW::SwaggerClient::ProjectsApi->new();
 my $page = 789; # Long | Page number. Used for pagination with page_size
 my $pageSize = 789; # Long | The number of results included on a page. Used for pagination with page
 my $limit = 789; # Long | Number of results included on a page. Used for pagination with query
-my $offset = 789; # Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+my $offset = 789; # Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 my $order = order_example; # String | The field by which to order.
 my $orderDirection = orderDirection_example; # String | 
 my $storage = storage_example; # String | only return collections from this institution
@@ -60788,7 +60791,7 @@ api_instance = swagger_client.ProjectsApi()
 page = 789 # Long | Page number. Used for pagination with page_size (optional)
 pageSize = 789 # Long | The number of results included on a page. Used for pagination with page (optional) (default to 10)
 limit = 789 # Long | Number of results included on a page. Used for pagination with query (optional)
-offset = 789 # Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+offset = 789 # Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 order = order_example # String | The field by which to order. (optional) (default to published_date)
 orderDirection = orderDirection_example # String |  (optional) (default to desc)
 storage = storage_example # String | only return collections from this institution (optional)
@@ -60899,7 +60902,7 @@ except ApiException as e:
                     </span>
 
                     <div class="inner description">
-                        Where to start the listing(the offset of the first result). Used for pagination with limit
+                        Where to start the listing (the offset of the first result). Used for pagination with limit
                     </div>
             </div>
         </div>
@@ -61479,7 +61482,7 @@ public class ProjectsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             array[Article] result = apiInstance.projectArticles(projectId, page, pageSize, limit, offset);
             System.out.println(result);
@@ -61502,7 +61505,7 @@ public class ProjectsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         try {
             array[Article] result = apiInstance.projectArticles(projectId, page, pageSize, limit, offset);
             System.out.println(result);
@@ -61522,7 +61525,7 @@ public class ProjectsApiExample {
 Long *page = 789; // Page number. Used for pagination with page_size (optional)
 Long *pageSize = 789; // The number of results included on a page. Used for pagination with page (optional) (default to 10)
 Long *limit = 789; // Number of results included on a page. Used for pagination with query (optional)
-Long *offset = 789; // Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+Long *offset = 789; // Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 ProjectsApi *apiInstance = [[ProjectsApi alloc] init];
 
@@ -61554,7 +61557,7 @@ var opts = {
   'page': 789, // {Long} Page number. Used for pagination with page_size
   'pageSize': 789, // {Long} The number of results included on a page. Used for pagination with page
   'limit': 789, // {Long} Number of results included on a page. Used for pagination with query
-  'offset': 789 // {Long} Where to start the listing(the offset of the first result). Used for pagination with limit
+  'offset': 789 // {Long} Where to start the listing (the offset of the first result). Used for pagination with limit
 };
 
 var callback = function(error, data, response) {
@@ -61590,7 +61593,7 @@ namespace Example
             var page = 789;  // Long | Page number. Used for pagination with page_size (optional) 
             var pageSize = 789;  // Long | The number of results included on a page. Used for pagination with page (optional)  (default to 10)
             var limit = 789;  // Long | Number of results included on a page. Used for pagination with query (optional) 
-            var offset = 789;  // Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional) 
+            var offset = 789;  // Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional) 
 
             try
             {
@@ -61617,7 +61620,7 @@ $projectId = 789; // Long | Project Unique identifier
 $page = 789; // Long | Page number. Used for pagination with page_size
 $pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
 $limit = 789; // Long | Number of results included on a page. Used for pagination with query
-$offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+$offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 try {
     $result = $api_instance->projectArticles($projectId, $page, $pageSize, $limit, $offset);
@@ -61638,7 +61641,7 @@ my $projectId = 789; # Long | Project Unique identifier
 my $page = 789; # Long | Page number. Used for pagination with page_size
 my $pageSize = 789; # Long | The number of results included on a page. Used for pagination with page
 my $limit = 789; # Long | Number of results included on a page. Used for pagination with query
-my $offset = 789; # Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+my $offset = 789; # Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 
 eval { 
     my $result = $api_instance->projectArticles(projectId => $projectId, page => $page, pageSize => $pageSize, limit => $limit, offset => $offset);
@@ -61662,7 +61665,7 @@ projectId = 789 # Long | Project Unique identifier
 page = 789 # Long | Page number. Used for pagination with page_size (optional)
 pageSize = 789 # Long | The number of results included on a page. Used for pagination with page (optional) (default to 10)
 limit = 789 # Long | Number of results included on a page. Used for pagination with query (optional)
-offset = 789 # Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+offset = 789 # Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 
 try: 
     # Public Project Articles
@@ -61802,7 +61805,7 @@ except ApiException as e:
                     </span>
 
                     <div class="inner description">
-                        Where to start the listing(the offset of the first result). Used for pagination with limit
+                        Where to start the listing (the offset of the first result). Used for pagination with limit
                     </div>
             </div>
         </div>
@@ -62257,7 +62260,7 @@ public class ProjectsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         String order = order_example; // String | The field by which to order. Default varies by endpoint/resource.
         String orderDirection = orderDirection_example; // String | 
         Long institution = 789; // Long | only return collections from this institution
@@ -62285,7 +62288,7 @@ public class ProjectsApiExample {
         Long page = 789; // Long | Page number. Used for pagination with page_size
         Long pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
         Long limit = 789; // Long | Number of results included on a page. Used for pagination with query
-        Long offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+        Long offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
         String order = order_example; // String | The field by which to order. Default varies by endpoint/resource.
         String orderDirection = orderDirection_example; // String | 
         Long institution = 789; // Long | only return collections from this institution
@@ -62310,7 +62313,7 @@ public class ProjectsApiExample {
 Long *page = 789; // Page number. Used for pagination with page_size (optional)
 Long *pageSize = 789; // The number of results included on a page. Used for pagination with page (optional) (default to 10)
 Long *limit = 789; // Number of results included on a page. Used for pagination with query (optional)
-Long *offset = 789; // Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+Long *offset = 789; // Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 String *order = order_example; // The field by which to order. Default varies by endpoint/resource. (optional) (default to published_date)
 String *orderDirection = orderDirection_example; //  (optional) (default to desc)
 Long *institution = 789; // only return collections from this institution (optional)
@@ -62351,7 +62354,7 @@ var opts = {
   'page': 789, // {Long} Page number. Used for pagination with page_size
   'pageSize': 789, // {Long} The number of results included on a page. Used for pagination with page
   'limit': 789, // {Long} Number of results included on a page. Used for pagination with query
-  'offset': 789, // {Long} Where to start the listing(the offset of the first result). Used for pagination with limit
+  'offset': 789, // {Long} Where to start the listing (the offset of the first result). Used for pagination with limit
   'order': order_example, // {String} The field by which to order. Default varies by endpoint/resource.
   'orderDirection': orderDirection_example, // {String} 
   'institution': 789, // {Long} only return collections from this institution
@@ -62392,7 +62395,7 @@ namespace Example
             var page = 789;  // Long | Page number. Used for pagination with page_size (optional) 
             var pageSize = 789;  // Long | The number of results included on a page. Used for pagination with page (optional)  (default to 10)
             var limit = 789;  // Long | Number of results included on a page. Used for pagination with query (optional) 
-            var offset = 789;  // Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional) 
+            var offset = 789;  // Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional) 
             var order = order_example;  // String | The field by which to order. Default varies by endpoint/resource. (optional)  (default to published_date)
             var orderDirection = orderDirection_example;  // String |  (optional)  (default to desc)
             var institution = 789;  // Long | only return collections from this institution (optional) 
@@ -62424,7 +62427,7 @@ $xCursor = ; // UUID | Unique hash used for bypassing the item retrieval limit o
 $page = 789; // Long | Page number. Used for pagination with page_size
 $pageSize = 789; // Long | The number of results included on a page. Used for pagination with page
 $limit = 789; // Long | Number of results included on a page. Used for pagination with query
-$offset = 789; // Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+$offset = 789; // Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 $order = order_example; // String | The field by which to order. Default varies by endpoint/resource.
 $orderDirection = orderDirection_example; // String | 
 $institution = 789; // Long | only return collections from this institution
@@ -62450,7 +62453,7 @@ my $xCursor = ; # UUID | Unique hash used for bypassing the item retrieval limit
 my $page = 789; # Long | Page number. Used for pagination with page_size
 my $pageSize = 789; # Long | The number of results included on a page. Used for pagination with page
 my $limit = 789; # Long | Number of results included on a page. Used for pagination with query
-my $offset = 789; # Long | Where to start the listing(the offset of the first result). Used for pagination with limit
+my $offset = 789; # Long | Where to start the listing (the offset of the first result). Used for pagination with limit
 my $order = order_example; # String | The field by which to order. Default varies by endpoint/resource.
 my $orderDirection = orderDirection_example; # String | 
 my $institution = 789; # Long | only return collections from this institution
@@ -62479,7 +62482,7 @@ xCursor =  # UUID | Unique hash used for bypassing the item retrieval limit of 9
 page = 789 # Long | Page number. Used for pagination with page_size (optional)
 pageSize = 789 # Long | The number of results included on a page. Used for pagination with page (optional) (default to 10)
 limit = 789 # Long | Number of results included on a page. Used for pagination with query (optional)
-offset = 789 # Long | Where to start the listing(the offset of the first result). Used for pagination with limit (optional)
+offset = 789 # Long | Where to start the listing (the offset of the first result). Used for pagination with limit (optional)
 order = order_example # String | The field by which to order. Default varies by endpoint/resource. (optional) (default to published_date)
 orderDirection = orderDirection_example # String |  (optional) (default to desc)
 institution = 789 # Long | only return collections from this institution (optional)
@@ -62621,7 +62624,7 @@ except ApiException as e:
                     </span>
 
                     <div class="inner description">
-                        Where to start the listing(the offset of the first result). Used for pagination with limit
+                        Where to start the listing (the offset of the first result). Used for pagination with limit
                     </div>
             </div>
         </div>

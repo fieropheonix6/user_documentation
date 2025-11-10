@@ -133,7 +133,7 @@
                     {
                         "name": "offset",
                         "in": "query",
-                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                         "required": false,
                         "type": "integer",
                         "format": "int64",
@@ -507,7 +507,7 @@
                     {
                         "name": "offset",
                         "in": "query",
-                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                         "required": false,
                         "type": "integer",
                         "format": "int64",
@@ -517,9 +517,12 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK. File representation",
+                        "description": "OK. List of article version files",
                         "schema": {
-                            "$ref": "#/definitions/PublicFile"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/PublicFile"
+                            }
                         }
                     },
                     "400": {
@@ -769,7 +772,7 @@
                     {
                         "name": "offset",
                         "in": "query",
-                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                         "required": false,
                         "type": "integer",
                         "format": "int64",
@@ -949,7 +952,7 @@
                     {
                         "name": "offset",
                         "in": "query",
-                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                         "required": false,
                         "type": "integer",
                         "format": "int64",
@@ -2938,7 +2941,7 @@
                 {
                     "name": "offset",
                     "in": "query",
-                    "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                    "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                     "required": false,
                     "type": "integer",
                     "format": "int64",
@@ -3031,7 +3034,7 @@
                     {
                         "name": "offset",
                         "in": "query",
-                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                         "required": false,
                         "type": "integer",
                         "format": "int64",
@@ -3107,7 +3110,7 @@
                     {
                         "name": "offset",
                         "in": "query",
-                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                         "required": false,
                         "type": "integer",
                         "format": "int64",
@@ -3468,7 +3471,7 @@
                     {
                         "name": "offset",
                         "in": "query",
-                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                         "required": false,
                         "type": "integer",
                         "format": "int64",
@@ -3823,7 +3826,7 @@
                     {
                         "name": "offset",
                         "in": "query",
-                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                         "required": false,
                         "type": "integer",
                         "format": "int64",
@@ -3906,7 +3909,7 @@
                     {
                         "name": "offset",
                         "in": "query",
-                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                         "required": false,
                         "type": "integer",
                         "format": "int64",
@@ -5067,7 +5070,7 @@
                     {
                         "name": "offset",
                         "in": "query",
-                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                         "required": false,
                         "type": "integer",
                         "format": "int64",
@@ -5737,7 +5740,7 @@
                     {
                         "name": "offset",
                         "in": "query",
-                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                         "required": false,
                         "type": "integer",
                         "format": "int64",
@@ -5968,7 +5971,7 @@
                     {
                         "name": "offset",
                         "in": "query",
-                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                         "required": false,
                         "type": "integer",
                         "format": "int64",
@@ -6090,7 +6093,7 @@
                     {
                         "name": "offset",
                         "in": "query",
-                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                         "required": false,
                         "type": "integer",
                         "format": "int64",
@@ -6543,7 +6546,7 @@
                     {
                         "name": "offset",
                         "in": "query",
-                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                         "required": false,
                         "type": "integer",
                         "format": "int64",
@@ -7949,7 +7952,7 @@
                     {
                         "name": "offset",
                         "in": "query",
-                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                         "required": false,
                         "type": "integer",
                         "format": "int64",
@@ -8385,7 +8388,7 @@
                     {
                         "name": "offset",
                         "in": "query",
-                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                         "required": false,
                         "type": "integer",
                         "format": "int64",
@@ -8961,7 +8964,7 @@
                     {
                         "name": "offset",
                         "in": "query",
-                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                         "required": false,
                         "type": "integer",
                         "format": "int64",
@@ -9097,7 +9100,7 @@
                     {
                         "name": "offset",
                         "in": "query",
-                        "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                        "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                         "required": false,
                         "type": "integer",
                         "format": "int64",
@@ -10480,7 +10483,7 @@
                     "example": 10
                 },
                 "offset": {
-                    "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                    "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                     "type": "integer",
                     "format": "int64",
                     "minimum": 0,
@@ -10534,7 +10537,7 @@
                     "example": 10
                 },
                 "offset": {
-                    "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                    "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                     "type": "integer",
                     "format": "int64",
                     "minimum": 0,
@@ -10626,7 +10629,7 @@
                     "example": 10
                 },
                 "offset": {
-                    "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                    "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                     "type": "integer",
                     "format": "int64",
                     "minimum": 0,
@@ -10749,7 +10752,7 @@
                     "example": 10
                 },
                 "offset": {
-                    "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                    "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                     "type": "integer",
                     "format": "int64",
                     "minimum": 0,
@@ -10877,7 +10880,7 @@
                     "example": 10
                 },
                 "offset": {
-                    "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                    "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                     "type": "integer",
                     "format": "int64",
                     "minimum": 0,
@@ -10987,7 +10990,7 @@
                     "example": 10
                 },
                 "offset": {
-                    "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                    "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                     "type": "integer",
                     "format": "int64",
                     "minimum": 0,
@@ -11063,7 +11066,7 @@
                     "example": 10
                 },
                 "offset": {
-                    "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                    "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                     "type": "integer",
                     "format": "int64",
                     "minimum": 0,
@@ -11171,7 +11174,7 @@
                     "example": 10
                 },
                 "offset": {
-                    "description": "Where to start the listing(the offset of the first result). Used for pagination with limit",
+                    "description": "Where to start the listing (the offset of the first result). Used for pagination with limit",
                     "type": "integer",
                     "format": "int64",
                     "minimum": 0,

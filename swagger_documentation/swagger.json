@@ -517,9 +517,12 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK. File representation",
+                        "description": "OK. List of article version files",
                         "schema": {
-                            "$ref": "#/definitions/PublicFile"
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/definitions/PublicFile"
+                            }
                         }
                     },
                     "400": {
