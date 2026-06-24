@@ -13,6 +13,15 @@
     var currentVersion = null;
 
     /**
+     * Reflect the active API version in the browser tab title (e.g. "Figshare API v3").
+     */
+    function updateDocumentTitle(version) {
+        if (version) {
+            document.title = 'Figshare API v' + version;
+        }
+    }
+
+    /**
      * Load versions manifest from the server
      */
     function loadVersionsManifest() {
@@ -98,6 +107,7 @@
             if (versionInfo.version === selectedVersion) {
                 option.selected = true;
                 currentVersion = versionInfo.version;
+                updateDocumentTitle(currentVersion);
             }
             
             select.appendChild(option);
@@ -217,7 +227,15 @@
                     }
                     window.ui.specActions.updateSpec(JSON.stringify(spec));
                     currentVersion = version;
+                    updateDocumentTitle(version);
                     console.log('Updated to version:', version);
+
+                    // Switching versions re-renders the operations and changes the page height.
+                    // If the user was partially scrolled, the shorter content would leave the
+                    // scroll position inside the static documentation band (whose last section is
+                    // Impersonation), causing the sidebar to auto-expand/highlight it. Reset to the
+                    // top so the version change starts cleanly (matches scrollY < 200 collapse).
+                    window.scrollTo(0, 0);
 
                     // Wait for Swagger UI to re-render, then rebuild the sidebar
                     setTimeout(function() {
@@ -234,6 +252,11 @@
                         // Re-initialize sidebar navigation to bind events to new elements
                         if (window.initializeSidebarNavigation && typeof window.initializeSidebarNavigation === 'function') {
                             window.initializeSidebarNavigation();
+                        }
+
+                        // Hide the v2 guide documentation when the new version is not v2.
+                        if (window.applyVersionDocVisibility && typeof window.applyVersionDocVisibility === 'function') {
+                            window.applyVersionDocVisibility(version);
                         }
                     }, 800);
                 })
